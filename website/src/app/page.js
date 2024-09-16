@@ -1,8 +1,19 @@
+import Banner from "./common/Banner";
+import Facilities from "./home/Facilities";
+import Featured from "./home/Featured";
+import Footer from "./common/Footer";
+import WhoWeAre from "./home/WhoWeAre";
+import HeroSection from "./home/HeroSection";
 
 export default function Home() {
   return (
     <>
-    <h1>hello</h1>
+      <HeroSection/>
+      <Featured/>
+      <WhoWeAre/>
+      <Facilities/>
+      <Banner/>
+      <Footer/>
     </>
   );
 }
