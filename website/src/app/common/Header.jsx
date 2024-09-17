@@ -14,7 +14,7 @@ function Header() {
   
   return (
     <>
-      <header className='bg-white'>
+      <header className='bg-white shadow-lg'>
         <nav className='flex items-center justify-between p-4'>
           <div>
             <img src="https://themes.muffingroup.com/be/clothing2/wp-content/uploads/2020/07/retina-clothing2.png" width={180} height={200} alt=""/>
