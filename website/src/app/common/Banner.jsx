@@ -4,7 +4,7 @@ export default function Banner() {
   return (
     <>
         <section>
-            <div className='mx-auto items-center text-center my-[100px] grid grid-cols-1 md:grid-cols-3 w-[85%] bg-orange-200'>
+            <div className='mx-auto items-center text-center my-[100px] grid grid-cols-1 md:grid-cols-3 w-[85%] max-w-screen-xl bg-orange-200'>
                 <div className=''>
                     <img src="https://themes.muffingroup.com/be/clothing2/wp-content/uploads/2020/07/clothing2-wrapbg1.jpg" alt="" className='w-full h-full'/>
                 </div>

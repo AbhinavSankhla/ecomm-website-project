@@ -4,7 +4,7 @@ export default function AboutUpper() {
   return (
     <>
       <section>
-        <div className='w-[85%] mx-auto'>
+        <div className='w-[85%] max-w-screen-xl mx-auto'>
             <h2 className='text-[#161922] pt-16 md:w-[65%] text-[39px] sm:text-[49px] lg:text-[65px]'>Mauris maximus velit commodo varius ligula consequat vel.</h2>
             <p className='text-[#161922] text-[13px] lg:text-[15px] pb-4'>LONDON, UK</p>
             <div className='grid grid-cols-1 md:grid-cols-3 gap-4 mx-auto'>
