@@ -3,7 +3,7 @@ import HeroSection from '../common/HeroSection'
 import AboutUpper from './components/AboutUpper'
 import AboutLower from './components/AboutLower'
 import Banner from '../common/Banner'
-import Header from '../common/Header'
+import Footer from '../common/Footer'
 
 export default function page() {
   return (
@@ -12,6 +12,7 @@ export default function page() {
       <AboutUpper/>
       <AboutLower/>
       <Banner/>
+      <Footer/>
     </div>
   )
 }

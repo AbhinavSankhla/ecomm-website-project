@@ -10,13 +10,13 @@ export default function Sorting() {
   return (
     <>
         <div className='bg-white'>
-            <div className='w-[85%] mx-auto max-w-xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8 border-2 border-red-500'>
+            <div className='w-[85%] mx-auto max-w-screen-xl px-4 py-12 sm:px-6 sm:pt-14 sm:pb-8 lg:px-8 border-2 border-red-500'>
                 <div className='border-2 border-red-500 flex flex-col sm:flex-row justify-between items-center'>
-                    <p className='text-[#a8a8a8] text-[15px]'>{`Showing all ${result} results`}</p>
+                    <p className='text-[#a8a8a8] text-[13px] sm:text-[15px] mb-4 md:mb-0'>{`Showing all ${result} results`}</p>
                     <div>
-                        <Menu as="div" className="relative inline-block text-left">
+                        <Menu as="div" className="relative inline-block text-left ">
                             <div>
-                                <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md text-[14px] bg-white px-3 py-2 text-sm font-normal text-[#977b74] shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                                <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md text-[13px] sm:text-[15px] bg-white px-3 py-2 font-normal text-[#977b74] shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
                                 Default sorting
                                 <IoIosArrowDown aria-hidden="true" className="-mr-1 ms-4 sm:ms-20 h-5 w-5 text-gray-400" />
                                 </MenuButton>
@@ -79,7 +79,7 @@ export default function Sorting() {
                         </Menu>
                     </div>
                 </div>
-                <ProductList/>
+                {/* <ProductList/> */}
             </div>
         </div>
     </>

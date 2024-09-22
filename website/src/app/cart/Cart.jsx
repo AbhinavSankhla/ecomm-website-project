@@ -4,9 +4,8 @@ import { IoClose } from "react-icons/io5";
 export default function page() {
   return (
     <>
-      <div className='my-12 border-2 border-red-500 w-[80%] mx-auto max-w-screen-xl'>
-        <div className='border-2 border-green-500'>
-
+      <div className='my-12 w-[80%] mx-auto max-w-screen-xl'>
+        <div>
              {/* Normal Table for larger screens */}
             <table className="hidden md:table w-full table-auto border-collapse border border-gray-200">
                 <thead className="bg-gray-100">
@@ -26,10 +25,10 @@ export default function page() {
                             </figure>
                             Curabitur et ligula
                         </td>
-                        <td className="text-[15px] text-[#626262] px-4 py-2 border-b border-gray-200">£11.20</td>
-                        <td className="text-[14px] text-[#626262] px-4 py-2 border-b border-gray-200">1</td>
-                        <td className="text-[15px] text-[#626262] px-4 py-2 border-b border-gray-200">£11.20</td>
-                        <td className="text-[15px] px-4 py-2 border-b border-gray-200 text-center">
+                        <td className="text-[15px] text-[#626262] px-4 py-2 border-b-[1px] border-gray-200">£11.20</td>
+                        <td className="text-[14px] text-[#626262] px-4 py-2 border-b-[1px]">1</td>
+                        <td className="text-[15px] text-[#626262] px-4 py-2 border-b-[1px]">£11.20</td>
+                        <td className="text-[15px] px-4 py-2 border-b-[1px] text-center">
                             <button className="text-white bg-black p-1 hover:opacity-75 transition-opacity duration-300 font-bold">
                                 <IoClose />
                             </button>
@@ -39,18 +38,18 @@ export default function page() {
             </table>
 
             {/* Mobile case for table */}
-            <div className='md:hidden grid grid-cols-2 items-center p-3 w-[97%] mx-auto gap-2 border'>
+            <div className='md:hidden grid grid-cols-2 items-center p-3 w-[97%] mx-auto gap-y-2 border'>
                 <div className='text-[13px]  text-[#626262]'>Product:</div>
                 <div className='text-right text-[14px] font-bold'>lorem biscoit</div>
 
                 <div className='text-[13px] text-[#626262]'>Price:</div>
-                <div className='text-right text-[14px]'>$12.00</div>
+                <div className='text-right text-[13px]'>$12.00</div>
 
                 <div className='text-[13px]  text-[#626262]'>Quantity:</div>
-                <div className='text-right text-[14px]'>1</div>
+                <div className='text-right text-[13px]'>1</div>
 
-                <div className='text-[13px]  text-[#626262]'>Total:</div>
-                <div className='text-right text-[14px]'>$12.00</div>
+                <div className='text-[13px] text-[#626262] border-t-[1px] mt-2'><p className='pt-2'>Total:</p></div>
+                <div className='text-right text-[13px] border-t-[1px] mt-2'><p className='pt-2'>$12.00</p></div>
             </div>
 
 
@@ -79,7 +78,7 @@ export default function page() {
         <div className='w-[full] mx-auto md:w-[50%] md:ml-[50%]'>
             <p className='text-[21px] font-light mt-5 text-[#161922]'>Cart Totals</p>
         <div className="border border-gray-300 mt-4">
-            <div className="flex justify-between border-b border-gray-300 px-4 py-2">
+            <div className="flex justify-between border-b-[1px] border-gray-300 px-4 py-2">
                 <span className="text-lg font-semibold">Subtotal</span>
                 <span className="text-lg">£27.20</span>
             </div>  

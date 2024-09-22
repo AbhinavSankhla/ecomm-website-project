@@ -3,6 +3,7 @@ import HeroSection from '../common/HeroSection'
 import Details from './components/Details'
 import Form from './components/Form'
 import Banner from '../common/Banner'
+import Footer from '../common/Footer'
 
 const page = () => {
   return (
@@ -11,6 +12,7 @@ const page = () => {
         <Details/>
         <Form/>
         <Banner/>
+        <Footer/>
     </div>
   )
 }
