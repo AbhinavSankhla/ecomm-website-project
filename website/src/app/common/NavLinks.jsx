@@ -9,14 +9,13 @@ const NavLinks = () => {
 
     return (
         <>
-            <h1>this text is visible</h1>
             {
-                // this is not visible on home page nav
                 links.map((link, index) =>{
-                    <div key={index}> 
+                    return(
+                        <div key={index}> 
                         <h1>{link.name}</h1>
-                        <h2>hello</h2>
-                    </div>
+                        </div>
+                    )
                 })
             }    
         </>
