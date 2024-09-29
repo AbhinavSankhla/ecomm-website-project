@@ -13,7 +13,7 @@ const NavLinks = () => {
                 links.map((link, index) =>{
                     return(
                         <div key={index}> 
-                        <h1>{link.name}</h1>
+                            <h1>{link.name}</h1>
                         </div>
                     )
                 })
@@ -45,4 +45,3 @@ export default NavLinks
 //         </>
 //     )
 // }
-
