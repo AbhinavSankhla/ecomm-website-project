@@ -5,7 +5,7 @@ import AboutLower from './components/AboutLower'
 import Banner from '../common/Banner'
 import Footer from '../common/Footer'
 
-export default function page() {
+export default function about() {
   return (
     <div>
       <HeroSection/>

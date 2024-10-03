@@ -1,7 +1,6 @@
 import React from 'react'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { IoIosArrowDown } from "react-icons/io";
-import ProductList from '../products/components/ProductList';
 
 export default function Sorting() {
   

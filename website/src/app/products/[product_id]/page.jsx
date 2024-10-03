@@ -3,6 +3,7 @@ import React from 'react'
 import ProductDetails from './components/ProductDetails'
 import ProductDescription from './components/ProductDescription'
 import RelatedProducts from './components/RelatedProducts'
+import Footer from '@/app/common/Footer'
 
 export default function page() {
   return (
@@ -11,6 +12,7 @@ export default function page() {
       <ProductDetails/>
       <ProductDescription/>
       <RelatedProducts/>
+      <Footer/>
     </div>
   )
 }

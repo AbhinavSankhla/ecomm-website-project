@@ -19,11 +19,11 @@ export default function page() {
                 </thead>
                 <tbody>
                     <tr>
-                        <td className="text-[14px] font-bold px-4 py-2 border-b  border-gray-200 flex items-center">
+                        <td className="text-[14px] font-bold px-4 py-2 border-b  border-gray-200 flex items-center justify-around">
                             <figure className='mr-8'>
                             <img src="https://themes.muffingroup.com/be/clothing2/wp-content/uploads/2020/07/clothing2-products-pic7-300x300.jpg" alt="" className="w-[100px] h-[100px] object-cover"/>
                             </figure>
-                            Curabitur et ligula
+                            <span>Curabitur et ligula</span>
                         </td>
                         <td className="text-[15px] text-[#626262] px-4 py-2 border-b-[1px] border-gray-200">£11.20</td>
                         <td className="text-[14px] text-[#626262] px-4 py-2 border-b-[1px]">1</td>

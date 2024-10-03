@@ -1,7 +1,8 @@
+'use client'
+
 import React from 'react'
 import Link from 'next/link'
 import ProductList from '../products/components/ProductList'
-
 
 export default function Featured({bgColor}) {
   return (

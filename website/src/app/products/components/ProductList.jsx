@@ -1,14 +1,19 @@
+'use client'
+
 import React from 'react'
 import { FaShoppingCart } from "react-icons/fa";
 import { SiOpenproject } from "react-icons/si";
 import Link from 'next/link';
+import { useContext } from 'react';
+import { CartContext } from '@/app/context/CartContext';
+
 
 const products = [
   {
     id: 1,
     name: 'Basic Tee',
     href: '#',
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
+    imageSrc: 'https://tailwindui.com/plus/img/ecommerce-images/product-page-01-related-product-01.jpg',
     imageAlt: "Front of men's Basic Tee in black.",
     price: '$35',
     color: 'black',
@@ -17,7 +22,7 @@ const products = [
     id: 2,
     name: 'Basic Tee',
     href: '#',
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-02.jpg',
+    imageSrc: 'https://tailwindui.com/plus/img/ecommerce-images/product-page-01-related-product-02.jpg',
     imageAlt: "Front of men's Basic Tee in black.",
     price: '$35',
     color: 'black',
@@ -26,7 +31,7 @@ const products = [
     id: 3,
     name: 'Basic Tee',
     href: '#',
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-03.jpg',
+    imageSrc: 'https://tailwindui.com/plus/img/ecommerce-images/product-page-01-related-product-03.jpg',
     imageAlt: "Front of men's Basic Tee in black.",
     price: '$35',
     color: 'black',
@@ -35,7 +40,7 @@ const products = [
     id: 4,
     name: 'Basic Tee',
     href: '#',
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-04.jpg',
+    imageSrc: 'https://tailwindui.com/plus/img/ecommerce-images/product-page-01-related-product-04.jpg',
     imageAlt: "Front of men's Basic Tee in black.",
     price: '$35',
     color: 'black',
@@ -44,6 +49,10 @@ const products = [
 ]
 
 export default function ProductList() {
+
+  //var name can be any name.
+  const addToCart = useContext(CartContext);
+
   return (
     <div className="bg-white">
       <div className=" mx-auto w-[85%] max-w-screen-xl px-4 sm:px-6 lg:px-8 border-2 border-blue-500">
@@ -58,7 +67,7 @@ export default function ProductList() {
                 />
                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  border-4 border-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <div className="flex items-center transition-transform duration-300 ease-in-out transform scale-0 group-hover:scale-100">
-                    <button className="p-4 text-white bg-black bg-opacity-75 border-2 border-green-500 hover:bg-white hover:text-black transition-colors duration-300 ease-in-out">
+                    <button className="p-4 text-white bg-black bg-opacity-75 border-2 border-green-500 hover:bg-white hover:text-black transition-colors duration-300 ease-in-out" onClick={()=>addToCart(product)}>
                         <FaShoppingCart className='text-2xl'/>
                     </button>
                     <button className="p-4 text-white bg-black bg-opacity-75 border-2 border-green-500 hover:bg-white hover:text-black transition-colors duration-300 ease-in-out">

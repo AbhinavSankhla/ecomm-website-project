@@ -1,19 +1,21 @@
+import Link from 'next/link';
 import React from 'react'
 
 const NavLinks = () => {
     const links = [
-        {name: "About us"},
-        {name: "Shop"},
-        {name: "Contact"}
+        {name: "About", path:"/about"},
+        {name: "Contact", path:"/contact"}
     ];
-
+    
     return (
         <>
             {
-                links.map((link, index) =>{
+                links.map((LinkItem, index) =>{
                     return(
-                        <div key={index}> 
-                            <h1>{link.name}</h1>
+                        <div key={index} className='capitalize'>
+                            <div> 
+                                <Link href={LinkItem.path} className='px-4 pb-[24px] hover:border-b-[2px] hover:border-[#212121] hover:text-black duration-100 ease-in-out capitalize'>{LinkItem.name}</Link>
+                            </div>
                         </div>
                     )
                 })
@@ -24,24 +26,4 @@ const NavLinks = () => {
 
 export default NavLinks
 
-// import React from 'react'
 
-// export default function Navlinks() {
-//     const links = [{name: 'About us'},{name: 'Shop'},{name: 'Contact'}];
-//     return (
-//         <>
-//             <h1>this text is visible</h1>
-//             {
-//                 // this is not visible on home page nav
-//                 links.map((link, index) => {
-
-//                     <div key={index}>
-//                         <h1>{link.name}</h1>
-//                     </div>
-
-//                 })
-//             }
-
-//         </>
-//     )
-// }
