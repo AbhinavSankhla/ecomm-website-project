@@ -2,20 +2,21 @@
 
 import { createContext,useState } from "react";
 
-export const CartContext = createContext()  
+export const myContext = createContext()  
 
-export const CartProvider = ({children}) => {
+export const CartContext = ({children}) => {
     const [cart, setCart] = useState([]);
 
     const addToCart = (ProductData) => {
-        setCart([...cart, ProductData])
+        setCart([...cart, {...ProductData, qnt: 1}])
         console.log([...cart, ProductData])
     };
 
+    const count = cart.length;
     return (
-        <CartContext.Provider value={addToCart}>
+        <myContext.Provider value={{addToCart, cart, setCart, count}}>
           {children}
-        </CartContext.Provider>
+        </myContext.Provider>
       );
 };
 

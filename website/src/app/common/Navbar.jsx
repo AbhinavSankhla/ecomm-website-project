@@ -1,7 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import React, { useState } from 'react'
+import {  React, useState, useContext } from 'react'
+import { myContext } from '../context/CartContext';
 import NavLinks from './NavLinks';
 import ShopMenu from './ShopMenu';
 import {categories} from './Categories';
@@ -16,6 +17,7 @@ import { AiOutlineUser } from "react-icons/ai";
 
 const Navbar = () => {
 
+  const {count} = useContext(myContext);
   const [MenuOpen, setMenuOpen] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   const [MobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -23,10 +25,10 @@ const Navbar = () => {
   return (
     <>
       {/* relative (navbar) */}
-      <nav className='bg-white shadow-lg w-full max-w-screen-xl mx-auto'>
+      <nav className='z-20 fixed bg-white shadow-lg w-full mx-auto'>
         <div className='text-[15px] relative flex items-center justify-between px-3 sm:px-6'>
           <div>
-            <img src="https://themes.muffingroup.com/be/clothing2/wp-content/uploads/2020/07/retina-clothing2.png" alt="logo" className='w-[140px] h-auto sm:w-[180px]' />
+            <img src="https://themes.muffingroup.com/be/clothing2/wp-content/uploads/2020/07/retina-clothing2.png" alt="logo" className='w-[140px] h-auto sm:w-[180px]'/>
           </div>
           <ul className='hidden lg:flex items-center gap-x-4'>
             <li className='py-6'>
@@ -54,7 +56,8 @@ const Navbar = () => {
             <div className='flex items-center justify-between gap-[2vw] gap-x-3 sm:gap-x-6'>
               <div className='py-5 px-2 relative'>
                 <Link href={'/cart'}><SlHandbag className='text-[18px]'/></Link>
-                <div className='bg-[#232323] text-[white] font-semibold text-[12px] py-[1px] px-2 top-[10%] left-[63%] absolute rounded-2xl'>0</div>
+                {/* bg-[#232323] */}
+                <div className='bg-red-500 text-[white] font-semibold text-[12px] py-[1px] px-2 top-[10%] left-[63%] absolute rounded-full'>{count}</div>
               </div>
               <div className='text-[18px]'><BsSearch /></div>
               <div className='hidden lg:block'>
@@ -91,7 +94,7 @@ const Navbar = () => {
               </li>
               <li className='border-b-[1px] border-[#212121]'>
                 <div className='flex justify-between items-center'>
-                  <Link className='py-4 inline-block text-[13px]' href={"/"}>Shop</Link>
+                  <Link className='py-4 inline-block text-[13px]' href={"/shop"}>Shop</Link>
                   <div onClick={()=>setMobileMenuOpen(!MobileMenuOpen)}>
                     {
                       MobileMenuOpen ? (
@@ -124,14 +127,13 @@ const Navbar = () => {
                 </div>
               </li>
               <li className='border-b-[1px] border-[#212121]'>
-                <Link className='py-4 inline-block text-[13px]' href={"/"}>About us
+                <Link className='py-4 inline-block text-[13px]' href={"/about"}>About us
                 </Link>
               </li>
               <li className='border-b-[1px] border-[#212121]'>
-                <Link className='py-4 inline-block text-[13px]' href={"/"}>Contact
+                <Link className='py-4 inline-block text-[13px]' href={"/contact"}>Contact
                 </Link>
-              </li> 
-             
+              </li>              
             </ul>
           </div>
         </div>
@@ -139,6 +141,4 @@ const Navbar = () => {
     </>
   )
 }
-
 export default Navbar
-

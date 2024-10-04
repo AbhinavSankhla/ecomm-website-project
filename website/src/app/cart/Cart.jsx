@@ -1,7 +1,13 @@
-import React from 'react'
-import { IoClose } from "react-icons/io5";
 
-export default function page() {
+"use client"
+import {React, useContext} from 'react'
+import { IoClose } from "react-icons/io5";
+import {  myContext } from '../context/CartContext';
+
+
+export default function cart() {
+
+    const {cart} = useContext(myContext);
   return (
     <>
       <div className='my-12 w-[80%] mx-auto max-w-screen-xl'>
@@ -17,24 +23,37 @@ export default function page() {
                         <th className="px-4 py-2 border border-gray-200"></th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td className="text-[14px] font-bold px-4 py-2 border-b  border-gray-200 flex items-center justify-around">
-                            <figure className='mr-8'>
-                            <img src="https://themes.muffingroup.com/be/clothing2/wp-content/uploads/2020/07/clothing2-products-pic7-300x300.jpg" alt="" className="w-[100px] h-[100px] object-cover"/>
-                            </figure>
-                            <span>Curabitur et ligula</span>
-                        </td>
-                        <td className="text-[15px] text-[#626262] px-4 py-2 border-b-[1px] border-gray-200">£11.20</td>
-                        <td className="text-[14px] text-[#626262] px-4 py-2 border-b-[1px]">1</td>
-                        <td className="text-[15px] text-[#626262] px-4 py-2 border-b-[1px]">£11.20</td>
-                        <td className="text-[15px] px-4 py-2 border-b-[1px] text-center">
-                            <button className="text-white bg-black p-1 hover:opacity-75 transition-opacity duration-300 font-bold">
-                                <IoClose />
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
+                {
+                    cart.map((cartItem, cartIndex) => {
+                        return(
+                            <tbody>
+                            <tr>
+                                <td className="text-[14px] font-bold px-4 py-2 border-b  border-gray-200 flex items-center justify-around">
+                                    <figure className='mr-8'>
+                                    <img src={cartItem.imageSrc} alt="" className="w-[100px] h-[100px] object-cover"/>
+                                    </figure>
+                                    <span>{cartItem.name}</span>
+                                </td>
+                                <td className="text-[15px] text-[#626262] px-4 py-2 border-b-[1px] border-gray-200">{`$ ${cartItem.price}`}</td>
+                                <td className="text-[14px] text-[#626262] px-4 py-2 border-b-[1px]">
+                                    <button>+</button>
+                                    {cartItem.qnt}
+                                    <button>-</button>
+                                </td>
+                                <td className="text-[15px] text-[#626262] px-4 py-2 border-b-[1px]">
+                                    {`$ ${cartItem.price * cartItem.qnt}`}
+                                    </td>
+                                <td className="text-[15px] px-4 py-2 border-b-[1px] text-center">
+                                    <button className="text-white bg-black p-1 hover:opacity-75 transition-opacity duration-300 font-bold">
+                                        <IoClose/>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                            
+                        )
+                    })
+                }
             </table>
 
             {/* Mobile case for table */}
