@@ -14,6 +14,12 @@ const productSchema = new mongoose.Schema({
         trim: true
     },
 
+    full_description : {
+        type : String,
+        require : true,
+        trim: true
+    },
+
     price : {
         type : Number,
         require : true,
@@ -25,11 +31,47 @@ const productSchema = new mongoose.Schema({
         require : true
     },
 
+    discount : {
+        type : Number,
+        require : true
+    },
+
+    occasion : {
+        type : String,
+        required : true,
+        trim: true
+    },
+
+    fit : {
+        type : String,
+        required : true,
+        trim: true
+    },
+
+    style : {
+        type : String,
+        required : true,
+        trim: true
+    },
+
+    fabric : {
+        type : String,
+        required : true,
+        trim: true
+    },
+    
     category: {
         type: mongoose.Schema.Types.ObjectId, // Reference to Category model
         ref: 'Category', // Refers to the Category model
         required: true
     },
+
+    subcategory: {
+        type: mongoose.Schema.Types.ObjectId, // Reference to Category model
+        ref: 'SubCategory', // Refers to the Category model
+        required: true
+    },
+
 
     size: {
         type: [String], // Array of sizes
