@@ -1,13 +1,11 @@
 'use client'
 
 import React from 'react'
-import { FaShoppingCart } from "react-icons/fa";
-import { SiOpenproject } from "react-icons/si";
+import { FaShoppingCart, FaHeart} from "react-icons/fa";
 import Link from 'next/link';
 import { useContext } from 'react';
 import { myContext } from '../../context/CartContext';
 // import { CartContext } from '@/app/context/CartContext';
-
 
 const products = [
   {
@@ -17,7 +15,11 @@ const products = [
     imageSrc: 'https://tailwindui.com/plus/img/ecommerce-images/product-page-01-related-product-01.jpg',
     imageAlt: "Front of men's Basic Tee in black.",
     price: '35',
-    color: 'black', 
+    color: 'black',
+    occasion : 'casual',
+    fit : 'normal',
+    style : 'urban',
+    fabric : 'cotton' 
   },
   {
     id: 2,
@@ -27,6 +29,10 @@ const products = [
     imageAlt: "Front of men's Basic Tee in black.",
     price: '30',
     color: 'white',
+    occasion : 'casual',
+    fit : 'normal',
+    style : 'urban',
+    fabric : 'cotton'
   },
   {
     id: 3,
@@ -36,6 +42,10 @@ const products = [
     imageAlt: "Front of men's Basic Tee in black.",
     price: '20',
     color: 'gray',
+    occasion : 'casual',
+    fit : 'normal',
+    style : 'urban',
+    fabric : 'cotton'
   },
   {
     id: 4,
@@ -45,6 +55,10 @@ const products = [
     imageAlt: "Front of men's Basic Tee in black.",
     price: '25',
     color: 'pink',
+    occasion : 'casual',
+    fit : 'normal',
+    style : 'urban',
+    fabric : 'cotton'
   }
   // More products...
 ]
@@ -61,29 +75,34 @@ export default function ProductList() {
           {products.map((product) => (
             <div key={product.id} className="">
               <div className="group relative aspect-h-1 aspect-w-1 w-full overflow-hidden  bg-black lg:aspect-none lg:h-80">
-                <img
-                  alt={product.imageAlt}
-                  src={product.imageSrc}
-                  className="h-full w-full object-cover object-center lg:h-full lg:w-full transition-transform duration-300 ease-in-out transform group-hover:scale-125 group-hover:opacity-80" 
-                />
+                <Link href={`/products/${product.id}`}>
+                  <img
+                    alt={product.imageAlt}
+                    src={product.imageSrc}
+                    className="h-full w-full object-cover object-center lg:h-full lg:w-full transition-transform duration-300 ease-in-out transform group-hover:scale-125 group-hover:opacity-80" 
+                  />
+                </Link>
                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <div className="flex items-center transition-transform duration-300 ease-in-out transform scale-0 group-hover:scale-100">
                     <button className="p-4 text-white bg-black bg-opacity-75 hover:bg-white hover:text-black transition-colors duration-300 ease-in-out" onClick={()=>addToCart(product)}>
                         <FaShoppingCart className='text-2xl'/>
                     </button>
                     <button className="p-4 text-white bg-black bg-opacity-75 hover:bg-white hover:text-black transition-colors duration-300 ease-in-out">
-                        <SiOpenproject className='text-2xl '/>
+                        <FaHeart className='text-2xl '/>
                     </button>
                   </div>
                 </div>
               </div>
               <div>
-                  <h3 className="text-sm md:text-base lg:text-[19px] text-#161922 font-light py-1 pt-4">
+                  <h3 className="text-[21px] text-[#161922] pt-2">
                       <Link href={`/products/${product.id}`}>
                         {product.name}
                       </Link>
                   </h3>
-                  <p className="text-lg font-medium">{`$ ${product.price}`}</p>
+                  <p className='text-[15px] pb-1 text-[#161922]'>Mens solid t-shirt</p>
+                  <span className="text-base font-medium">Rs. {product.price}</span>
+                  <span className='text-[12px] mx-2 line-through text-[#161922]'>Rs. 50</span>
+                  <span className='text-[12px] text-red-500'>(50% off)</span>
               </div>
             </div>
           ))}

@@ -1,24 +1,16 @@
 'use client'
 
 import React, { useState } from 'react'
-import { FaMinus,FaWhatsapp,FaFacebook,FaLinkedinIn } from "react-icons/fa";
-import { FaInstagram, FaSquareXTwitter, FaPlus } from "react-icons/fa6";
+import { FaWhatsapp,FaFacebook,FaLinkedinIn } from "react-icons/fa";
+import { FaInstagram, FaSquareXTwitter} from "react-icons/fa6";
 import { SiGmail } from "react-icons/si";
 import Link from 'next/link';
+import { useContext } from 'react';
+import { myContext } from '../../../context/CartContext';
 
 export default function ProductDetails() {
 
-  var [qnt, setqnt] = useState(1);
-
-  let qntPlus = () =>{
-    qnt++
-    setqnt(prevQty => prevQty + 1);
-  }
-
-  let qntMinus = () =>{
-    qnt--
-    setqnt(prevQty => (prevQty > 1 ? prevQty - 1 : 1));
-  }
+  const {addToCart} = useContext(myContext);
 
   return (
     <>
@@ -31,7 +23,7 @@ export default function ProductDetails() {
               </div> */}
             </div>
             <div className='border-2 border-green-500'>
-              <h3 className='text-[35px] text-[#161922]'>Quisque lorem tortor</h3>
+              <h3 className='text-[35px] text-[#161922]'>{}</h3>
               <p className='text-[30px] py-4'>$9.00</p>
               <p className='text-[13px] lg:text-[15px] text-[#626262]'>Lorem ipsum dolor sit amet enim. Etiam ullamcorper. Suspendisse a pellentesque dui, non felis. Maecenas malesuada elit lectus felis, malesuada ultricies. Curabitur et ligula porta urna.</p>
 
@@ -50,7 +42,21 @@ export default function ProductDetails() {
 
               </div>   
 
-              <div className='border-2 border-green-500 text-center'>
+              <div className='border-2 border-green-500'>
+                  <div className="border-2 py-4 border-red-500">
+                      <button className="bg-black text-white font-bold sm:py-3 sm:px-8 py-2 px-3 text-[14px] sm:text-[16px] hover:bg-opacity-80 transition-opacity duration-300 mx-4">
+                      Add to Cart
+                      </button>
+                      <button className=" bg-black text-white font-bold  sm:py-3 sm:px-8 py-2 px-3 text-[14px] sm:text-[16px] hover:bg-opacity-80 transition-opacity duration-300">
+                      Buy Now
+                      </button>
+                      {/* <button className="sm:hidden bg-black text-white font-bold py-3 px-8 hover:bg-opacity-80 transition-opacity duration-300">
+                      Buy Now
+                      </button> */}
+                  </div>
+              </div> 
+
+              {/* <div className='border-2 border-green-500 text-center'>
                   <div className="border-2 py-4 border-red-500">
                       <button onClick={qntMinus}><FaMinus /></button>
                       <span className='mx-2 p-3 font-bold shadow-inner border'>{qnt}</span>
@@ -67,7 +73,7 @@ export default function ProductDetails() {
                       Buy Now
                       </button>
                   </div>
-              </div>    
+              </div>     */}
 
               <div className="py-6 flex items-center">
                 <span className='text-[13px] lg:text-[15px] text-[#626262] me-4 font-bold'>Share:</span>

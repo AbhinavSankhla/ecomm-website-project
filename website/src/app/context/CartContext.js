@@ -13,6 +13,7 @@ export const CartContext = ({children}) => {
     };
 
     const count = cart.length;
+    
     return (
         <myContext.Provider value={{addToCart, cart, setCart, count}}>
           {children}

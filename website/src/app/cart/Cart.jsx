@@ -1,13 +1,21 @@
 
 "use client"
-import {React, useContext} from 'react'
+import {React, useContext, useEffect, useState} from 'react'
 import { IoClose } from "react-icons/io5";
+import { FaMinus } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa6";
 import {  myContext } from '../context/CartContext';
 
 
 export default function cart() {
 
     const {cart} = useContext(myContext);
+
+    const [update_cart, setupdate_cart] = useState([]);
+
+    useEffect(() => {
+        setupdate_cart(cart)
+    },[cart])
   return (
     <>
       <div className='my-12 w-[80%] mx-auto max-w-screen-xl'>
@@ -24,7 +32,7 @@ export default function cart() {
                     </tr>
                 </thead>
                 {
-                    cart.map((cartItem, cartIndex) => {
+                    update_cart?.map((cartItem, cartIndex) => {
                         return(
                             <tbody>
                             <tr>
@@ -36,9 +44,17 @@ export default function cart() {
                                 </td>
                                 <td className="text-[15px] text-[#626262] px-4 py-2 border-b-[1px] border-gray-200">{`$ ${cartItem.price}`}</td>
                                 <td className="text-[14px] text-[#626262] px-4 py-2 border-b-[1px]">
-                                    <button>+</button>
-                                    {cartItem.qnt}
-                                    <button>-</button>
+                                    <button onClick={() => {const _update_cart = update_cart.map((item,index) => {
+                                        return cartIndex === index ? {...item, qnt: item.qnt > 0 ? item.qnt - 1 : 0} : item
+                                    })
+                                        setupdate_cart(_update_cart)
+                                    }}><FaMinus /></button>
+                                    <span className='px-2 py-1 mx-1 border'>{cartItem.qnt}</span>
+                                    <button onClick={() => {const _update_cart = update_cart.map((item,index) => {
+                                        return cartIndex === index ? {...item, qnt: item.qnt + 1} : item
+                                    })
+                                        setupdate_cart(_update_cart)
+                                    }}><FaPlus/></button>
                                 </td>
                                 <td className="text-[15px] text-[#626262] px-4 py-2 border-b-[1px]">
                                     {`$ ${cartItem.price * cartItem.qnt}`}
@@ -96,17 +112,21 @@ export default function cart() {
         {/* Cart totals section */}
         <div className='w-[full] mx-auto md:w-[50%] md:ml-[50%]'>
             <p className='text-[21px] font-light mt-5 text-[#161922]'>Cart Totals</p>
-        <div className="border border-gray-300 mt-4">
+        <div className="border border-gray-300 my-4">
             <div className="flex justify-between border-b-[1px] border-gray-300 px-4 py-2">
                 <span className="text-lg font-semibold">Subtotal</span>
-                <span className="text-lg">£27.20</span>
+                <span className="text-lg">Rs. {cart.length > 0 ?
+                 update_cart.map(item => item.price * item.qnt).reduce((total, value) => total + value, 0) : 0
+                }</span>
             </div>  
             <div className="flex justify-between px-4 py-2">
                 <span className="text-lg font-semibold">Total</span>
-                <span className="text-lg">£27.20</span>
+                <span className="text-lg">Rs. {cart.length > 0 ?
+                 update_cart.map(item => item.price * item.qnt).reduce((total, value) => total + value, 0) : 0
+                }</span>
             </div>
         </div>
-        <button className="bg-black text-white hover:bg-opacity-75 transition-opacity duration-300 font-semibold px-4 py-2 mt-4 w-full">
+        <button className="bg-black text-white hover:bg-opacity-75 transition-opacity duration-300 font-semibold px-4 py-2 w-full">
             Proceed to checkout
         </button>
         </div>
