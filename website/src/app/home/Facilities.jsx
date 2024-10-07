@@ -4,7 +4,7 @@ export default function Facilities() {
   return (
     <>
       <section className='border-2 border-red-500'>
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mt-28 mx-auto text-center w-[85%] border-2 border-blue-800'>
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mt-28 mx-auto text-center w-[85%] max-w-screen-xl border-2 border-blue-800'>
             <div className='w-[85%] mx-auto my-10 border-2 border-green-500'>
                 <div className='mx-auto flex justify-center border-2 border-blue-500 mb-6 w-[50px]'>
                     <img src="https://themes.muffingroup.com/be/clothing2/wp-content/uploads/2020/07/clothing2-home-icon1.png" alt="" className='w-full h-full'/>

@@ -7,7 +7,7 @@ export default function ProductDescription() {
   return (
     <>
         <div>
-            <div className='w-[80%] mx-auto max-w-screen-xl'>
+            <div className='w-[85%] mx-auto max-w-screen-xl'>
                 <Tabs/>
                 {/* <div>
                     <h1>Description</h1>

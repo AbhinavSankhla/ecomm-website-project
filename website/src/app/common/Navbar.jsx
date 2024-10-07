@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import {  React, useState, useContext } from 'react'
 import { myContext } from '../context/CartContext';
+import { WishlistContext } from '../context/WishlistContext';
 import NavLinks from './NavLinks';
 import ShopMenu from './ShopMenu';
 import {categories} from './Categories';
@@ -14,10 +15,12 @@ import { IoCloseOutline } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
 import { AiOutlineUser } from "react-icons/ai";
+import { FiHeart } from "react-icons/fi";
 
 const Navbar = () => {
 
   const {count} = useContext(myContext);
+  const {WishCount} = useContext(WishlistContext);
   const [MenuOpen, setMenuOpen] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   const [MobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -25,10 +28,12 @@ const Navbar = () => {
   return (
     <>
       {/* relative (navbar) */}
-      <nav className='z-20 fixed bg-white shadow-lg w-full mx-auto'>
+      <nav className='z-20 fixed bg-white shadow-md w-full mx-auto'>
         <div className='text-[15px] relative flex items-center justify-between px-3 sm:px-6'>
           <div>
-            <img src="https://themes.muffingroup.com/be/clothing2/wp-content/uploads/2020/07/retina-clothing2.png" alt="logo" className='w-[140px] h-auto sm:w-[180px]'/>
+            <Link href={'/'}>
+              <img src="https://themes.muffingroup.com/be/clothing2/wp-content/uploads/2020/07/retina-clothing2.png" alt="logo" className='w-[140px] h-auto sm:w-[180px]'/>
+            </Link>
           </div>
           <ul className='hidden lg:flex items-center gap-x-4'>
             <li className='py-6'>
@@ -54,12 +59,17 @@ const Navbar = () => {
           </ul>
           <div>
             <div className='flex items-center justify-between gap-[2vw] gap-x-3 sm:gap-x-6'>
-              <div className='py-5 px-2 relative'>
+              <div className='text-[#626262]'><BsSearch className='text-[18px]' /></div>
+              <div className='py-5 relative text-[#626262]'>
+                <Link href={'/cart'}><FiHeart className='text-[19px]'/></Link>
+                {/* bg-[#232323] */}
+                <div className='bg-red-500 text-[white] font-semibold text-[11px] py-[1px] px-2 top-[10%] left-[85%] absolute rounded-full'>{WishCount}</div>
+              </div>
+              <div className='py-5 px-2 relative text-[#626262]'>
                 <Link href={'/cart'}><SlHandbag className='text-[18px]'/></Link>
                 {/* bg-[#232323] */}
-                <div className='bg-red-500 text-[white] font-semibold text-[12px] py-[1px] px-2 top-[10%] left-[63%] absolute rounded-full'>{count}</div>
+                <div className='bg-red-500 text-[white] font-semibold text-[11px] py-[1px] px-2 top-[10%] left-[63%] absolute rounded-full'>{count}</div>
               </div>
-              <div className='text-[18px]'><BsSearch /></div>
               <div className='hidden lg:block'>
                 <button className='text-[#747474] hover:bg-[#e2e2e2] flex items-center gap-2 p-3'>
                   My account
@@ -81,7 +91,7 @@ const Navbar = () => {
             </div>
           </div>
           {/* mobile nav */}
-          <div className={`lg:hidden absolute z-10 bg-[#191919] text-gray-300 text-13px top-full w-[50%] h-[full] duration-700  ease-in-out transform ${MenuOpen ? 'right-0' : 'right-[-100%]'}`}>
+          <div className={`lg:hidden absolute z-10 bg-[#191919] text-gray-300 text-13px top-full w-[50%] h-[100vh] duration-700  ease-in-out transform ${MenuOpen ? 'right-0' : 'right-[-100%]'}`}>
             <ul className='px-3'>
               <li className='flex items-center justify-center gap-2 border-b-[1px] border-[#212121]'>
                 <AiOutlineUser/>

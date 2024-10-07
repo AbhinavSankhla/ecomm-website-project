@@ -11,7 +11,8 @@ export default function Home() {
     <>
       <Navbar/>
       <HeroSection/>
-      <Featured/>
+      <Featured bgColor={'bg-white'}/>
+      <Featured bgColor={'bg-[#EAF1F5]'}/>
       <WhoWeAre/>
       <Facilities/>
       <Banner/>

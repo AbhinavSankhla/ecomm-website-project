@@ -21,8 +21,8 @@ export default function Featured({bgColor}) {
            
           <div className="flex justify-center py-[60px] border-solid">
             <Link href="/shop">
-            <button className="bg-black text-white font-bold py-3 px-10 hover:opacity-75 transition-opacity duration-300 ">
-            See all products
+            <button className="bg-black text-white font-semibold py-3 px-10 hover:opacity-75 transition-opacity duration-300 text-[15px]">
+              See all products
             </button>
             </Link> 
           </div>

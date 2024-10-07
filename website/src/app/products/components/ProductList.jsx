@@ -5,6 +5,7 @@ import { FaShoppingCart, FaHeart} from "react-icons/fa";
 import Link from 'next/link';
 import { useContext } from 'react';
 import { myContext } from '../../context/CartContext';
+import { WishlistContext } from '../../context/WishlistContext';
 // import { CartContext } from '@/app/context/CartContext';
 
 const products = [
@@ -67,9 +68,10 @@ export default function ProductList() {
 
   //var name can be any name.
   const {addToCart} = useContext(myContext);
+  const {addToWishlist} = useContext(WishlistContext);
 
   return (
-    <div className="bg-white">
+    <div className="">
       <div className=" mx-auto w-[85%] max-w-screen-xl px-4 sm:px-6 lg:px-8">
         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
           {products.map((product) => (
@@ -87,20 +89,20 @@ export default function ProductList() {
                     <button className="p-4 text-white bg-black bg-opacity-75 hover:bg-white hover:text-black transition-colors duration-300 ease-in-out" onClick={()=>addToCart(product)}>
                         <FaShoppingCart className='text-2xl'/>
                     </button>
-                    <button className="p-4 text-white bg-black bg-opacity-75 hover:bg-white hover:text-black transition-colors duration-300 ease-in-out">
+                    <button className="p-4 text-white bg-black bg-opacity-75 hover:bg-white hover:text-black transition-colors duration-300 ease-in-out" onClick={()=>addToWishlist(product)}>
                         <FaHeart className='text-2xl '/>
                     </button>
                   </div>
                 </div>
               </div>
               <div>
-                  <h3 className="text-[21px] text-[#161922] pt-2">
+                  <h3 className="text-[20px] text-[#161922] pt-2 font-roboto font-light">
                       <Link href={`/products/${product.id}`}>
                         {product.name}
                       </Link>
                   </h3>
-                  <p className='text-[15px] pb-1 text-[#161922]'>Mens solid t-shirt</p>
-                  <span className="text-base font-medium">Rs. {product.price}</span>
+                  <p className='text-[15px] font-roboto font-light pb-1 text-[#161922]'>Mens solid t-shirt</p>
+                  <span className="text-base">Rs. {product.price}</span>
                   <span className='text-[12px] mx-2 line-through text-[#161922]'>Rs. 50</span>
                   <span className='text-[12px] text-red-500'>(50% off)</span>
               </div>

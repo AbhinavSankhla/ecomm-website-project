@@ -1,4 +1,6 @@
-import React from 'react'
+import React from 'react';
+import { FaEnvelope } from "react-icons/fa";
+import { FaMobileAlt } from "react-icons/fa";
 
 export default function Details() {
   return (
@@ -6,7 +8,7 @@ export default function Details() {
       <section>
         <div className='flex flex-wrap gap-2 border-2 border-green-500 mb-10 mt-28 w-[85%] max-w-screen-xl mx-auto'>
             <div className='flex-1 min-w-[100%] md:min-w-[calc(50%-0.5rem)] border-2 border-red-500 text-[#161922]'>
-                <p className='font-light text-[13px] lg:text-[15px]'>Our address</p>
+                <p className='font-light text-[13px] lg:text-[18px]'>Our address</p>
                 <p className='text-[21px] md:text-[26px] lg:text-[30px] py-4'>Level 13, 2 Elizabeth St,
                 Melbourne, Victoria 3000,
                 Australia</p>
@@ -18,7 +20,15 @@ export default function Details() {
                 <p className='text-[14px] lg:text-[19px] py-4'>8 AM — 10 PM</p>
             </div>
             <div className='flex-1 min-w-[100%] md:min-w-[calc(25%-0.5rem)] border-2 border-red-500 text-[#161922] justify-center text-center'>
-                <p className='text-[14px] lg:text-[19px]'>Do you have any questions?</p>
+                <p className='text-[14px] lg:text-[19px] text-[#161922]'>Do you have any questions?</p>
+                <div className='flex items-center justify-center py-3'>
+                  <div className='text-[16px]'><FaMobileAlt/></div>
+                  <div className='text-[16px] ml-2 font-semibold'>+91 98971 0000X</div>
+                </div>
+                <div className='flex items-center justify-center'>
+                  <div className='text-[16px]'><FaEnvelope/></div>
+                  <div className='text-[16px] ml-2 font-semibold text-[#161922]'>tony@drdoom.com</div>
+                </div>
             </div>
         </div>
         <div className='w-[85%] mx-auto max-w-screen-xl my-28'>

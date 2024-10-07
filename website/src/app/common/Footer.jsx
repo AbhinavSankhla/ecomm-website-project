@@ -1,3 +1,5 @@
+'use client'
+
 import Link from 'next/link';
 import React from 'react'
 import { FaEnvelope } from "react-icons/fa";
@@ -5,10 +7,18 @@ import { FaMobileAlt } from "react-icons/fa";
 import { SlArrowUp } from "react-icons/sl";
 
 export default function Footer() {
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
   return (
     <>
-      <footer className='bg-rose-100'>
-        <div className='grid grid-cols-1 md:grid-cols-4  mx-auto w-[85%]'>
+      <footer className='bg-[#F7EAE6]'>
+        <div className='grid grid-cols-1 md:grid-cols-4  mx-auto w-[85%] max-w-screen-xl'>
             <div className='mt-[100px]'>
               <ul>
                   <li>
@@ -84,11 +94,12 @@ export default function Footer() {
 
         <div className="border-t-[1px] border-[#bcbcbc] mt-[100px]"></div>
 
-        <div className='mt-8 mx-auto lg:hidden'>
-            <Link href="#"><SlArrowUp className='text-xl font-light mx-auto'/></Link>
+        {/* up arrow for mobile case   */}
+        <div className='mt-8 mx-auto lg:hidden text-center'>
+            <button onClick={scrollToTop}><SlArrowUp className='text-xl font-light mx-auto'/></button>
         </div>
 
-        <div className="grid grid-cols-1 items-center xl:grid-cols-[60%_auto] w-[85%] mx-auto py-8">
+        <div className="grid grid-cols-1 items-center xl:grid-cols-[60%_auto] w-[85%] mx-auto py-8 max-w-screen-xl">
           <div className="text-center xl:text-left text-[13px] lg:text-[15px] text-[#555555]">
             <p>
             © 2024 Website by <Link href="" className='hover:text-black duration-0'>Abhinav Sankhla</Link> | All Rights Reserved | Powered by <Link href="#" className='hover:text-black duration-0'>tailwindcss</Link>
@@ -98,7 +109,8 @@ export default function Footer() {
             <Link href="" className='mr-3 hover:text-black duration-0'>Terms and conditions</Link>
             <Link href={'#'} className='mr-3 hover:text-black duration-0'>Privacy policy</Link>
             <Link href={'#'} className='mr-3 hover:text-black duration-0'>Cookies</Link>
-            <Link href={'#'} className='hidden lg:inline'><SlArrowUp/></Link>
+            {/* <Link href={'#'} className='hidden lg:inline'><SlArrowUp/></Link> */}
+            <button onClick={scrollToTop} className='hidden lg:inline'><SlArrowUp/></button>
           </div>
         </div>
       </footer>

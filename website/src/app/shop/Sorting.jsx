@@ -4,7 +4,7 @@ import { IoIosArrowDown } from "react-icons/io";
 
 export default function Sorting() {
   
-  const result = 10;  
+  const result = 12;  
     
   return (
     <>
