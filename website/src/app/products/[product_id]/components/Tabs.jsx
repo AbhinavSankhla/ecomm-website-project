@@ -34,9 +34,9 @@ const Tabs = () => {
       {/* Tabs Content */}
       <div className="mt-4 p-4">
         {activeTab === 'tab1' ? (
-          <div>This is the content for Tab 1</div>
+          <div>Content for Tab 1 (To be fetch)</div>
         ) : (
-          <div>This is the content for Tab 2</div>
+          <div>Content for Tab 2 (To be fetch)</div>
         )}
       </div>
     </div>

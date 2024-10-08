@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import {  React, useState, useContext } from 'react'
+import {  React, useState, useContext, useEffect } from 'react'
 import { myContext } from '../context/CartContext';
 import { WishlistContext } from '../context/WishlistContext';
 import NavLinks from './NavLinks';
@@ -24,6 +24,18 @@ const Navbar = () => {
   const [MenuOpen, setMenuOpen] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   const [MobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // useEffect(() => {
+  //   if (MenuOpen) {
+  //     document.body.style.overflow = 'hidden';
+  //   } else {
+  //     document.body.style.overflow = 'auto';
+  //   }
+  
+  //   return () => {
+  //     document.body.style.overflow = 'auto';
+  //   };
+  //   }, [MenuOpen]);
 
   return (
     <>
@@ -91,6 +103,7 @@ const Navbar = () => {
             </div>
           </div>
           {/* mobile nav */}
+          {/* 'overflow-y-scroll' (add in below div for scrolling) */}
           <div className={`lg:hidden absolute z-10 bg-[#191919] text-gray-300 text-13px top-full w-[50%] h-[100vh] duration-700  ease-in-out transform ${MenuOpen ? 'right-0' : 'right-[-100%]'}`}>
             <ul className='px-3'>
               <li className='flex items-center justify-center gap-2 border-b-[1px] border-[#212121]'>

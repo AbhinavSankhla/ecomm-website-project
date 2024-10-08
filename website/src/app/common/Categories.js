@@ -1,19 +1,19 @@
 export const categories = [
     {
       name: 'Men',
-      subcategories: ['Mobile Phones', 'Laptops', 'Cameras'],
+      subcategories: ['T-Shirts', 'Shirts', 'Jeans', 'Trouser', 'Ethnic Wear'],
     },
     {
       name: 'Women',
-      subcategories: ['shirt', 'Footwear', 'Accessories'],
+      subcategories: ['Tops', 'Jeans', 'Kurtas & Suit','Dresses', 'Palazzos'],
     },
     {
       name: 'Accessories',
-      subcategories: ['Furniture', 'Appliances', 'Decor'],
+      subcategories: ['Jewellery', 'Perfumes', 'Deodorants', 'Belts', 'Glasses'],
     },
     {
-      name: 'Bags and Luggage',
-      subcategories: ['Furniture', 'Appliances', 'Decor'],
+      name: 'Footwear',
+      subcategories: ['Sneakers', 'Casual Shoes', 'Sports Shoes', 'Formal Shoes'],
     },
   ];
 

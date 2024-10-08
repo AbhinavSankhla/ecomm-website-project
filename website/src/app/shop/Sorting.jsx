@@ -9,8 +9,8 @@ export default function Sorting() {
   return (
     <>
         <div className='bg-white'>
-            <div className='w-[85%] mx-auto max-w-screen-xl px-4 py-12 sm:px-6 sm:pt-14 sm:pb-8 lg:px-8 border-2 border-red-500'>
-                <div className='border-2 border-red-500 flex flex-col sm:flex-row justify-between items-center'>
+            <div className='w-[85%] mx-auto max-w-screen-xl px-4 py-12 sm:px-6 sm:pt-14 sm:pb-8 lg:px-8'>
+                <div className='flex flex-col sm:flex-row justify-between items-center'>
                     <p className='text-[#a8a8a8] text-[13px] sm:text-[15px] mb-4 md:mb-0'>{`Showing all ${result} results`}</p>
                     <div>
                         <Menu as="div" className="relative inline-block text-left ">

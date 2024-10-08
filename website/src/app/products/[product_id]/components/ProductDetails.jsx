@@ -17,8 +17,11 @@ export default function ProductDetails() {
   // Define the image URLs
   const images = [
     'https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/28219632/2024/3/12/2f53aaab-40e1-4c5b-8148-6ad150e5f4341710256687634CampusSutraMenClassicOpaqueCheckedCasualShirt2.jpg',
+
     'https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/28219632/2024/3/12/4fc84572-cad2-4b42-9a39-006351e9db651710256687610CampusSutraMenClassicOpaqueCheckedCasualShirt1.jpg',
+
     'https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/28219632/2024/3/12/c7a70b3a-e915-4313-a3d3-b632d0121c691710256687658CampusSutraMenClassicOpaqueCheckedCasualShirt3.jpg',
+
     'https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/28219632/2024/3/12/9da6c838-2e37-451c-91ee-619d95be9a2b1710256687563CampusSutraMenClassicOpaqueCheckedCasualShirt4.jpg',
   ];
 
@@ -33,9 +36,9 @@ export default function ProductDetails() {
   return (
     <>
       <section>
-        <div className='w-[85%] max-w-screen-xl border-2 border-red-500 mx-auto py-5 mt-6'>
+        <div className='w-[85%] max-w-screen-xl mx-auto py-5 mt-6'>
           <div className='grid lg:grid-cols-2 gap-2'>
-            <div className='border-2 border-green-500'>
+            <div>
 
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4 overflow-hidden">
               
@@ -66,9 +69,9 @@ export default function ProductDetails() {
                 <button className='me-3 text-lg'><Link href={'#'}><SiGmail /></Link></button>
               </div>
             </div>
-            <div className='border-2 border-green-500'>
+            <div>
               <h3 className='text-[35px] text-[#161922]'>Allen Soly</h3>
-              <p className='text-[13px] lg:text-[15px] text-[#626262]'>Lorem ipsum dolor sit amet enim. Etiam ullamcorper.</p>
+              <p className='text-[13px] lg:text-[20px] font-light text-[#626262]'>Classic color casual shirt for men</p>
               <div className='flex items-center justify-start pt-4'>
                 <p className="text-[22px] pe-1">Rs. 799</p>
                 <p className='text-[20px] font-light px-2 line-through text-[#161922]'>Rs.1599</p>
@@ -110,8 +113,8 @@ export default function ProductDetails() {
                 )}
               </div>
 
-              <div className='border-2 border-green-500'>
-                <div className="border-2 py-4 border-red-500 flex">
+              <div className=''>
+                <div className="py-4 flex">
                   <button className="bg-black text-white sm:py-3 sm:px-10 py-2 px-3 text-[14px] sm:text-[16px] hover:bg-opacity-80 transition-opacity duration-300 mx-4 flex items-center font-medium">
                   <PiHandbagFill className='me-2'/>
                   <span>ADD TO BAG</span>
