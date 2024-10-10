@@ -7,6 +7,13 @@ const updateProduct = require('./products/updateProduct')
 //category controllers
 const insertCategory = require('./category/insertCategory')
 const readCategory = require('./category/readCategories')
+const deleteCategory = require('./category/deleteCategory')
+
+//subCategory controllerse
+const insertSubCategory = require('./subCategory/insertSubCategory')
+const readSubCategory = require('./subCategory/readSubCategory')
+const deleteSubCategory = require('./subCategory/deleteSubCategory')
+
 
 module.exports = {
     insertProduct,
@@ -14,5 +21,9 @@ module.exports = {
     deleteProduct,
     updateProduct,
     insertCategory,
-    readCategory
+    readCategory,
+    deleteCategory,
+    insertSubCategory,
+    readSubCategory,
+    deleteSubCategory
 }

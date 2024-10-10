@@ -48,12 +48,6 @@ const productSchema = new mongoose.Schema({
         trim: true
     },
 
-    style : {
-        type : String,
-        required : true,
-        trim: true
-    },
-
     fabric : {
         type : String,
         required : true,
@@ -71,7 +65,6 @@ const productSchema = new mongoose.Schema({
         ref: 'SubCategory', // Refers to the Category model
         required: true
     },
-
 
     size: {
         type: [String], // Array of sizes

@@ -222,7 +222,7 @@ export default function Cart() {
                                 <div className='text-[13px] text-[#626262] border-t-[1px] mt-2'><p className='pt-2'>Total:</p></div>
                                 <div className='text-right text-[13px] border-t-[1px] mt-2'><p className='pt-2'>Rs. {cartItem.price * cartItem.qnt}</p></div>
                                 <div className=''></div>
-                                <div className='flex justify-end border-2 border-red-500'>
+                                <div className='flex justify-end'>
                                     <button
                                         onClick={() => removeFromCart(cartItem.id)}
                                         className="text-white bg-black p-1 hover:opacity-75 transition-opacity duration-300 font-bold"

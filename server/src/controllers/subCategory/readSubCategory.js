@@ -1,9 +1,8 @@
-const Category = require("../../models/Category/Category");
+const SubCategory = require("../../models/category/SubCategory");
 
-const readCategory = async(req,res) =>{
+const readSubCategory = async(req,res) =>{
     try {
-        const response = await Category.find();
-
+        const response = await SubCategory.find();
         res.status(200).json({message: 'data fetched successfully', data: response})              
     } 
     catch (error) {
@@ -12,4 +11,4 @@ const readCategory = async(req,res) =>{
     }
 };
 
-module.exports = readCategory;
+module.exports = readSubCategory;

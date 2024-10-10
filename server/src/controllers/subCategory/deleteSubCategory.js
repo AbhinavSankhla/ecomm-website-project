@@ -1,8 +1,8 @@
-const Category = require("../../models/Category/Category");
+const SubCategory = require("../../models/category/SubCategory");
 
-const deleteCategory = async(req,res) =>{
+const deleteSubCategory = async(req,res) =>{
     try {
-        const response = await Category.findOneAndDelete(req.params);
+        const response = await SubCategory.findOneAndDelete(req.params);
 
         if(response === null) return res.status(402).json({message: 'category id does not exist'})
 
@@ -14,4 +14,4 @@ const deleteCategory = async(req,res) =>{
     }
 }
 
-module.exports = deleteCategory;
+module.exports = deleteSubCategory;

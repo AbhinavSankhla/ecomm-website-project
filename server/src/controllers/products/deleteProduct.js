@@ -7,6 +7,7 @@ const deleteProduct = async(req,res) =>{
     {
         const response = await Product.findOneAndDelete(req.params);
         
+
         if(response === null) return res.status(402).json({message: 'product id does not exist'})
  
         //return true or false if file exist.(when it assign in var and console)    
@@ -30,4 +31,4 @@ const deleteProduct = async(req,res) =>{
     }
 }
 
-module.exports = deleteProduct
+module.exports = deleteProduct;

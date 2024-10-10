@@ -27,33 +27,25 @@ export default function Home() {
         bg: 'https://mercury.akamaized.net/i/c4777c20f970185d684caaeddec4acd4_291646_0.jpg',
         
     },
+    {
+      bg: 'https://mercury.akamaized.net/i/44dfe007b8e118673d81be7a45c41b93_291916_0.jpg',
+      
+    },
 
     {
       bg: 'https://mercury.akamaized.net/i/ffcd493bf8dc759d024063c9efa445c5_284097_0.jpg',
       
-  },
+    },
     {
       bg: 'https://mercury.akamaized.net/i/eb257b41693910444526156de83d031e_291649_0.jpg',
       
-  },
-
-    {
-        bg: 'https://assets.ajio.com/cms/AJIO/WEB/D_UHP_1.0_topbaner_06-10-24_TOMMY_P10.jpg',
-        
-    },
-
-   
-    
-    // {
-    //     bg: 'https://assets.ajio.com/cms/AJIO/WEB/D-1.0-UHP-01102024-uhphim-z10-p3-TITAN-TOMMYHILFIGER-UPTO30.jpg',
-        
-    // }
+     },
   ];
 
   return (
     <>
       {/* Parent div without overflow-hidden */}
-      <div className="w-full mx-auto max-w-screen-xl ">
+      <div className="w-full mx-auto">
       <Slider {...settings}>
                 {sliders.map((slide, index) => (
                     <div key={index} className="mt-10 sm:mt-24 md:mt-12 lg:mt-[75px] h-[30vh] md:h-[50vh] lg:h-[70vh] w-full"> {/* Set height here */}
