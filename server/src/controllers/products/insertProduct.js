@@ -2,7 +2,7 @@ const Product = require("../../models/product/Products");
 
 const insertProduct = async(req,res) => {
     try {
-        const { name, description, full_description, price, mrp, discount, occasion, fit, style, fabric, weight, category, subcategory}= req.body;
+        const { name, description, full_description, price, mrp, discount, occasion, fit, style, fabric, weight, category, subcategory, stock, color, size}= req.body;
 
         const thumbnail = req.files.thumbnail[0].filename
         const images = req.files.images.map((imgData)=>{
@@ -23,6 +23,9 @@ const insertProduct = async(req,res) => {
             weight,
             category,
             subcategory,
+            stock,
+            color,
+            size,
             thumbnail,
             images
         })

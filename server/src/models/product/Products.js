@@ -1,119 +1,105 @@
 const mongoose = require('mongoose');
-const category = require('../Category/Category');
+const Category = require('../Category/Category'); // Ensure correct path
+// const SubCategory = require('../Category/SubCategory'); // Ensure correct path
 
 const productSchema = new mongoose.Schema({
-    name : {
-        type : String,
-        required : true,
+    name: {
+        type: String,
+        required: true,
         trim: true
     },
-
-    description : {
-        type : String,
-        require : true,
+    description: {
+        type: String,
+        required: true,
         trim: true
     },
-
-    full_description : {
-        type : String,
-        require : true,
+    full_description: {
+        type: String,
+        required: true,
         trim: true
     },
-
-    price : {
-        type : Number,
-        require : true,
+    price: {
+        type: Number,
+        required: true,
         min: 0
     },
-
-    mrp : {
-        type : Number,
-        require : true
+    mrp: {
+        type: Number,
+        required: true
     },
-
-    discount : {
-        type : Number,
-        require : true
+    discount: {
+        type: Number,
+        required: true
     },
-
-    occasion : {
-        type : String,
-        required : true,
+    occasion: {
+        type: String,
+        required: true,
         trim: true
     },
-
-    fit : {
-        type : String,
-        required : true,
+    fit: {
+        type: String,
+        required: true,
         trim: true
     },
-
-    fabric : {
-        type : String,
-        required : true,
+    fabric: {
+        type: String,
+        required: true,
         trim: true
     },
-    
     category: {
         type: mongoose.Schema.Types.ObjectId, // Reference to Category model
-        ref: 'Category', // Refers to the Category model
+        ref: 'Category',
         required: true
     },
-
     subcategory: {
-        type: mongoose.Schema.Types.ObjectId, // Reference to Category model
-        ref: 'SubCategory', // Refers to the Category model
+        type: mongoose.Schema.Types.ObjectId, // Reference to SubCategory model
+        ref: 'SubCategory',
         required: true
     },
-
     size: {
         type: [String], // Array of sizes
         required: true,
-        enum: ['XS', 'S', 'M', 'L', 'XL', 'XXL'] // Adjust sizes as needed
+        enum: ['xs', 's', 'm', 'l', 'xl', 'xxl'] // Adjust sizes as needed
     },
-
     color: {
         type: String,
         required: true,
         trim: true
     },
-
     stock: {
         type: Number,
         required: true,
         min: 0
     },
-    
-    thumbnail : {
-        type : String,
-        require : true
+    thumbnail: {
+        type: String,
+        required: true
     },
-
-    images : {
-        type : Array,
-        required : true
+    images: {
+        type: Array,
+        required: true
     },
-
-    status : {
-        type : Boolean,
-        require : true
+    status: {
+        type: Boolean,
+        required: true
     },
-
-    created_at : {
-        type : Date,
-        default : Date.now
+    created_at: {
+        type: Date,
+        default: Date.now
     },
-
     updated_at: {
         type: Date,
         default: Date.now
     }
 });
 
-productSchema.pre('save', function(next) {
-    this.updatedAt = Date.now();
+// Update the updated_at field before saving
+productSchema.pre('save', function (next) {
+    this.updated_at = Date.now(); // Note: Fixed to match your field name
     next();
 });
 
-const Product = mongoose.model('product', productSchema);
+// Check if the model already exists
+const Product = mongoose.models.Product || mongoose.model('Product', productSchema);
+
 module.exports = Product;
