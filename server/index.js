@@ -6,7 +6,7 @@ require('dotenv').config();
 const app = express();
 app.use(express.json());  //used to give req.body data in json format.
 
-app.use('/uploads', express.static(path.join('src','uploads')));
+app.use('/uploads', express.static(path.join(__dirname,'src','uploads')));
 
 app.use(allRoutes);
 

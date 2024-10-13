@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const Category = require('../Category/Category'); // Ensure correct path
-// const SubCategory = require('../Category/SubCategory'); // Ensure correct path
+const Category = require('../Category/Category');
+const SubCategory = require('../Category/SubCategory'); 
 
 const productSchema = new mongoose.Schema({
     name: {
@@ -67,6 +67,11 @@ const productSchema = new mongoose.Schema({
         trim: true
     },
     stock: {
+        type: Number,
+        required: true,
+        min: 0
+    },
+    weight: {
         type: Number,
         required: true,
         min: 0

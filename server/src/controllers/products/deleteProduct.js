@@ -1,12 +1,11 @@
-const Product = require("../../models/product/Products");
+const Product = require("../../models/product/Product");
 const fs = require("fs");
-const path = require("path")
+const path = require("path");
 
 const deleteProduct = async(req,res) =>{
     try 
     {
         const response = await Product.findOneAndDelete(req.params);
-        
 
         if(response === null) return res.status(402).json({message: 'product id does not exist'})
  
