@@ -5,16 +5,17 @@ import axios from 'axios';
 export default function ProductDetails() {
 
 const handleAddProduct = async(e) =>{
-  e.preventdefault()
+  e.preventDefault()
   const form = e.target
   //FormData Constructor - makes data a formdata which pass inside of it.  
   const formData = new FormData(form);
 
   //axios set content type automaticaly like - formdata, raw>json etc.
   //formData - work as body //{} - header etc. define here.
-  axios.post('http://localhost:5200/product/insert_product',formData,{});
+  const response = await axios.post('http://localhost:5200/product/insert_product',formData,{});
+  console.log(response);
   try {
-    
+
   } catch (error) {
     console.log(error);
     alert('something went wrong')
@@ -36,7 +37,7 @@ const handleAddProduct = async(e) =>{
           <form onSubmit={handleAddProduct} className="border border-t-0 p-3 rounded-b-md border-slate-400">
             <div className="mb-5">
               <label
-                for="base-input"
+                for="productInput"
                 className="block mb-5 text-md font-medium text-gray-900"
               >
                 Product Name
@@ -44,14 +45,14 @@ const handleAddProduct = async(e) =>{
               <input
                 type="text"
                 name='productName'
-                id="base-input"
+                id="productInput"
                 className="text-[19px] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-3 "
                 placeholder="Product Name"
               />
             </div>
             <div className="mb-5">
               <label
-                for="base-input"
+                for="shortDescription"
                 className="block mb-5 text-md font-medium text-gray-900"
               >
                 Product Short Description
@@ -60,7 +61,7 @@ const handleAddProduct = async(e) =>{
             </div>
             <div className="mb-5">
               <label
-                for="base-input"
+                for="shortDescription"
                 className="block mb-5 text-md font-medium text-gray-900"
               >
                 Product Full Description
@@ -69,7 +70,7 @@ const handleAddProduct = async(e) =>{
             </div>
             <div className="mb-5">
               <label
-                for="base-input"
+                for="thumbnailInput"
                 className="block mb-5 text-md font-medium text-gray-900"
               >
                 Product Thumbnail
@@ -81,7 +82,7 @@ const handleAddProduct = async(e) =>{
                 <input
                   type="file"
                   name="thumbnailInput"
-                  id="file-input"
+                  id="thumbnailInput"
                   className="block w-full border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none  
   file:bg-gray-50 file:border-0
   file:me-4
@@ -115,13 +116,13 @@ const handleAddProduct = async(e) =>{
               </div> */}
             <div className="mb-5">
               <label
-                for="base-input"
+                for="imgInput"
                 className="block mb-5 text-md font-medium text-gray-900"
               >
                 Product Images
               </label>
               <form className="max-w-full">
-                <label for="file-input" className="sr-only">
+                <label for="imgInput" className="sr-only">
                   Choose file
                 </label>
                 <input
@@ -139,11 +140,11 @@ const handleAddProduct = async(e) =>{
             <form className='mb-5'>
               <div className="grid sm:grid-cols-2 gap-8">
                 <div>
-                  <label className="block mb-5 text-md font-medium text-gray-900">Price</label>
+                  <label className="block mb-5 text-md font-medium text-gray-900 " for="price">Price</label>
                   <input
                     type="text"
                     name='pdPrice'
-                    id="base-input"
+                    id="price"
                     className="text-[19px] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-3 "
                     placeholder="Product Price"
                   />
