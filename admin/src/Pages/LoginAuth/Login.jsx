@@ -1,13 +1,35 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { FaEye } from "react-icons/fa6";
+import { FaEyeSlash } from "react-icons/fa6";
+import axios from 'axios';
 
 export default function Login() {
+
+    const [adminData, setadminData] = useState({});
+    let [passwdStatus, setpasswdStatus] = useState(false);
+    
+    const handleLogin = async() =>{
+        try {
+            // const response = await axios.post('http://localhost:5200/admin/login', admindata, {
+            //     headers: {
+            //       'Content-Type': 'application/json',
+            //     },   
+            
+            
+
+        } catch (error) {
+            
+        }
+        
+    }
+
   return (
     <section className="bg-gray-50">
   <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-      <a href="#" className="flex items-center mb-6 text-2xl font-semibold text-gray-900">
+      <a href="#" className="flex items-center mb-6 text-3xl font-semibold text-gray-900">
           <img className="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo"/>
-          Frank and Oak     
+          BeClothing
       </a>
       <form className="w-[500px] bg-white rounded-lg shadow-2xl">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -17,16 +39,19 @@ export default function Login() {
               <form className="space-y-4 md:space-y-6" action="#">
                   <div>
                       <label for="email" className="block mb-2 text-sm font-medium text-gray-900">Your email</label>
-                      <input type="email" name="uemail" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="name@company.com" required=""/>
+                      <input onChange={(e) => {setadminData({...adminData, mail : e.target.value})}} type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-0 focus:outline-none block w-full p-2.5" placeholder="name@company.com" required=""/>
                   </div>
                   <div>
                       <label for="password" className="block mb-2 text-sm font-medium text-gray-900">Password</label>
-                      <input type="password" name="upassword" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required=""/>
+                      <div className='flex justify-around bg-gray-50 border border-gray-300 rounded'>
+                        <input onChange={(e) => {setadminData({...adminData, password : e.target.value})}} type={passwdStatus ? 'text' : 'password'} name="password" id="password" placeholder="••••••••" className="bg-gray-50 border-none focus:ring-0 focus:outline-none block w-[90%] p-2.5" required=""/>
+                        <button type='button' className='text-xl' onClick={()=>setpasswdStatus(!passwdStatus)}>{passwdStatus ? <FaEyeSlash/> : <FaEye/>}</button> 
+                      </div>
                   </div>
                   <div className="flex items-center justify-between">
                   </div>
-                  <Link to={"/Home"}>
-                  <button type="submit" className="w-full text-white  bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Sign in</button>
+                  <Link>
+                  <button onClick={handleLogin} type="button" className="w-full text-white  bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Sign in</button>
                   </Link>
               </form>
           </div>

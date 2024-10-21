@@ -1,3 +1,7 @@
+//Admin Controllers
+const registerAdmin = require('./admin/registerAdmin')
+const adminLogin = require('./admin/adminLogin')
+
 //Product Controllers
 const deleteProduct = require('./products/deleteProduct')
 const insertProduct = require('./products/insertProduct')
@@ -16,6 +20,8 @@ const deleteSubCategory = require('./subCategory/deleteSubCategory')
 
 
 module.exports = {
+    registerAdmin,
+    adminLogin,
     insertProduct,
     readProducts,
     deleteProduct,

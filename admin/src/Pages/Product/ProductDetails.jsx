@@ -57,7 +57,7 @@ const handleAddProduct = async(e) =>{
               >
                 Product Short Description
               </label>
-              <textarea name='productShortDescription' id="message" rows="3" className=" resize-none block p-2.5 w-full text-sm text-gray-900 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 " placeholder="Add Product Description....."></textarea>
+              <textarea name='productShortDescription' id="message" rows="3" className=" resize-none block p-2.5 w-full text-sm text-gray-900 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 " placeholder="Add Product Short Description....."></textarea>
             </div>
             <div className="mb-5">
               <label
@@ -66,7 +66,7 @@ const handleAddProduct = async(e) =>{
               >
                 Product Full Description
               </label>
-              <textarea name='productFullDescription' id="message" rows="3" className=" resize-none block p-2.5 w-full text-sm text-gray-900 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 " placeholder="Add Product Short Description....."></textarea>
+              <textarea name='productFullDescription' id="message" rows="3" className=" resize-none block p-2.5 w-full text-sm text-gray-900 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 " placeholder="Add Product Full Description....."></textarea>
             </div>
             <div className="mb-5">
               <label
@@ -172,7 +172,7 @@ const handleAddProduct = async(e) =>{
                   name='pdDiscount'
                   id="base-input"
                   className="text-[19px] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-3 "
-                  placeholder="Product Price"
+                  placeholder="Product Discount"
                 />
               </div>
               <div>
@@ -182,7 +182,7 @@ const handleAddProduct = async(e) =>{
                   name='PdStock'
                   id="base-input"
                   className="text-[19px] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-3 "
-                  placeholder="Product MRP"
+                  placeholder="Product Stock"
                 />
               </div>
 
@@ -193,7 +193,7 @@ const handleAddProduct = async(e) =>{
                   name='pdOccasion'
                   id="base-input"
                   className="text-[19px] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-3 "
-                  placeholder="Product Price"
+                  placeholder="Product Occasion"
                 />
               </div>
               <div>
@@ -203,7 +203,7 @@ const handleAddProduct = async(e) =>{
                   name='pdFit'
                   id="base-input"
                   className="text-[19px] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-3 "
-                  placeholder="Product MRP"
+                  placeholder="Product Fit"
                 />
               </div>
 
@@ -214,7 +214,7 @@ const handleAddProduct = async(e) =>{
                   name='pdFabric'
                   id="base-input"
                   className="text-[19px] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-3 "
-                  placeholder="Product Price"
+                  placeholder="Product Fabric"
                 />
               </div>
 

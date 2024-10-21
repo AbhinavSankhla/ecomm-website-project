@@ -1,5 +1,4 @@
 const express = require('express');
-
 const upload = require('../../middleware/multer/multer');
 
 const { insertProduct, 

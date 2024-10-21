@@ -7,15 +7,18 @@ export default function AddCategory() {
   const handleAddCategory = async(e) =>{
     e.preventDefault()
     const form = e.target
-    //FormData Constructor - makes data a formdata which pass inside of it.  
-    const formData = new FormData(form);
-  
+
+    const categoryName = form.categoryName.value;
+    const status = form.status.value;
     //axios set content type automaticaly like - formdata, raw>json etc.
     //formData - work as body //{} - header etc. define here.
-    const response = await axios.post('http://localhost:5200/category/insert_category',formData,{});
+    const response = await axios.post('http://localhost:5200/category/insert_category',{
+      categoryName,
+      status
+    });
     console.log(response);
     try {
-  
+      
     } catch (error) {
       console.log(error);
       alert('something went wrong')
@@ -90,7 +93,7 @@ return (
                 id="link-radio"
                 name="status"
                 type="radio"
-                value=""
+                value="true"
                 className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 "
               ></input>
               Active
@@ -98,7 +101,7 @@ return (
                 id="link-radio"
                 name="status"
                 type="radio"
-                value=""
+                value="false"
                 className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 "
               ></input>
               Deactive
