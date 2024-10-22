@@ -2,6 +2,7 @@ const express = require('express');
 const allRoutes = require('./src/app');
 const path = require('path')
 const cors = require('cors');
+// const cookieParser = require('cookie-parser'); // Require cookie-parser
 const { registerAdmin } = require('./src/controllers/controllers');
 
 require('dotenv').config();
@@ -9,6 +10,7 @@ require('dotenv').config();
 const app = express();
 app.use(express.json());  //used to give req.body data in json format.
 app.use(cors());
+// app.use(cookieParser());
 app.use('/uploads', express.static(path.join(__dirname,'src','uploads')));
 
 app.use(allRoutes);

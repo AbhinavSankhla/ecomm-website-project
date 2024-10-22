@@ -24,7 +24,7 @@ const registerAdmin = async() => {
     })
 
     const response = await adminData.save();
-    console.log(response)
+    // console.log(response)
 
     ifRegistered = true;
 }
