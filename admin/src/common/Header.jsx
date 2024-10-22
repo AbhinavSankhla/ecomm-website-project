@@ -1,6 +1,28 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 
 export default function Header() {
+
+    const nav = useNavigate();
+
+    const ifadminLoggedIn = () =>{
+        const ifadmin = Cookies.get('admin');
+        console.log(ifadmin);
+
+        if(!ifadmin){
+            nav('/')
+        }
+    }
+
+    useEffect(()=>{ifadminLoggedIn()},[])
+
+    
+    const logOutAdmin = () =>{
+        Cookies.remove('admin');
+        nav('/');
+    };
+
   return (
     <header className='border-b-2'>
     <nav className="bg-white border-gray-200 px-4 lg:px-6 py-2.5">
@@ -13,7 +35,7 @@ export default function Header() {
                 <figure className='relative group w-12 h-12 cursor-pointer rounded-full'>
                 <img className="w-12 h-12 rounded-full object-cover" src="https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="Jese image"/>
 
-                <HeadDropDown/>
+                <HeadDropDown logOutAdmin={logOutAdmin}/>
   </figure>
 
                 <button data-collapse-toggle="mobile-menu-2" type="button" className="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 " aria-controls="mobile-menu-2" aria-expanded="false">
@@ -32,7 +54,7 @@ export default function Header() {
 }
 
 
-function HeadDropDown() {
+function HeadDropDown({logOutAdmin}) {
   return (
     <div className="absolute z-50 right-1 top-7 mt-2 hidden group-hover:block p-4">
     
@@ -89,9 +111,9 @@ function HeadDropDown() {
         Projects
         <span className="bg-gray-500 text-white text-[11px] font-medium ms-3 px-2 py-0.5 rounded-md ">42</span>
     </button>
-    <button type="button" className="relative inline-flex items-center w-full px-4 py-3 text-sm font-medium border-t border-black rounded-b-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 ">
-    <svg fill="currentColor" className="w-4 h-4 me-2.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M144 144l0 48 160 0 0-48c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192l0-48C80 64.5 144.5 0 224 0s144 64.5 144 144l0 48 16 0c35.3 0 64 28.7 64 64l0 192c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 256c0-35.3 28.7-64 64-64l16 0z"/></svg>
-        Lock Account
+    <button onClick={logOutAdmin} type="button" className="relative inline-flex justify-center text-white bg-red-500 font-bold items-center w-full px-4 py-3 text-sm rounded-b-lg hover:bg-red-400">
+    {/* <svg fill="currentColor" className="w-4 h-4 me-2.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M144 144l0 48 160 0 0-48c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192l0-48C80 64.5 144.5 0 224 0s144 64.5 144 144l0 48 16 0c35.3 0 64 28.7 64 64l0 192c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 256c0-35.3 28.7-64 64-64l16 0z"/></svg> */}
+        Log out
     </button>
 </div>
 

@@ -7,17 +7,18 @@ export default function AddCategory() {
   const handleAddCategory = async(e) =>{
     e.preventDefault()
     const form = e.target
-
+ 
     const categoryName = form.categoryName.value;
     const status = form.status.value;
-    //axios set content type automaticaly like - formdata, raw>json etc.
-    //formData - work as body //{} - header etc. define here.
-    const response = await axios.post('http://localhost:5200/category/insert_category',{
+    
+    try {
+      //axios set content type automaticaly like - formdata, raw>json etc.
+      //formData - work as body //{} - header etc. define here.
+      const response = await axios.post('http://localhost:5200/category/insert_category',{
       categoryName,
       status
-    });
-    console.log(response);
-    try {
+      });
+      console.log(response);
       
     } catch (error) {
       console.log(error);

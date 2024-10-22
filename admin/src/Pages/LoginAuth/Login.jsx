@@ -1,27 +1,54 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { FaEye } from "react-icons/fa6";
 import { FaEyeSlash } from "react-icons/fa6";
+import Cookies from 'js-cookie';
 import axios from 'axios';
 
 export default function Login() {
+    const nav = useNavigate();
+
+    const ifadminLoggedIn = () =>{
+        const ifadmin = Cookies.get('admin');
+        // console.log(ifadmin);
+
+        if(ifadmin){
+            nav('/dashboard')
+        }
+    }
+
+    useEffect(()=>{ifadminLoggedIn()},[])
 
     const [adminData, setadminData] = useState({});
     let [passwdStatus, setpasswdStatus] = useState(false);
     
     const handleLogin = async() =>{
         try {
-            // const response = await axios.post('http://localhost:5200/admin/login', admindata, {
-            //     headers: {
-            //       'Content-Type': 'application/json',
-            //     },   
-            
-            
+            // const response = await axios.post('http://localhost:5200/admin/login', admindata); //set header automatic
+            const response = await fetch('http://localhost:5200/admin/login',{
+                method: 'POST',
+                headers: {
+                    'Content-Type' : 'application/json'
+                },
+                body: JSON.stringify(adminData)
+            });
+            if (response.status !== 200) {
+                const errorMessage = await response.json(); // Capture server error message 
+                // Display the server's error message (like "invalid password" or "invalid mail") by fetching the JSON response and passing it to throw new Error(...)
+                throw new Error(errorMessage.message || "Invalid credentials");
+            }
+    
+            const data = await response.json();
+            // console.log(data.data);
+
+            Cookies.set('admin', JSON.stringify(data.data))
+            nav('/dashboard')
 
         } catch (error) {
-            
+            //alert("Invalid credentials") will only show when there's an actual issue with the login credentials or other errors.
+            alert(error.message || "Invalid credentials");
+            // console.log(error);
         }
-        
     }
 
   return (

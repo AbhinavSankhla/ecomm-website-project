@@ -1,7 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Breadcrumb from "../../common/Breadcrumb";
+import axios from "axios";
 
 export default function AddSubCategory() {
+  // const [categoryData, setcategoryData] = useState([]);
+
+  // const handleFetchCategory = async() => {
+  //   try {
+  //     const response = await axios.get('http://localhost:5200/category/read_category')
+
+  //     if(response.status !== 200) return ("something went wrong");
+
+  //     const data = response.data.data;
+  //     setcategoryData(data)
+  //     // console.log(data)
+      
+  //   } 
+  //   catch (error) {
+  //     console.log(error);
+  //     alert('something went wrong')
+  //   }
+
+  // };
+  
+  // useEffect(()=>{handleFetchCategory()},[]);
+
   return (
     <section className="w-full">
           <Breadcrumb
@@ -49,7 +72,7 @@ export default function AddSubCategory() {
                     <option value="Sale">Sale</option>
                   </select>
                 </div>
-                <div className="mb-5">
+                {/* <div className="mb-5">
                   <label
                     for="base-input"
                     className="block mb-5 text-md font-medium text-gray-900"
@@ -87,7 +110,7 @@ export default function AddSubCategory() {
                     className=" resize-none block p-2.5 w-full text-sm text-gray-900 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 "
                     placeholder="Add Product Description....."
                   ></textarea>
-                </div>
+                </div> */}
                 <div className="pe-5 ps-1">
                   <span className="flex items-center gap-3">
                     Status :
