@@ -1,29 +1,52 @@
 import React, { useEffect, useState } from "react";
 import Breadcrumb from "../../common/Breadcrumb";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function AddSubCategory() {
-  // const [categoryData, setcategoryData] = useState([]);
 
-  // const handleFetchCategory = async() => {
-  //   try {
-  //     const response = await axios.get('http://localhost:5200/category/read_category')
+  const nav = useNavigate();
+  const [categoryData, setcategoryData] = useState([]);
+  const [data, setData] = useState({});
+ 
+  //for fetch parent category in selection.
+  const handleFetchCategory = async() => {
+    try {
+      const response = await axios.get('http://localhost:5200/category/true_category')
 
-  //     if(response.status !== 200) return ("something went wrong");
+      if(response.status !== 200) return ("something went wrong");
 
-  //     const data = response.data.data;
-  //     setcategoryData(data)
-  //     // console.log(data)
-      
-  //   } 
-  //   catch (error) {
-  //     console.log(error);
-  //     alert('something went wrong')
-  //   }
-
-  // };
+      // const data = response.data.data;
+      setcategoryData(response.data.data)
+    } 
+    catch (error) {
+      console.log(error);
+      alert('something went wrong')
+    }
+  };
   
-  // useEffect(()=>{handleFetchCategory()},[]);
+  useEffect(()=>{handleFetchCategory()},[]);
+
+  //for add sub-category
+  const handlleAddSubCat = async(e) =>{
+    e.preventDefault();
+    console.log(data)
+    try {
+      const response = await axios.post('http://localhost:5200/subcategory/insert_subcategory', data)
+
+      if(response.status !== 200) return ("something went wrong");
+      alert('data inserted successfully!')
+      // const data = response.data.data;
+      // setcategoryData(data)
+      console.log(response);
+      nav('/sub-category/view-sub-category')
+    } 
+    catch (error) {
+      console.log(error);
+      alert('something went wrong')
+      
+    }
+  }
 
   return (
     <section className="w-full">
@@ -37,7 +60,7 @@ export default function AddSubCategory() {
               <h3 className="text-[26px] font-semibold bg-slate-100 py-3 px-4 rounded-t-md border border-slate-400">
                 Add Sub Category
               </h3>
-              <form className="border border-t-0 p-3 rounded-b-md border-slate-400">
+              <form onSubmit={handlleAddSubCat} className="border border-t-0 p-3 rounded-b-md border-slate-400">
                 <div className="mb-5">
                   <label
                     for="base-input"
@@ -47,7 +70,8 @@ export default function AddSubCategory() {
                   </label>
                   <input
                     type="text"
-                    name="subCategoryName"
+                    name="subCatName"
+                    onChange={(e) => {setData({...data, subCatName: e.target.value})}}
                     id="base-input"
                     className="text-[19px] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-3 "
                     placeholder="Category Name"
@@ -60,16 +84,20 @@ export default function AddSubCategory() {
                   >
                     Parent Category Name
                   </label>
-
                   <select
                     id="default"
-                    name="parentCatSelectBox"
-                    className=" border-2 border-gray-300 text-gray-900 mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
+                    name="category"
+                    onChange={(e) => {setData({...data, category: e.target.value})}}
+                    className="border-2 borde-gray-300 text-gray-900 mb-6 text-sm rounded-lg  focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
                   >
                     <option selected>--Select Category--</option>
-                    <option value="Mens">Men's</option>
-                    <option value="Women">Women</option>
-                    <option value="Sale">Sale</option>
+                    {
+                      categoryData?.map((category, i) => {
+                        return(
+                          <option key={i} value={category._id}>{category.categoryName}</option>
+                        ) 
+                      })
+                    }
                   </select>
                 </div>
                 {/* <div className="mb-5">
@@ -118,7 +146,8 @@ export default function AddSubCategory() {
                       id="link-radio"
                       name="status"
                       type="radio"
-                      value=""
+                      value="true"
+                      onChange={(e) => {setData({...data, status: e.target.value})}}
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 "
                     ></input>
                     Active
@@ -126,7 +155,8 @@ export default function AddSubCategory() {
                       id="link-radio"
                       name="status"
                       type="radio"
-                      value=""
+                      onChange={(e) => {setData({...data, status: e.target.value})}}
+                      value="false"
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 "
                     ></input>
                     Deactive

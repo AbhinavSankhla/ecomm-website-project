@@ -2,16 +2,27 @@ const mongoose = require('mongoose');
 const Category = require('./Category');
 
 const SubCategorySchema = new mongoose.Schema({
-    name: {
+    subCatName: {
         type: String,
         required: true,
-        unique: true, // Ensures that each subcategory is unique
         trim: true
     },
-    category: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category', // Reference to the Category model
+    status: {
+        type: Boolean,
         required: true
+    },
+    category: {
+        type: mongoose.Schema.Types.ObjectId,  //This is called foreign key.
+        ref: 'Category', // Reference to the Category collection
+        required: true
+    },
+    created_at: {
+        type: Date,
+        default: Date.now
+    },
+    updated_at: {
+        type: Date,
+        default: Date.now
     }
 });
 

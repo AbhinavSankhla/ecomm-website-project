@@ -6,7 +6,7 @@ export default function AddCategory() {
 
   const handleAddCategory = async(e) =>{
     e.preventDefault()
-    const form = e.target
+    const form = e.target;
  
     const categoryName = form.categoryName.value;
     const status = form.status.value;
