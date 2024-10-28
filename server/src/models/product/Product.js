@@ -72,9 +72,8 @@ const productSchema = new mongoose.Schema({
         min: 0
     },
     weight: {
-        type: Number,
+        type: String,
         required: true,
-        min: 0
     },
     thumbnail: {
         type: String,

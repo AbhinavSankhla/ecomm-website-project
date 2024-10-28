@@ -2,7 +2,7 @@ const SubCategory = require("../../models/category/SubCategory");
 
 const readSubCategory = async(req,res) =>{
     try {
-        const response = await SubCategory.find();
+        const response = await SubCategory.find().populate('category');
         res.status(200).json({message: 'data fetched successfully', data: response})              
     } 
     catch (error) {

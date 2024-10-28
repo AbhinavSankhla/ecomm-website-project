@@ -151,7 +151,7 @@ export default function ProductItems() {
                           Description
                         </th>
                         <th scope="col" className="px-6 py-3">
-                          Short Description
+                          Full Description
                         </th>
                         <th scope="col" className="px-6 py-3">
                           Thumbnails

@@ -7,6 +7,7 @@ export default function ViewCategory() {
   let [orderModal, setOrderModal] = useState(false);
   const [categoryData, setcategoryData] = useState([]);
 
+  //Fetch Category
   const handleFetchCategory = async() => {
     try {
       const response = await axios.get('http://localhost:5200/category/read_category')
@@ -15,7 +16,7 @@ export default function ViewCategory() {
 
       const data = response.data.data;
       setcategoryData(data)
-      // console.log(data)
+      console.log(data)
       
     } 
     catch (error) {
@@ -27,6 +28,8 @@ export default function ViewCategory() {
   
   useEffect(()=>{handleFetchCategory()},[]);
 
+
+  //Handle status
   const handleStatus = async(e) => {
     // console.log(e.target.value, e.target.textContent);
     const statusData = {

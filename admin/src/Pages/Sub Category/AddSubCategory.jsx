@@ -30,15 +30,11 @@ export default function AddSubCategory() {
   //for add sub-category
   const handlleAddSubCat = async(e) =>{
     e.preventDefault();
-    console.log(data)
     try {
       const response = await axios.post('http://localhost:5200/subcategory/insert_subcategory', data)
 
       if(response.status !== 200) return ("something went wrong");
       alert('data inserted successfully!')
-      // const data = response.data.data;
-      // setcategoryData(data)
-      console.log(response);
       nav('/sub-category/view-sub-category')
     } 
     catch (error) {
