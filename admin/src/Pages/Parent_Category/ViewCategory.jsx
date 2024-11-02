@@ -52,6 +52,18 @@ export default function ViewCategory() {
     }
   };
 
+  //Search Bar
+  const handleSearch = async (e) => {
+    if (!e.target.value) return handleFetchCategory();
+    try {
+      const response = await axios.get(`http://localhost:5200/category/search_category/${e.target.value}`);
+      if (response.status !== 200) return alert('something went wrong');
+      setcategoryData(response.data.data)
+    } catch (error) {
+      alert('something went wrong')
+    }
+  };
+
   return (
     <section className="w-full">
       {/* Order Modal Start */}
@@ -125,9 +137,14 @@ export default function ViewCategory() {
       <Breadcrumb path={"Parent Category"} path2={"View Category"} slash={"/"} />
       <div className="w-full min-h-[610px]">
         <div className="max-w-[1220px] mx-auto py-5">
-          <h3 className="text-[26px] font-semibold bg-slate-100 py-3 px-4 rounded-t-md border border-slate-400">
-            View Category
-          </h3>
+          <div className='flex items-center justify-between bg-slate-100 py-3 px-4 rounded-t-md border border-slate-400'>
+            <h3 className="text-[26px] font-semibold">
+              View Categories
+            </h3>
+            <div className='w-[50%]'>
+              <input type="text" onChange={handleSearch} placeholder='Search Category' className='p-1 w-full border-2 border-slate-400 rounded' />
+            </div>
+          </div> 
           <div className="border border-t-0 rounded-b-md border-slate-400">
             <div className="relative overflow-x-auto">
               <table className="w-full  text-left rtl:text-right text-gray-500 ">

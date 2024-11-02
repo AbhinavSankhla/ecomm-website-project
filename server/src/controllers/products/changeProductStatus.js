@@ -1,8 +1,8 @@
-const Category = require("../../models/Category/Category");
+const Product = require("../../models/product/Product");
 
-const changeCatStatus = async(req,res) => {
+const changeProductStatus = async(req,res) => {
     try {
-        const response = await Category.updateOne(
+        const response = await Product.updateOne(
             {
                 _id: req.body.id
             },
@@ -10,7 +10,6 @@ const changeCatStatus = async(req,res) => {
                 $set: {
                     status: req.body.status,
                     updated_at: Date.now()
-
                 }
             }
         );
@@ -22,4 +21,4 @@ const changeCatStatus = async(req,res) => {
     }
 }
 
-module.exports = changeCatStatus;
+module.exports = changeProductStatus;
