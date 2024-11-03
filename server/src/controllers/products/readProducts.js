@@ -5,7 +5,7 @@ const readProducts = async(req,res) =>{
         const response = await Product.find();
         const filepath = `${req.protocol}://${req.get('host')}/uploads`;
 
-        res.status(200).json({message: 'data fetched successfully', data: response, filepath: filepath})              
+        res.status(200).json({message: 'data fetched successfully', data: response, filepath})              
     } 
     catch (error) {
         console.log(error)

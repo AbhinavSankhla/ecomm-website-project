@@ -9,6 +9,7 @@ const deleteProduct = require('./products/deleteProduct')
 const updateProduct = require('./products/updateProduct')
 const trueProducts = require('./products/trueProducts')
 const changeProductStatus = require('./products/changeProductStatus')
+const readSingleProduct = require('./products/readSingleProduct')
 
 //category controllers
 const insertCategory = require('./category/insertCategory')
@@ -37,6 +38,7 @@ module.exports = {
     trueProducts,
     changeProductStatus,
     searchProduct,
+    readSingleProduct,
     insertCategory,
     readCategory,
     changeCatStatus,

@@ -134,7 +134,7 @@ const route = createBrowserRouter(
           <Route path="view-sub-category" element={<ViewSubCategory />}></Route>
         </Route>
         <Route path="product">
-          <Route path="product-details" element={<ProductDetails />}></Route>
+          <Route path="product-details/:_id?" element={<ProductDetails />}></Route>
           <Route path="product-items" element={<ProductItems />}></Route>
         </Route>
         <Route path="story">

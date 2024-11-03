@@ -1,12 +1,31 @@
 import React, { useEffect, useState } from 'react'
 import Breadcrumb from '../../common/Breadcrumb'
 import axios from 'axios';
+import imgprev from '../../assets/imgprev.png'
+import { useParams } from 'react-router-dom';
 
 export default function ProductDetails() {
+  const params = useParams();
+  const [data, setData] = useState({});
+
+  //fetch singel product data to read for update 
+  const fetchData = async (id) => {
+    const res = await axios.get(`http://localhost:5200/product/fetch_product_with_id/${id}`)
+    setData(res.data.data);
+    console.log(res.data.data);
+  }  
+
+  useEffect(() => {
+    if(params._id){
+      fetchData(params._id)
+    }
+  }, []); 
+  
 
   const [categoryData, setcategoryData] = useState([]);
   const [subCatData, setsubCatData] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [previewImg, setpreviewImg] = useState('');
 
   //FETCH CATEGORY FOR SELECTION BOX
   const handleFetchCategory = async () => {
@@ -54,7 +73,6 @@ export default function ProductDetails() {
     setSelectedCategory(categoryId); // Update selected category
   };
   
-  
   //INSERT PRODUCT
   const handleAddProduct = async (e) => {
     e.preventDefault()
@@ -62,23 +80,39 @@ export default function ProductDetails() {
     //FormData Constructor - makes data a formdata which pass inside of it.  
     const formData = new FormData(form);
 
-    //axios set content type automaticaly like - formdata, raw>json etc.
-    //formData - work as body   //{} - header etc. define here.
-    const response = await axios.post('http://localhost:5200/product/insert_product', formData, {});
-    console.log(response);
     try {
-
+      //axios set content type automaticaly like - formdata, raw>json etc.
+      //formData - work as body   //{} - header etc. define here.
+      const response = await axios.post('http://localhost:5200/product/insert_product', formData, {});
+      // console.log(response);
     } catch (error) {
       console.log(error);
       alert('something went wrong')
     }
   };
 
+  //Thumbail preview
   const handleThumbnailPrev = (e) =>{
-    //Js constructor to read files.
+    //FileRader- Js constructor to read files.
     const reader = new FileReader();
-    const files = e.target.files[0];
+    const file = e.target.files[0];
+    
+    if(file){
+      reader.readAsDataURL(file);
+    }
+    reader.onload = () =>{
+      setpreviewImg(reader.result)
+    }
   }
+
+  const handleFileChange =(e) =>{
+    const files = e.target.files;
+    if (files.length > 5) {
+      alert("You can only upload a maximum of 5 files.");
+      e.target.value = ''; // Clear the input if limit exceeded
+    }
+  };
+  
 
   return (
     <section className="w-full">
@@ -95,14 +129,15 @@ export default function ProductDetails() {
           <form onSubmit={handleAddProduct} className="border border-t-0 p-3 rounded-b-md border-slate-400">
             <div className="mb-5">
               <label
-                for="productInput"
+                htmlFor="productInput"
                 className="block mb-5 text-md font-medium text-gray-900"
               >
                 Product Name
               </label>
               <input
                 type="text"
-                name='name'
+                value={data.name}
+                name="name"
                 id="productInput"
                 className="text-[19px] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-3 "
                 placeholder="Product Name"
@@ -110,32 +145,32 @@ export default function ProductDetails() {
             </div>
             <div className="mb-5">
               <label
-                for="shortDescription"
+                htmlFor="shortDescription"
                 className="block mb-5 text-md font-medium text-gray-900"
               >
                 Product Short Description
               </label>
-              <textarea name='description' id="shortDescription" rows="3" className=" resize-none block p-2.5 w-full text-sm text-gray-900 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 " placeholder="Add Product Short Description....."></textarea>
+              <textarea value={data.description} name='description' id="shortDescription" rows="3" className=" resize-none block p-2.5 w-full text-sm text-gray-900 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 " placeholder="Add Product Short Description....."></textarea>
             </div>
 
             <div className="mb-5">
               <label
-                for="fullDescription"
+                htmlFor="fullDescription"
                 className="block mb-5 text-md font-medium text-gray-900"
               >
                 Product Full Description
               </label>
-              <textarea name='full_description' id="fullDescription" rows="3" className=" resize-none block p-2.5 w-full text-sm text-gray-900 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 " placeholder="Add Product Full Description....."></textarea>
+              <textarea value={data.full_description} name='full_description' id="fullDescription" rows="3" className=" resize-none block p-2.5 w-full text-sm text-gray-900 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 " placeholder="Add Product Full Description....."></textarea>
             </div>
             <div className="mb-5">
               <label
-                for="thumbnailInput"
+                htmlFor="thumbnailInput"
                 className="block mb-5 text-md font-medium text-gray-900"
               >
                 Product Thumbnail
               </label>
-              <div className="max-w-full">
-                <label for="thumbnailInput" className="sr-only">
+              <div className="w-1/2 flex items-center">
+                <label htmlFor="thumbnailInput" className="sr-only">
                   Choose file
                 </label>
                 <input
@@ -149,17 +184,20 @@ export default function ProductDetails() {
   file:py-3 file:px-4
   "
                 />
+                <div className='ps-5 w-[100px] gap-x-5 flex'>
+                  <img src={previewImg || data.thumbnail || imgprev} alt="" className='w-full'/>
+                </div>
               </div>
             </div>
             {/* <div className="mb-5">
                 <label
-                  for="base-input"
+                  htmlFor="base-input"
                   className="block mb-5 text-md font-medium text-gray-900"
                 >
                 Image Animation
                 </label>
                 <form className="max-w-full">
-                  <label for="file-input" className="sr-only">
+                  <label htmlFor="file-input" className="sr-only">
                     Choose file
                   </label>
                   <input
@@ -174,35 +212,45 @@ export default function ProductDetails() {
                   />
                 </form>
               </div> */}
-            <div className="mb-5">
+            <div className="mb-5">            
               <label
-                for="imgInput"
+                htmlFor="imgInput"
                 className="block mb-5 text-md font-medium text-gray-900"
               >
                 Product Images
               </label>
-              <div className="max-w-full">
-                <label for="imgInput" className="sr-only">
+              <div className="w-1/2 flex items-center">
+                <label htmlFor="imgInput" className="sr-only">
                   Choose file
                 </label>
                 <input
                   type="file"
                   name="images"
                   id="imgInput"
+                  onChange={handleFileChange}
                   className="block w-full border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none  
   file:bg-gray-50 file:border-0
   file:me-4
   file:py-3 file:px-4
   " multiple
                 />
+                <div className='ps-5 w-[80px] gap-x-5 flex'>
+                  <img src={imgprev} alt="image preview" />
+                  <img src={imgprev} alt="image preview" />
+                  <img src={imgprev} alt="image preview" />
+                  <img src={imgprev} alt="image preview" />
+                  <img src={imgprev} alt="image preview" />
+                </div>
               </div>
+             
             </div>
             <div className='mb-5'>
               <div className="grid sm:grid-cols-2 gap-8">
                 <div>
-                  <label className="block mb-5 text-md font-medium text-gray-900 " for="pdPrice">Price</label>
+                  <label className="block mb-5 text-md font-medium text-gray-900 " htmlFor="pdPrice">Price</label>
                   <input
                     type="text"
+                    value={data.price}
                     name='price'
                     id="pdPrice"
                     className="text-[19px] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-3 "
@@ -210,9 +258,10 @@ export default function ProductDetails() {
                   />
                 </div>
                 <div>
-                  <label className="block mb-5 text-md font-medium text-gray-900" for="pdMRP">MRP</label>
+                  <label className="block mb-5 text-md font-medium text-gray-900" htmlFor="pdMRP">MRP</label>
                   <input
                     type="text"
+                    value={data.mrp}
                     name='mrp'
                     id="pdMRP"
                     className="text-[19px] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-3 "
@@ -226,9 +275,10 @@ export default function ProductDetails() {
 
             <div className="grid sm:grid-cols-2 gap-8 mb-5">
               <div>
-                <label className="block mb-5 text-md font-medium text-gray-900" for="pdDiscount">Discount</label>
+                <label className="block mb-5 text-md font-medium text-gray-900" htmlFor="pdDiscount">Discount</label>
                 <input
                   type="text"
+                  value={data.discount}
                   name='discount'
                   id="pdDiscount"
                   className="text-[19px] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-3 "
@@ -236,9 +286,10 @@ export default function ProductDetails() {
                 />
               </div>
               <div>
-                <label className="block mb-5 text-md font-medium text-gray-900" for="PdStock">Stock</label>
+                <label className="block mb-5 text-md font-medium text-gray-900" htmlFor="PdStock">Stock</label>
                 <input
                   type="text"
+                  value={data.stock}
                   name='stock'
                   id="PdStock"
                   className="text-[19px] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-3 "
@@ -247,9 +298,10 @@ export default function ProductDetails() {
               </div>
 
               <div>
-                <label className="block mb-5 text-md font-medium text-gray-900" for="pdOccasion">Occasion</label>
+                <label className="block mb-5 text-md font-medium text-gray-900" htmlFor="pdOccasion">Occasion</label>
                 <input
                   type="text"
+                  value={data.occasion}
                   name='occasion'
                   id="pdOccasion"
                   className="text-[19px] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-3 "
@@ -257,9 +309,10 @@ export default function ProductDetails() {
                 />
               </div>
               <div>
-                <label className="block mb-5 text-md font-medium text-gray-900" for="pdFit">Fit</label>
+                <label className="block mb-5 text-md font-medium text-gray-900" htmlFor="pdFit">Fit</label>
                 <input
                   type="text"
+                  value={data.fit}
                   name='fit'
                   id="pdFit"
                   className="text-[19px] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-3 "
@@ -268,9 +321,10 @@ export default function ProductDetails() {
               </div>
 
               <div>
-                <label className="block mb-5 text-md font-medium text-gray-900" for="pdFabric">Fabric</label>
+                <label className="block mb-5 text-md font-medium text-gray-900" htmlFor="pdFabric">Fabric</label>
                 <input
                   type="text"
+                  value={data.fabric}
                   name='fabric'
                   id="pdFabric"
                   className="text-[19px] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-3 "
@@ -279,9 +333,10 @@ export default function ProductDetails() {
               </div>
 
               <div>
-                <label className="block mb-5 text-md font-medium text-gray-900" for="pdColor">color</label>
+                <label className="block mb-5 text-md font-medium text-gray-900" htmlFor="pdColor">color</label>
                 <input
                   type="text"
+                  value={data.color}
                   name='color'
                   id="pdColor"
                   className="text-[19px] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-3 "
@@ -292,7 +347,7 @@ export default function ProductDetails() {
 
             <div className="mb-5">
               <label
-                for="CatSelectBox"
+                htmlFor="CatSelectBox"
                 className="block mb-5 text-md font-medium text-gray-900"
               >
                 Select Category
@@ -316,7 +371,7 @@ export default function ProductDetails() {
             </div>
             <div className="mb-5">
               <label
-                for="subCatSelectBox"
+                htmlFor="subCatSelectBox"
                 className="block mb-5 text-md font-medium text-gray-900"
               >
                 Select Sub Category
@@ -340,7 +395,7 @@ export default function ProductDetails() {
             <div className='mb-5'>
               <div className="grid sm:grid-cols-2 gap-8">
                 <div>
-                  <label className="block mb-5 text-md font-medium text-gray-900" for="pdSizeSelectBox">Size</label>
+                  <label className="block mb-5 text-md font-medium text-gray-900" htmlFor="pdSizeSelectBox">Size</label>
                   <select
                     id="pdSizeSelectBox"
                     name='size'
@@ -356,9 +411,10 @@ export default function ProductDetails() {
                   </select>
                 </div>
                 <div>
-                  <label className="block mb-5 text-md font-medium text-gray-900" for="pdWeight">Weight</label>
+                  <label className="block mb-5 text-md font-medium text-gray-900" htmlFor="pdWeight">Weight</label>
                   <input
                     type="text"
+                    value={data.weight}
                     name='weight'
                     id="pdWeight"
                     className="text-[19px] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-3 "
@@ -387,6 +443,7 @@ export default function ProductDetails() {
                   id="link-radio"
                   name='status'
                   type="radio"
+                  checked={(data.status) ? true : false}
                   value="true"
                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 "
                 ></input>
@@ -395,6 +452,7 @@ export default function ProductDetails() {
                   id="link-radio"
                   name='status'
                   type="radio"
+                  checked={(data.status) ? false : true}
                   value="false"
                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 "
                 ></input>
