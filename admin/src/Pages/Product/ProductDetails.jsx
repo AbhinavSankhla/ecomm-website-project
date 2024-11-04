@@ -7,12 +7,23 @@ import { useParams } from 'react-router-dom';
 export default function ProductDetails() {
   const params = useParams();
   const [data, setData] = useState({});
+  const [selectedSizes, setSelectedSizes] = useState(data.size || []); // Initialize with previously added sizes
+  // const [selectedCategory, setSelectedCategory] = useState('');
+  // const [selectedSubcategory, setSelectedSubcategory] = useState('');
 
   //fetch singel product data to read for update 
   const fetchData = async (id) => {
     const res = await axios.get(`http://localhost:5200/product/fetch_product_with_id/${id}`)
-    setData(res.data.data);
-    console.log(res.data.data);
+    const oldData = res.data.data
+    oldData.status = oldData.status.toString(); 
+
+    setData(oldData);
+    // console.log(res.data.data);
+
+    // Set selected sizes if size data exists in the fetched product data
+    if (res.data.data.size) {
+      setSelectedSizes(res.data.data.size);
+    }
   }  
 
   useEffect(() => {
@@ -20,12 +31,20 @@ export default function ProductDetails() {
       fetchData(params._id)
     }
   }, []); 
+
+  useEffect(() => {
+    if (data.size) {
+      setSelectedSizes(data.size); // Ensure data.size is used to set selectedSizes
+    }
+  }, [data]); // Re-run whenever data changes
   
 
   const [categoryData, setcategoryData] = useState([]);
   const [subCatData, setsubCatData] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
-  const [previewImg, setpreviewImg] = useState('');
+  const [previewThumbnail, setpreviewThumbnail] = useState('');
+  const [previewImg, setpreviewImg] = useState([]); // Array to store multiple preview URLs
+   
 
   //FETCH CATEGORY FOR SELECTION BOX
   const handleFetchCategory = async () => {
@@ -101,18 +120,54 @@ export default function ProductDetails() {
       reader.readAsDataURL(file);
     }
     reader.onload = () =>{
-      setpreviewImg(reader.result)
+      setpreviewThumbnail(reader.result)
     }
   }
 
-  const handleFileChange =(e) =>{
-    const files = e.target.files;
-    if (files.length > 5) {
-      alert("You can only upload a maximum of 5 files.");
-      e.target.value = ''; // Clear the input if limit exceeded
+  const handleImgPreview = (e) =>{
+    const files = Array.from(e.target.files);
+    // Check if more than 5 files are selected
+    if (files.length > 4) {
+      alert("You can only select up to 4 images.");
+      e.target.value = ""; // Clear the file input if the limit is exceeded
+      return;
     }
+
+    const newPreviews = [];
+
+    files.forEach((file) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+
+      reader.onload = () => {
+        newPreviews.push(reader.result); // Add preview URL to the array
+        if (newPreviews.length === files.length) {
+          setpreviewImg(newPreviews); // Update state when all files are processed
+        }
+      };
+    });
+  };
+
+  //update size
+  const handleCheckboxChange = (size) => {
+    setSelectedSizes((prevSizes) => {
+      if (prevSizes.includes(size.toLowerCase())) {
+        // Remove size if it's already selected
+        return prevSizes.filter((s) => s !== size.toLowerCase());
+      } else {
+        // Add size if it's not selected
+        return [...prevSizes, size.toLowerCase()];
+      }
+    });
   };
   
+  //update status
+  const handleDataUpdate = (e)=>{
+    const olddata = {...data};
+    olddata[e.target.name] = e.target.value;
+
+    setData(olddata);
+  }
 
   return (
     <section className="w-full">
@@ -185,7 +240,7 @@ export default function ProductDetails() {
   "
                 />
                 <div className='ps-5 w-[100px] gap-x-5 flex'>
-                  <img src={previewImg || data.thumbnail || imgprev} alt="" className='w-full'/>
+                  <img src={previewThumbnail || data.thumbnail || imgprev} alt="" className='w-full'/>
                 </div>
               </div>
             </div>
@@ -217,7 +272,7 @@ export default function ProductDetails() {
                 htmlFor="imgInput"
                 className="block mb-5 text-md font-medium text-gray-900"
               >
-                Product Images
+                Product Images (Select 4 Image)
               </label>
               <div className="w-1/2 flex items-center">
                 <label htmlFor="imgInput" className="sr-only">
@@ -227,19 +282,22 @@ export default function ProductDetails() {
                   type="file"
                   name="images"
                   id="imgInput"
-                  onChange={handleFileChange}
+                  onChange={handleImgPreview}
                   className="block w-full border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none  
   file:bg-gray-50 file:border-0
   file:me-4
   file:py-3 file:px-4
   " multiple
                 />
-                <div className='ps-5 w-[80px] gap-x-5 flex'>
+                <div className='ps-5 w-[100px] gap-x-5 flex'>
+                  {/* <img src={previewImg|| imgprev} alt="image preview" />
                   <img src={imgprev} alt="image preview" />
                   <img src={imgprev} alt="image preview" />
                   <img src={imgprev} alt="image preview" />
-                  <img src={imgprev} alt="image preview" />
-                  <img src={imgprev} alt="image preview" />
+                  <img src={imgprev} alt="image preview" /> */}
+                   {previewImg.map((imgSrc, index) => (
+          <img key={index} src={imgSrc || data.images} alt={`Preview ${index + 1}`} width="100" />
+                    ))}
                 </div>
               </div>
              
@@ -396,19 +454,22 @@ export default function ProductDetails() {
               <div className="grid sm:grid-cols-2 gap-8">
                 <div>
                   <label className="block mb-5 text-md font-medium text-gray-900" htmlFor="pdSizeSelectBox">Size</label>
-                  <select
-                    id="pdSizeSelectBox"
-                    name='size'
-                    className=" border-2 border-gray-300 text-gray-900 mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
-                    multiple
-                  >
-                    <option selected>--Select Size--</option>
-                    <option value="s">S</option>
-                    <option value="m">M</option>
-                    <option value="l">L</option>
-                    <option value="xl">XL</option>
-                    <option value="xxl">XXL</option>
-                  </select>
+                  <div className="flex gap-6 ps-1">
+                    {["S", "M", "L", "XL", "XXL"].map((size) => (
+                      <label key={size} className="flex items-center space-x-2">
+                        <input
+                          type="checkbox"
+                          name="size"
+                          value={size.toLowerCase()} // Convert to lowercase to match values in the original <select>
+                          checked={selectedSizes.includes(size.toLowerCase())} //Ensure lowercase match if needed
+                          onChange={() => handleCheckboxChange(size)}
+                          className="form-checkbox h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                        />
+                        <span className="text-gray-900 text-sm">{size}</span>
+                      </label>
+                    ))}
+                  </div>
+
                 </div>
                 <div>
                   <label className="block mb-5 text-md font-medium text-gray-900" htmlFor="pdWeight">Weight</label>
@@ -443,8 +504,9 @@ export default function ProductDetails() {
                   id="link-radio"
                   name='status'
                   type="radio"
-                  checked={(data.status) ? true : false}
-                  value="true"
+                  onClick={handleDataUpdate}
+                  checked={data.status == 'true'}
+                  value={true}
                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 "
                 ></input>
                 Active
@@ -452,8 +514,9 @@ export default function ProductDetails() {
                   id="link-radio"
                   name='status'
                   type="radio"
-                  checked={(data.status) ? false : true}
-                  value="false"
+                  onClick={handleDataUpdate}
+                  checked={data.status == 'false'}
+                  value={false}
                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 "
                 ></input>
                 Deactive
