@@ -2,18 +2,23 @@ import React, { useEffect, useState } from 'react'
 import Breadcrumb from '../../common/Breadcrumb'
 import axios from 'axios';
 import imgprev from '../../assets/imgprev.png'
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+
 
 export default function ProductDetails() {
+
+  const nav = useNavigate();
+
   const params = useParams();
   const [data, setData] = useState({});
   const [selectedSizes, setSelectedSizes] = useState(data.size || []); // Initialize with previously added sizes
-  // const [selectedCategory, setSelectedCategory] = useState('');
-  // const [selectedSubcategory, setSelectedSubcategory] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedSubcategory, setSelectedSubcategory] = useState('');
 
-  //fetch singel product data to read for update 
+  //fetch single product data to read for update 
   const fetchData = async (id) => {
     const res = await axios.get(`http://localhost:5200/product/fetch_product_with_id/${id}`)
+    
     const oldData = res.data.data
     oldData.status = oldData.status.toString(); 
 
@@ -24,24 +29,70 @@ export default function ProductDetails() {
     if (res.data.data.size) {
       setSelectedSizes(res.data.data.size);
     }
-  }  
+  } 
 
   useEffect(() => {
     if(params._id){
       fetchData(params._id)
     }
-  }, []); 
+  }, []);
+
+  // useEffect(() => {
+  //   if (params._id) {
+  //     // If _id exists in params, fetch the product data
+  //     fetchData(params._id);
+  //   } else {
+  //     // If _id is missing, clear the data
+  //     setData({});
+  //     setSelectedSizes([]);
+  //     setSelectedCategory('');
+  //     setSelectedSubcategory('');
+  //     // Optionally, you can navigate back to a different page if required
+  //     // navigate('/product'); // Uncomment if you want to redirect
+  //   }
+  // }, [params._id]);
+  
+  // useEffect(() => {
+  //   if (!params) {
+  //     // Clear the product data when the URL doesn't contain productId
+  //     setData(null);
+  //     // setpreviewImg([]); // Clear the preview images as well
+  //     // setProductThumbnail(null); // Clear the thumbnail
+
+  //     // Optional: navigate back to the main product list or other page
+  //     // navigate('/product'); // Or wherever you want to redirect
+  //   }
+  // }, [params]);
+
 
   useEffect(() => {
     if (data.size) {
       setSelectedSizes(data.size); // Ensure data.size is used to set selectedSizes
     }
   }, [data]); // Re-run whenever data changes
-  
 
+  // Set category and subcategory when data is loaded for updating a product
+  useEffect(() => {
+    if (data && data.category) {
+      setSelectedCategory(data.category);
+    }
+    if (data && data.subcategory) {
+      setSelectedSubcategory(data.subcategory);
+    }
+  }, [data]);
+
+  
+  //update status
+  const handleDataUpdate = (e)=>{
+    const olddata = {...data};
+    olddata[e.target.name] = e.target.value;
+
+    setData(olddata);
+  }
+  
   const [categoryData, setcategoryData] = useState([]);
   const [subCatData, setsubCatData] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState('');
+  // const [selectedCategory, setSelectedCategory] = useState('');
   const [previewThumbnail, setpreviewThumbnail] = useState('');
   const [previewImg, setpreviewImg] = useState([]); // Array to store multiple preview URLs
    
@@ -54,6 +105,7 @@ export default function ProductDetails() {
       if (response.status !== 200) return ("something went wrong");
 
       // const data = response.data.data;
+      // console.log(response.data.data)
       setcategoryData(response.data.data)
     }
     catch (error) {
@@ -62,11 +114,18 @@ export default function ProductDetails() {
     }
   };
 
+  // Load categories when component mounts
+  useEffect(() => {
+    handleFetchCategory();
+  }, []);
+
+
   // Fetch subcategories based on the selected category
   const handleFetchSubCat = async (categoryId) => {
     try {
-      const response = await axios.get(`http://localhost:5200/subcategory/true_subcategory?category=${categoryId}`);
+      const response = await axios.get('http://localhost:5200/subcategory/true_subcategory');
       if (response.status !== 200) return 'Something went wrong';
+      console.log(response.data.data)
       setsubCatData(response.data.data);
     } catch (error) {
       console.log(error);
@@ -74,23 +133,9 @@ export default function ProductDetails() {
     }
   };
 
-  // Load categories when component mounts
   useEffect(() => {
-    handleFetchCategory();
+    handleFetchSubCat();
   }, []);
-
-   // Update subcategories when selected category changes
-   useEffect(() => {
-    if (selectedCategory) {
-      handleFetchSubCat(selectedCategory);
-    }
-  }, [selectedCategory]);
-
-  //Parent Category select box event listner
-  const handleCategoryChange = (event) => {
-    const categoryId = event.target.value;
-    setSelectedCategory(categoryId); // Update selected category
-  };
   
   //INSERT PRODUCT
   const handleAddProduct = async (e) => {
@@ -104,6 +149,8 @@ export default function ProductDetails() {
       //formData - work as body   //{} - header etc. define here.
       const response = await axios.post('http://localhost:5200/product/insert_product', formData, {});
       // console.log(response);
+      alert('Data inserted successfully')
+      nav('/product/product-items')
     } catch (error) {
       console.log(error);
       alert('something went wrong')
@@ -124,31 +171,47 @@ export default function ProductDetails() {
     }
   }
 
-  const handleImgPreview = (e) =>{
-    const files = Array.from(e.target.files);
-    // Check if more than 5 files are selected
-    if (files.length > 4) {
-      alert("You can only select up to 4 images.");
-      e.target.value = ""; // Clear the file input if the limit is exceeded
-      return;
-    }
+// Initialize previewImg with existing images when loading the update page
+useEffect(() => {
+  console.log("Existing images:", data.images);
+  if (data.images && data.images.length > 0) {
+    const baseURL = "http://localhost:5200/uploads/";
+    const existingImages = data.images[0]?.split(',').map(img => 
+      img.startsWith("http") ? img : `${baseURL}${img}`
+    ); // Split the string by commas to create an array //It then maps over each item, checking if it starts with http. If it doesn’t, it prepends the base URL (http://localhost:5200/uploads/) to make it a complete URL.
+    setpreviewImg(existingImages); // Set preview images to the existing images
+  }
+}, [data.images]);
 
-    const newPreviews = [];
+// Handle preview of newly selected images
+const handleImgPreview = (e) => {
+  const files = Array.from(e.target.files);
+  // Check if more than 4 files are selected
+  if (files.length > 4) {
+    alert("You can only select up to 4 images.");
+    e.target.value = ""; // Clear the file input if the limit is exceeded
+    return;
+  }
 
-    files.forEach((file) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
+  const newPreviews = [];
 
-      reader.onload = () => {
-        newPreviews.push(reader.result); // Add preview URL to the array
-        if (newPreviews.length === files.length) {
-          setpreviewImg(newPreviews); // Update state when all files are processed
-        }
-      };
-    });
+  files.forEach((file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onload = () => {
+      newPreviews.push(reader.result); // Add preview URL to the array
+      // Check if all images have been processed
+      if (newPreviews.length === files.length) {
+        // Append new images without overwriting existing ones
+        setpreviewImg((prevImages) => [...prevImages, ...newPreviews]);
+      }
+    };
+  });
   };
 
-  //update size
+
+  //update product size
   const handleCheckboxChange = (size) => {
     setSelectedSizes((prevSizes) => {
       if (prevSizes.includes(size.toLowerCase())) {
@@ -160,14 +223,6 @@ export default function ProductDetails() {
       }
     });
   };
-  
-  //update status
-  const handleDataUpdate = (e)=>{
-    const olddata = {...data};
-    olddata[e.target.name] = e.target.value;
-
-    setData(olddata);
-  }
 
   return (
     <section className="w-full">
@@ -182,6 +237,57 @@ export default function ProductDetails() {
             Product Details
           </h3>
           <form onSubmit={handleAddProduct} className="border border-t-0 p-3 rounded-b-md border-slate-400">
+            <div className="mb-5">
+              <label
+                htmlFor="CatSelectBox"
+                className="block mb-5 text-md font-medium text-gray-900"
+              >
+                Select Category
+              </label>
+
+              <select
+                id="CatSelectBox"
+                name='category'
+                value={selectedCategory}
+                className=" border-2 border-gray-300 text-gray-900 mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
+                // onChange={handleCategoryChange}
+                onChange={(e) => {
+                  setSelectedCategory(e.target.value);
+                  setSelectedSubcategory(''); // Clear subcategory when changing category
+                }}
+              >
+                <option value="">--Select Parent Category--</option>
+                {categoryData.map((category) => (
+                  <option key={category._id} value={category._id}>
+                    {category.categoryName}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="mb-5">
+              <label
+                htmlFor="subCatSelectBox"
+                className="block mb-5 text-md font-medium text-gray-900"
+              >
+                Select Sub Category
+              </label>
+
+              <select
+                id="subCatSelectBox"
+                name='subcategory'
+                value={selectedSubcategory}
+                onChange={(e) => setSelectedSubcategory(e.target.value)}
+                className=" border-2 border-gray-300 text-gray-900 mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
+              >
+                <option selected>--Select Sub Category--</option>
+                  {subCatData.filter((sub) => sub.category === selectedCategory)
+                    .map((subcategory) => (
+                      <option key={subcategory._id} value={subcategory._id}>
+                        {subcategory.subCatName}
+                      </option>
+                    ))}              
+              </select>
+            </div>
             <div className="mb-5">
               <label
                 htmlFor="productInput"
@@ -244,29 +350,7 @@ export default function ProductDetails() {
                 </div>
               </div>
             </div>
-            {/* <div className="mb-5">
-                <label
-                  htmlFor="base-input"
-                  className="block mb-5 text-md font-medium text-gray-900"
-                >
-                Image Animation
-                </label>
-                <form className="max-w-full">
-                  <label htmlFor="file-input" className="sr-only">
-                    Choose file
-                  </label>
-                  <input
-                    type="file"
-                    name="animationImg-input"
-                    id="file-input"
-                    className="block w-full border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none  
-  file:bg-gray-50 file:border-0
-  file:me-4
-  file:py-3 file:px-4
-  "
-                  />
-                </form>
-              </div> */}
+           
             <div className="mb-5">            
               <label
                 htmlFor="imgInput"
@@ -290,17 +374,16 @@ export default function ProductDetails() {
   " multiple
                 />
                 <div className='ps-5 w-[100px] gap-x-5 flex'>
-                  {/* <img src={previewImg|| imgprev} alt="image preview" />
-                  <img src={imgprev} alt="image preview" />
-                  <img src={imgprev} alt="image preview" />
-                  <img src={imgprev} alt="image preview" />
-                  <img src={imgprev} alt="image preview" /> */}
-                   {previewImg.map((imgSrc, index) => (
-          <img key={index} src={imgSrc || data.images} alt={`Preview ${index + 1}`} width="100" />
+
+                  <div className="ps-5 w-[100px] gap-x-5 flex">
+                    {previewImg.map((imgSrc, index) => (
+                      <img key={index} src={imgSrc} alt={`Preview ${index + 1}`} width="100" />
                     ))}
+                  </div>
+
                 </div>
               </div>
-             
+
             </div>
             <div className='mb-5'>
               <div className="grid sm:grid-cols-2 gap-8">
@@ -402,56 +485,19 @@ export default function ProductDetails() {
                 />
               </div>
             </div>
-
-            <div className="mb-5">
-              <label
-                htmlFor="CatSelectBox"
-                className="block mb-5 text-md font-medium text-gray-900"
-              >
-                Select Category
-              </label>
-
-              <select
-                id="CatSelectBox"
-                name='category'
-                className=" border-2 border-gray-300 text-gray-900 mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
-                onChange={handleCategoryChange}
-              >
-                <option selected>--Select Parent Category--</option>
-                  {
-                    categoryData?.map((category, i) => {
-                      return(
-                        <option key={i} value={category._id}>{category.categoryName}</option>
-                      ) 
-                    })
-                  }
-              </select>
-            </div>
-            <div className="mb-5">
-              <label
-                htmlFor="subCatSelectBox"
-                className="block mb-5 text-md font-medium text-gray-900"
-              >
-                Select Sub Category
-              </label>
-
-              <select
-                id="subCatSelectBox"
-                name='subcategory'
-                className=" border-2 border-gray-300 text-gray-900 mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
-              >
-                <option selected>--Select Sub Category--</option>
-                {
-                    subCatData?.map((subCat, i) => {
-                      return(
-                        <option key={i} value={subCat._id}>{subCat.subCatName}</option>
-                      ) 
-                    })
-                  }
-              </select>
-            </div>
             <div className='mb-5'>
-              <div className="grid sm:grid-cols-2 gap-8">
+              <div className="grid sm:grid-cols-2 gap-8 items-center">
+              <div>
+                  <label className="block mb-5 text-md font-medium text-gray-900" htmlFor="pdWeight">Weight</label>
+                  <input
+                    type="text"
+                    value={data.weight}
+                    name='weight'
+                    id="pdWeight"
+                    className="text-[19px] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-3 "
+                    placeholder="Product Price"
+                  />
+                </div>
                 <div>
                   <label className="block mb-5 text-md font-medium text-gray-900" htmlFor="pdSizeSelectBox">Size</label>
                   <div className="flex gap-6 ps-1">
@@ -471,17 +517,7 @@ export default function ProductDetails() {
                   </div>
 
                 </div>
-                <div>
-                  <label className="block mb-5 text-md font-medium text-gray-900" htmlFor="pdWeight">Weight</label>
-                  <input
-                    type="text"
-                    value={data.weight}
-                    name='weight'
-                    id="pdWeight"
-                    className="text-[19px] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-3 "
-                    placeholder="Product Price"
-                  />
-                </div>
+               
                 {/* <div>
                   <label className="block mb-5 text-md font-medium text-gray-900">Color</label>
                   <select

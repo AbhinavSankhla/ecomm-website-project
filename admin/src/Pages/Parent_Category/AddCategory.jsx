@@ -1,9 +1,11 @@
 import React from "react";
 import Breadcrumb from "../../common/Breadcrumb";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function AddCategory() {
 
+  const nav = useNavigate();
   const handleAddCategory = async(e) =>{
     e.preventDefault()
     const form = e.target;
@@ -18,7 +20,9 @@ export default function AddCategory() {
       categoryName,
       status
       });
-      console.log(response);
+      // console.log(response);
+      alert('Data inserted successfully')
+      nav('/parent-category/view-category')
       
     } catch (error) {
       console.log(error);
