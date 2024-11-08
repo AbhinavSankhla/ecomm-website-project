@@ -126,11 +126,12 @@ const route = createBrowserRouter(
           <Route path="view-size" element={<ViewSize />}></Route>
         </Route>
         <Route path="parent-category">
-          <Route path="add-category" element={<AddCategory />}></Route>
+          {/* ? - optional param ?(with ? - compulsary param) */}
+          <Route path="add-category/:_id?" element={<AddCategory />}></Route>
           <Route path="view-category" element={<ViewCategory />}></Route>
         </Route>
         <Route path="sub-category">
-          <Route path="add-sub-category" element={<AddSubCategory />}></Route>
+          <Route path="add-sub-category/:_id?" element={<AddSubCategory />}></Route>
           <Route path="view-sub-category" element={<ViewSubCategory />}></Route>
         </Route>
         <Route path="product">

@@ -6,6 +6,8 @@ const readSingleProduct = async(req,res) => {
 
         response.thumbnail = `${req.protocol}://${req.get('host')}/uploads/${response.thumbnail}`;
 
+        response.images = `${req.protocol}://${req.get('host')}/uploads/${response.images}`;
+
         if (!response) return res.status(404).json({message: 'data not found'});
         res.status(200).json({message :'data fetched successfully', data: response})
 

@@ -1,13 +1,58 @@
 import React, { useEffect, useState } from "react";
 import Breadcrumb from "../../common/Breadcrumb";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function AddSubCategory() {
 
   const nav = useNavigate();
+  const params = useParams();
+
   const [categoryData, setcategoryData] = useState([]);
   const [data, setData] = useState({});
+  const [selectedCategory, setSelectedCategory] = useState('');
+
+   //fetch single subcat data to read for update 
+   const fetchData = async (id) => {
+    const res = await axios.get(`http://localhost:5200/subcategory/fetch_subcategory_with_id/${id}`)
+    
+    const oldData = res.data.data
+    oldData.status = oldData.status.toString(); 
+
+    setData(oldData);
+    // console.log(res.data.data);
+  }
+
+  //RESET INPUT FIELD WHEN URL DOES'NT CONTAIN PARAMS
+  useEffect(() => {
+    if (params._id) {
+      // If _id exists in params, fetch the product data
+      fetchData(params._id);
+    } else {
+      setSelectedCategory('');
+      setData({
+        subCatName: '',
+        status: ''
+      });
+    }
+  }, [params._id]);
+
+
+
+  // Set category and subcategory when data is loaded for updating a product
+  useEffect(() => {
+    if (data && data.category) {
+      setSelectedCategory(data.category);
+    }
+  }, [data]);
+
+  //update data
+  const handleDataUpdate = (e)=>{
+    const olddata = {...data};
+    olddata[e.target.name] = e.target.value;
+    setData(olddata);
+  }
+
  
   //for fetch parent category in selection.
   const handleFetchCategory = async() => {
@@ -27,22 +72,39 @@ export default function AddSubCategory() {
   
   useEffect(()=>{handleFetchCategory()},[]);
 
-  //for add sub-category
-  const handlleAddSubCat = async(e) =>{
-    e.preventDefault();
-    try {
-      const response = await axios.post('http://localhost:5200/subcategory/insert_subcategory', data)
+  // for update & add sub-category
+const handlleAddSubCat = async(e) => {
+  e.preventDefault();
 
-      if(response.status !== 200) return ("something went wrong");
-      alert('data inserted successfully!')
-      nav('/sub-category/view-sub-category')
-    } 
-    catch (error) {
-      console.log(error);
-      alert('something went wrong')
-      
-    }
+  // Merge selectedCategory into the data object before submitting
+  const submissionData = { ...data, category: selectedCategory };
+
+  if (params._id) {
+      try {
+          const response = await axios.put(
+              `http://localhost:5200/subcategory/update_subcategory/${params._id}`,
+              submissionData
+          );
+          nav('/sub-category/view-sub-category');
+      } catch (error) {
+          console.log(error);
+          alert('something went wrong');
+      }
+  } else {
+      try {
+          const response = await axios.post(
+              'http://localhost:5200/subcategory/insert_subcategory',
+              submissionData
+          );
+          if (response.status !== 200) return ("something went wrong");
+          alert('data inserted successfully!');
+          nav('/sub-category/view-sub-category');
+      } catch (error) {
+          console.log(error);
+          alert('something went wrong');
+      }
   }
+};
 
   return (
     <section className="w-full">
@@ -66,8 +128,9 @@ export default function AddSubCategory() {
                   </label>
                   <input
                     type="text"
+                    onChange={handleDataUpdate}
                     name="subCatName"
-                    onChange={(e) => {setData({...data, subCatName: e.target.value})}}
+                    value={data.subCatName}
                     id="base-input"
                     className="text-[19px] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-3 "
                     placeholder="Category Name"
@@ -83,81 +146,46 @@ export default function AddSubCategory() {
                   <select
                     id="default"
                     name="category"
-                    onChange={(e) => {setData({...data, category: e.target.value})}}
+                    value={selectedCategory}
+                    onChange={(e) => {setSelectedCategory(e.target.value)}}
                     className="border-2 borde-gray-300 text-gray-900 mb-6 text-sm rounded-lg  focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
                   >
-                    <option selected>--Select Category--</option>
+                    <option value="">--Select Category--</option>
                     {
                       categoryData?.map((category, i) => {
                         return(
-                          <option key={i} value={category._id}>{category.categoryName}</option>
+                          <option key={category._id} value={category._id}>{category.categoryName}</option>
                         ) 
                       })
                     }
                   </select>
                 </div>
-                {/* <div className="mb-5">
-                  <label
-                    for="base-input"
-                    className="block mb-5 text-md font-medium text-gray-900"
-                  >
-                    Category Image
-                  </label>
-                  <form className="max-w-full">
-                    <label for="file-input" className="sr-only">
-                      Choose file
-                    </label>
-                    <input
-                      type="file"
-                      name="subCatFile-input"
-                      id="file-input"
-                      className="block w-full border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none  
-    file:bg-gray-50 file:border-0
-    file:me-4
-    file:py-3 file:px-4
-    "
-                      multiple
-                    />
-                  </form>
-                </div>
-                <div className="mb-5">
-                  <label
-                    for="base-input"
-                    className="block mb-5 text-md font-medium text-gray-900"
-                  >
-                    Category Description
-                  </label>
-                  <textarea
-                    id="message"
-                    name="subcatDescription"
-                    rows="3"
-                    className=" resize-none block p-2.5 w-full text-sm text-gray-900 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 "
-                    placeholder="Add Product Description....."
-                  ></textarea>
-                </div> */}
+                
                 <div className="pe-5 ps-1">
-                  <span className="flex items-center gap-3">
-                    Status :
-                    <input
-                      id="link-radio"
-                      name="status"
-                      type="radio"
-                      value="true"
-                      onChange={(e) => {setData({...data, status: e.target.value})}}
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 "
-                    ></input>
-                    Active
-                    <input
-                      id="link-radio"
-                      name="status"
-                      type="radio"
-                      onChange={(e) => {setData({...data, status: e.target.value})}}
-                      value="false"
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 "
-                    ></input>
-                    Deactive
-                  </span>
-                </div>
+              <span className="flex items-center gap-3">
+                Status :
+                <input
+                  id="link-radio"
+                  name='status'
+                  type="radio"
+                  onClick={handleDataUpdate}
+                  checked={data.status == 'true'}
+                  value={true}
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 "
+                ></input>
+                Active
+                <input
+                  id="link-radio"
+                  name='status'
+                  type="radio"
+                  onClick={handleDataUpdate}
+                  checked={data.status == 'false'}
+                  value={false}
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 "
+                ></input>
+                Deactive
+              </span>
+            </div>
                 <button
                   type="submit"
                   className="focus:outline-none my-10 text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900"

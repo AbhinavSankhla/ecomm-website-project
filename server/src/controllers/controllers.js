@@ -17,6 +17,8 @@ const readCategory = require('./category/readCategories')
 const deleteCategory = require('./category/deleteCategory')
 const changeCatStatus = require('./category/changeCatStatus')
 const trueCategory = require('./category/trueCategory')
+const readSingleCategory = require('./category/readSingleCategory')
+const updateCategory = require('./category/updateCategory')
 const searchCategory = require('./category/searchCategory')
 
 //subCategory controllerse
@@ -27,6 +29,8 @@ const changeSubCatStatus = require('./subCategory/changeSubCatStatus')
 const trueSubCat = require('./subCategory/trueSubCat')
 const searchSubCategory = require('./subCategory/searchSubCategory')
 const searchProduct = require('./products/searchProduct')
+const readSingleSubCategory = require('./subCategory/readSingleSubCat')
+const updateSubCategory = require('./subCategory/updateSubCategory')
 
 module.exports = {
     registerAdmin,
@@ -45,10 +49,14 @@ module.exports = {
     trueCategory,
     deleteCategory,
     searchCategory,
+    updateCategory,
+    readSingleCategory,
     insertSubCategory,
     readSubCategory,
     deleteSubCategory,
     changeSubCatStatus,
     trueSubCat,
-    searchSubCategory
+    searchSubCategory,
+    readSingleSubCategory,
+    updateSubCategory
 }

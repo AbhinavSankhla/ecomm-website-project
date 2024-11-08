@@ -4,7 +4,6 @@ import axios from 'axios';
 import imgprev from '../../assets/imgprev.png'
 import { useNavigate, useParams } from 'react-router-dom';
 
-
 export default function ProductDetails() {
 
   const nav = useNavigate();
@@ -29,47 +28,44 @@ export default function ProductDetails() {
     if (res.data.data.size) {
       setSelectedSizes(res.data.data.size);
     }
-  } 
+  }
 
+  //RESET INPUT FIELD WHEN URL DOES'NT CONTAIN PARAMS
   useEffect(() => {
-    if(params._id){
-      fetchData(params._id)
+    if (params._id) {
+      // If _id exists in params, fetch the product data
+      fetchData(params._id);
+    } else {
+      // If _id is missing, clear the data
+      setpreviewImg([]); // Clear the preview images as well
+      setpreviewThumbnail(''); // Clear the thumbnail
+      setSelectedSizes([]);
+      setSelectedCategory('');
+      setSelectedSubcategory('');
+      setData({
+        name: '',
+        description: '',
+        full_description: '',
+        price: '',
+        mrp: '',
+        stock: '',
+        discount: '',
+        occasion: '',
+        fit: '',
+        fabric: '',
+        color: '',
+        weight: '',
+        status: '',
+        // add other fields as needed
+      });
     }
-  }, []);
-
-  // useEffect(() => {
-  //   if (params._id) {
-  //     // If _id exists in params, fetch the product data
-  //     fetchData(params._id);
-  //   } else {
-  //     // If _id is missing, clear the data
-  //     setData({});
-  //     setSelectedSizes([]);
-  //     setSelectedCategory('');
-  //     setSelectedSubcategory('');
-  //     // Optionally, you can navigate back to a different page if required
-  //     // navigate('/product'); // Uncomment if you want to redirect
-  //   }
-  // }, [params._id]);
-  
-  // useEffect(() => {
-  //   if (!params) {
-  //     // Clear the product data when the URL doesn't contain productId
-  //     setData(null);
-  //     // setpreviewImg([]); // Clear the preview images as well
-  //     // setProductThumbnail(null); // Clear the thumbnail
-
-  //     // Optional: navigate back to the main product list or other page
-  //     // navigate('/product'); // Or wherever you want to redirect
-  //   }
-  // }, [params]);
-
+  }, [params._id]);
 
   useEffect(() => {
     if (data.size) {
       setSelectedSizes(data.size); // Ensure data.size is used to set selectedSizes
     }
-  }, [data]); // Re-run whenever data changes
+  }, [data.size]); // Re-run whenever data changes
 
   // Set category and subcategory when data is loaded for updating a product
   useEffect(() => {
@@ -81,12 +77,10 @@ export default function ProductDetails() {
     }
   }, [data]);
 
-  
-  //update status
+  //update data
   const handleDataUpdate = (e)=>{
     const olddata = {...data};
     olddata[e.target.name] = e.target.value;
-
     setData(olddata);
   }
   
@@ -137,23 +131,37 @@ export default function ProductDetails() {
     handleFetchSubCat();
   }, []);
   
-  //INSERT PRODUCT
+  //UPDATE and INSERT PRODUCT
   const handleAddProduct = async (e) => {
     e.preventDefault()
     const form = e.target
     //FormData Constructor - makes data a formdata which pass inside of it.  
     const formData = new FormData(form);
 
-    try {
-      //axios set content type automaticaly like - formdata, raw>json etc.
-      //formData - work as body   //{} - header etc. define here.
-      const response = await axios.post('http://localhost:5200/product/insert_product', formData, {});
-      // console.log(response);
-      alert('Data inserted successfully')
-      nav('/product/product-items')
-    } catch (error) {
-      console.log(error);
-      alert('something went wrong')
+    if (params._id) {
+      try{
+      const response = await axios.put(`http://localhost:5200/product/update_product/${params._id}`, formData);
+      // console.log(response)
+      nav('/product/product-items');
+      }
+      catch (error) {
+        console.log(error);
+        alert('something went wrong')
+      }
+    } 
+    else 
+    {
+      try {
+        //axios set content type automaticaly like - formdata, raw>json etc.
+        //formData - work as body   //{} - header etc. define here.
+        const response = await axios.post('http://localhost:5200/product/insert_product', formData, {});
+        // console.log(response);
+        alert('Data inserted successfully')
+        nav('/product/product-items')
+      } catch (error) {
+        console.log(error);
+        alert('something went wrong')
+      }
     }
   };
 
@@ -203,13 +211,12 @@ const handleImgPreview = (e) => {
       newPreviews.push(reader.result); // Add preview URL to the array
       // Check if all images have been processed
       if (newPreviews.length === files.length) {
-        // Append new images without overwriting existing ones
-        setpreviewImg((prevImages) => [...prevImages, ...newPreviews]);
+        // Replace old images with new images
+        setpreviewImg(newPreviews);
       }
     };
   });
   };
-
 
   //update product size
   const handleCheckboxChange = (size) => {
@@ -297,6 +304,7 @@ const handleImgPreview = (e) => {
               </label>
               <input
                 type="text"
+                onChange={handleDataUpdate}
                 value={data.name}
                 name="name"
                 id="productInput"
@@ -311,7 +319,7 @@ const handleImgPreview = (e) => {
               >
                 Product Short Description
               </label>
-              <textarea value={data.description} name='description' id="shortDescription" rows="3" className=" resize-none block p-2.5 w-full text-sm text-gray-900 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 " placeholder="Add Product Short Description....."></textarea>
+              <textarea onChange={handleDataUpdate} value={data.description} name='description' id="shortDescription" rows="3" className=" resize-none block p-2.5 w-full text-sm text-gray-900 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 " placeholder="Add Product Short Description....."></textarea>
             </div>
 
             <div className="mb-5">
@@ -321,7 +329,7 @@ const handleImgPreview = (e) => {
               >
                 Product Full Description
               </label>
-              <textarea value={data.full_description} name='full_description' id="fullDescription" rows="3" className=" resize-none block p-2.5 w-full text-sm text-gray-900 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 " placeholder="Add Product Full Description....."></textarea>
+              <textarea onChange={handleDataUpdate} value={data.full_description} name='full_description' id="fullDescription" rows="3" className=" resize-none block p-2.5 w-full text-sm text-gray-900 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 " placeholder="Add Product Full Description....."></textarea>
             </div>
             <div className="mb-5">
               <label
@@ -391,6 +399,7 @@ const handleImgPreview = (e) => {
                   <label className="block mb-5 text-md font-medium text-gray-900 " htmlFor="pdPrice">Price</label>
                   <input
                     type="text"
+                    onChange={handleDataUpdate}
                     value={data.price}
                     name='price'
                     id="pdPrice"
@@ -402,6 +411,7 @@ const handleImgPreview = (e) => {
                   <label className="block mb-5 text-md font-medium text-gray-900" htmlFor="pdMRP">MRP</label>
                   <input
                     type="text"
+                    onChange={handleDataUpdate}
                     value={data.mrp}
                     name='mrp'
                     id="pdMRP"
@@ -419,6 +429,7 @@ const handleImgPreview = (e) => {
                 <label className="block mb-5 text-md font-medium text-gray-900" htmlFor="pdDiscount">Discount</label>
                 <input
                   type="text"
+                  onChange={handleDataUpdate}
                   value={data.discount}
                   name='discount'
                   id="pdDiscount"
@@ -430,6 +441,7 @@ const handleImgPreview = (e) => {
                 <label className="block mb-5 text-md font-medium text-gray-900" htmlFor="PdStock">Stock</label>
                 <input
                   type="text"
+                  onChange={handleDataUpdate}
                   value={data.stock}
                   name='stock'
                   id="PdStock"
@@ -442,6 +454,7 @@ const handleImgPreview = (e) => {
                 <label className="block mb-5 text-md font-medium text-gray-900" htmlFor="pdOccasion">Occasion</label>
                 <input
                   type="text"
+                  onChange={handleDataUpdate}
                   value={data.occasion}
                   name='occasion'
                   id="pdOccasion"
@@ -453,6 +466,7 @@ const handleImgPreview = (e) => {
                 <label className="block mb-5 text-md font-medium text-gray-900" htmlFor="pdFit">Fit</label>
                 <input
                   type="text"
+                  onChange={handleDataUpdate}
                   value={data.fit}
                   name='fit'
                   id="pdFit"
@@ -465,6 +479,7 @@ const handleImgPreview = (e) => {
                 <label className="block mb-5 text-md font-medium text-gray-900" htmlFor="pdFabric">Fabric</label>
                 <input
                   type="text"
+                  onChange={handleDataUpdate}
                   value={data.fabric}
                   name='fabric'
                   id="pdFabric"
@@ -477,6 +492,7 @@ const handleImgPreview = (e) => {
                 <label className="block mb-5 text-md font-medium text-gray-900" htmlFor="pdColor">color</label>
                 <input
                   type="text"
+                  onChange={handleDataUpdate}
                   value={data.color}
                   name='color'
                   id="pdColor"
@@ -491,6 +507,7 @@ const handleImgPreview = (e) => {
                   <label className="block mb-5 text-md font-medium text-gray-900" htmlFor="pdWeight">Weight</label>
                   <input
                     type="text"
+                    onChange={handleDataUpdate}
                     value={data.weight}
                     name='weight'
                     id="pdWeight"
@@ -517,20 +534,7 @@ const handleImgPreview = (e) => {
                   </div>
 
                 </div>
-               
-                {/* <div>
-                  <label className="block mb-5 text-md font-medium text-gray-900">Color</label>
-                  <select
-                    id="default"
-                    name='pdColorSelectBox'
-                    className=" border-2 border-gray-300 text-gray-900 mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
-                  >
-                    <option selected>--Select Color--</option>
-                    <option value="tShirt">Red</option>
-                    <option value="Shirt">Black</option>
-                    <option value="Shirt">Orange</option>
-                  </select>
-                </div> */}
+              
               </div>
             </div>
             <div className="pe-5 ps-1">

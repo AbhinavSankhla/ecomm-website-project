@@ -1,11 +1,47 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Breadcrumb from "../../common/Breadcrumb";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function AddCategory() {
 
   const nav = useNavigate();
+  const params = useParams();
+  const [data, setData] = useState({});
+
+  //fetch single category data to read for update 
+  const fetchData = async (id) => {
+    const res = await axios.get(`http://localhost:5200/category/fetch_category_with_id/${id}`)
+    
+    const oldData = res.data.data
+    oldData.status = oldData.status.toString(); 
+
+    setData(oldData);
+    console.log(res.data.data);
+  } 
+
+  //RESET INPUT FIELD WHEN URL DOES'NT CONTAIN PARAMS
+  useEffect(() => {
+    if (params._id) {
+      // If _id exists in params, fetch the product data
+      fetchData(params._id);
+    } else {
+      // If _id is missing, clear the data
+      setData({
+        categoryName: '',
+        status: ''
+        // add other fields as needed
+      });
+    }
+  }, [params._id]);
+  
+  const handleDataUpdate = (e)=>{
+    const olddata = {...data};
+    olddata[e.target.name] = e.target.value;
+    setData(olddata);
+  }
+
+  //ADD CATEGORY
   const handleAddCategory = async(e) =>{
     e.preventDefault()
     const form = e.target;
@@ -13,20 +49,39 @@ export default function AddCategory() {
     const categoryName = form.categoryName.value;
     const status = form.status.value;
     
-    try {
-      //axios set content type automaticaly like - formdata, raw>json etc.
-      //formData - work as body //{} - header etc. define here.
-      const response = await axios.post('http://localhost:5200/category/insert_category',{
-      categoryName,
-      status
-      });
-      // console.log(response);
-      alert('Data inserted successfully')
-      nav('/parent-category/view-category')
-      
-    } catch (error) {
-      console.log(error);
-      alert('something went wrong')
+    if (params._id) {
+      try{
+        const response = await axios.put(`http://localhost:5200/category/update_category/${params._id}`, 
+        {
+          categoryName,
+          status
+        });
+        console.log(response)
+
+        nav('/parent-category/view-category');
+        }
+        catch (error) {
+          console.log(error);
+          alert('something went wrong')
+        }
+
+    }
+    else {
+      try {
+        //axios set content type automaticaly like - formdata, raw>json etc.
+        //formData - work as body //{} - header etc. define here.
+        const response = await axios.post('http://localhost:5200/category/insert_category', {
+          categoryName,
+          status
+        });
+        // console.log(response);
+        alert('Data inserted successfully')
+        nav('/parent-category/view-category')
+
+      } catch (error) {
+        console.log(error);
+        alert('something went wrong')
+      }
     }
   };
   
@@ -53,6 +108,8 @@ return (
             <input
               type="text"
               name="categoryName"
+              onChange={handleDataUpdate}
+              value={data.categoryName}
               id="base-input"
               className="text-[19px] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-3 "
               placeholder="Category Name"
@@ -91,27 +148,32 @@ return (
             </label>
             <textarea name="categoryDescription" id="message" rows="3" className=" resize-none block p-2.5 w-full text-sm text-gray-900 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 " placeholder="Add Product Description....."></textarea>
           </div> */}
+          
           <div className="pe-5 ps-1">
-            <span className="flex items-center gap-3">
-              Status :
-              <input
-                id="link-radio"
-                name="status"
-                type="radio"
-                value="true"
-                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 "
-              ></input>
-              Active
-              <input
-                id="link-radio"
-                name="status"
-                type="radio"
-                value="false"
-                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 "
-              ></input>
-              Deactive
-            </span>
-          </div>
+              <span className="flex items-center gap-3">
+                Status :
+                <input
+                  id="link-radio"
+                  name='status'
+                  type="radio"
+                  onClick={handleDataUpdate}
+                  checked={data.status == 'true'}
+                  value={true}
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 "
+                ></input>
+                Active
+                <input
+                  id="link-radio"
+                  name='status'
+                  type="radio"
+                  onClick={handleDataUpdate}
+                  checked={data.status == 'false'}
+                  value={false}
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 "
+                ></input>
+                Deactive
+              </span>
+            </div>
           <button
             type="submit"
             className="focus:outline-none my-10 text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900"

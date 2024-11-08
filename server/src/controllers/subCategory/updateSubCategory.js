@@ -1,15 +1,18 @@
-const Category = require("../../models/Category/Category");
+const SubCategory = require("../../models/Category/SubCategory");
 
-const updateCategory = async(req,res) => {
+const updateSubCategory = async(req,res) => {
     try {
         //find console array and findOne console object.
-        const ifExist = await Category.findOne(req.params)
+        const ifExist = await SubCategory.findOne(req.params)
         if(!ifExist) return res.status(404).json({message : 'data not found'})
-        // console.log(ifExist)
+        // console.log(ifExist)        
         const data = req.body;
+
+        console.log(data)
+        console.log(req.params)
            
-        const response = await Category.updateOne(req.params,{$set :data});
-        // console.log(data)
+        const response = await SubCategory.updateOne(req.params,{$set :data});
+        
         res.status(200).json({message : 'data updated successfully', data : response})
         
     } catch (error) {
@@ -17,4 +20,5 @@ const updateCategory = async(req,res) => {
         res.status(500).json({message : 'internal server error'})
     }
 }
-module.exports = updateCategory;
+
+module.exports = updateSubCategory;
