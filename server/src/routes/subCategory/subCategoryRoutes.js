@@ -7,7 +7,8 @@ const {insertSubCategory,
     trueSubCat,
     searchSubCategory,
     readSingleSubCategory,
-    updateSubCategory
+    updateSubCategory,
+    deleteMultiSubCat
     } = require('../../controllers/controllers');
 
 const subcategoryRoutes = express.Router()
@@ -20,7 +21,7 @@ subcategoryRoutes.get('/true_subcategory', trueSubCat);
 subcategoryRoutes.get('/search_subcategory/:key', searchSubCategory);
 subcategoryRoutes.get('/fetch_subcategory_with_id/:_id', readSingleSubCategory);
 subcategoryRoutes.put('/update_subcategory/:_id', updateSubCategory);
-
+subcategoryRoutes.delete('/delete_multi_subcategory', deleteMultiSubCat);
 
 
 module.exports = subcategoryRoutes;

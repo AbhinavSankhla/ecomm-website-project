@@ -8,6 +8,8 @@ export default function ViewCategory() {
 
   let [orderModal, setOrderModal] = useState(false);
   const [categoryData, setcategoryData] = useState([]);
+  const [checked, setchecked] = useState([]);
+
 
   //Fetch Category
   const handleFetchCategory = async() => {
@@ -28,9 +30,6 @@ export default function ViewCategory() {
 
   };
   
-  useEffect(()=>{handleFetchCategory()},[]);
-
-
   //Handle status
   const handleStatus = async(e) => {
     // console.log(e.target.value, e.target.textContent);
@@ -73,6 +72,54 @@ export default function ViewCategory() {
     // console.log(e.target.value)
     nav(`/parent-category/add-category/${productId}`); //it is route so update routing pg. 
   };
+
+  const handleDelete = async(categoryId) =>{
+    if (!window.confirm('Are you sure to delete?')) return;
+
+    try {
+      const response = await axios.delete(`http://localhost:5200/category/delete_category/${categoryId}`)
+      // console.log(response)
+      // handleFetchCategory();
+      // alert('product deleted successfully')
+
+    } catch (error) {
+      console.log(error)
+      alert('somthing went wrong!')
+    }
+  }
+  //write dependency if handleFetchCategory is'nt written inside of handleDelete fn.
+  useEffect(()=>{handleFetchCategory()},[handleDelete]);
+
+  const handleCheckInput = async(e) =>{
+    console.log(e.target.value);
+    console.log(e.target.checked);
+
+    if (e.target.checked) {
+      const newArr = [...checked, e.target.value]
+      setchecked(newArr)
+    } 
+    //remove unchecked id value from array (1 june video)
+    else {
+      const newArr = [...checked]
+      const currentIndex = newArr.findIndex((item)=> item === e.target.value);
+      newArr.splice(currentIndex,1);
+      setchecked(newArr);
+    }    
+  }
+
+  const handleMultiDelete = async() =>{
+    if (!window.confirm('Are you sure to delete?')) return;
+    try{
+      const response = await axios.delete('http://localhost:5200/category/delete_multi_category', {data: checked})
+
+      if(response.status !==200) return alert('Something went wrong');
+      handleFetchCategory();
+    }
+    catch(error){
+      alert('something went wrong')
+    }  
+  }
+
 
   return (
     <section className="w-full">
@@ -160,8 +207,19 @@ export default function ViewCategory() {
               <table className="w-full  text-left rtl:text-right text-gray-500 ">
                 <thead className="text-sm text-gray-700 uppercase bg-gray-50 ">
                   <tr>
-                    <th scope="col" className="px-6 py-3">
-                      Delete
+                  <th scope="col" className="py-3">
+                      <div className="flex items-center justify-center space-x-2">
+                        <input
+                          type="checkbox"
+                          className="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500"
+                        />
+                        <button
+                          onClick={handleMultiDelete}
+                          className="px-4 py-1 bg-red-500 text-white rounded"
+                        >
+                          Delete
+                        </button>
+                      </div>
                     </th>
                     <th scope="col" className="px-6 py-3">
                       S. No.
@@ -188,8 +246,8 @@ export default function ViewCategory() {
                     categoryData.map((category,i)=>{
                       return(
                         <tr key={category._id} className="bg-white border-b">
-                        <th scope="row" className="px-6 py-4 text-[18px] font-semibold text-gray-900 whitespace-nowrap ">
-                          <input name='deleteCheck' id="purple-checkbox" type="checkbox" value="" className="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 " />
+                        <th scope="row" className="ps-20 py-4 text-[18px] font-semibold text-gray-900 whitespace-nowrap ">
+                          <input onClick={handleCheckInput} name='deleteCheck' id="purple-checkbox" value={category._id} type="checkbox" className="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 " />
                         </th>
                         <td className="px-6 py-4">
                           {i+1}
@@ -198,14 +256,14 @@ export default function ViewCategory() {
                           {category.categoryName}
                         </td>
                         <td className="px-6 py-4 flex gap-3">
-                            <button>
+                            <button onClick={()=>handleDelete(category._id)}>
                               <svg
                                 fill="red"
                                 className="w-4 h-4"
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 448 512"
                               >
-                                <path d="M170.5 51.6L151.5 80l145 0-19-28.4c-1.5-2.2-4-3.6-6.7-3.6l-93.7 0c-2.7 0-5.2 1.3-6.7 3.6zm147-26.6L354.2 80 368 80l48 0 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-8 0 0 304c0 44.2-35.8 80-80 80l-224 0c-44.2 0-80-35.8-80-80l0-304-8 0c-13.3 0-24-10.7-24-24S10.7 80 24 80l8 0 48 0 13.8 0 36.7-55.1C140.9 9.4 158.4 0 177.1 0l93.7 0c18.7 0 36.2 9.4 46.6 24.9zM80 128l0 304c0 17.7 14.3 32 32 32l224 0c17.7 0 32-14.3 32-32l0-304L80 128zm80 64l0 208c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-208c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0l0 208c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-208c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0l0 208c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-208c0-8.8 7.2-16 16-16s16 7.2 16 16z" />
+                                <path d="M170.5 51.6L151.5 80l145 0-19-28.4c-1.5-2.2-4-3.6-6.7-3.6l-93.7 0c-2.7 0-5.2 1.3-6.7 3.6zm147-26.6L354.2 80 368 80l48 0 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-8 0 0 304c0 44.2-35.8 80-80 80l-224 0c-44.2 0-80-35.8-80-80l0-304-8 0c-13.3 0-24-10.7-24-24S10.7 80 24 80l8 0 48 0 13.8 0 36.7-55.1C140.9 9.4 158.4 0 177.1 0l93.7 0c18.7 0 36.2 9.4 46.6 24.9zM80 128l0 304c0 17.7 14.3 32 32 32l224 0c17.7 0 32-14.3 32-32l0-304L80 128zm80 64l0 208c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-208c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0l0 208c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-208c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0l0 208c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-208c0-8.8 7.2-16 16-16s16 7.2 16 16z"/>
                               </svg>
                             </button>
                             |

@@ -10,6 +10,7 @@ const updateProduct = require('./products/updateProduct')
 const trueProducts = require('./products/trueProducts')
 const changeProductStatus = require('./products/changeProductStatus')
 const readSingleProduct = require('./products/readSingleProduct')
+const searchProduct = require('./products/searchProduct')
 
 //category controllers
 const insertCategory = require('./category/insertCategory')
@@ -20,6 +21,8 @@ const trueCategory = require('./category/trueCategory')
 const readSingleCategory = require('./category/readSingleCategory')
 const updateCategory = require('./category/updateCategory')
 const searchCategory = require('./category/searchCategory')
+const deleteMultiCat = require('./category/deleteMultiCat')
+
 
 //subCategory controllerse
 const insertSubCategory = require('./subCategory/insertSubCategory')
@@ -28,9 +31,10 @@ const deleteSubCategory = require('./subCategory/deleteSubCategory')
 const changeSubCatStatus = require('./subCategory/changeSubCatStatus')
 const trueSubCat = require('./subCategory/trueSubCat')
 const searchSubCategory = require('./subCategory/searchSubCategory')
-const searchProduct = require('./products/searchProduct')
 const readSingleSubCategory = require('./subCategory/readSingleSubCat')
 const updateSubCategory = require('./subCategory/updateSubCategory')
+const deleteMultiSubCat = require('./subCategory/deleteMultiSubCat')
+const deleteMultiProduct = require('./products/deleteMultiProduct')
 
 module.exports = {
     registerAdmin,
@@ -38,6 +42,7 @@ module.exports = {
     insertProduct,
     readProducts,
     deleteProduct,
+    deleteMultiProduct,
     updateProduct,
     trueProducts,
     changeProductStatus,
@@ -48,6 +53,7 @@ module.exports = {
     changeCatStatus,
     trueCategory,
     deleteCategory,
+    deleteMultiCat,
     searchCategory,
     updateCategory,
     readSingleCategory,
@@ -58,5 +64,6 @@ module.exports = {
     trueSubCat,
     searchSubCategory,
     readSingleSubCategory,
-    updateSubCategory
+    updateSubCategory,
+    deleteMultiSubCat
 }

@@ -7,7 +7,8 @@ const { insertProduct,
         updateProduct,    
         changeProductStatus,
         searchProduct,
-        readSingleProduct
+        readSingleProduct,
+        deleteMultiProduct
         } = require('../../controllers/controllers');
 
 //create an router
@@ -20,5 +21,7 @@ productRoutes.put('/change_product_status', changeProductStatus);
 productRoutes.get('/search_product/:key', searchProduct);
 productRoutes.get('/fetch_product_with_id/:_id', readSingleProduct);
 productRoutes.put('/update_product/:_id',upload, updateProduct);
+productRoutes.delete('/delete_multi_product', deleteMultiProduct);
+
 
 module.exports = productRoutes;

@@ -7,7 +7,10 @@ export default function ViewSubCategory() {
   const nav = useNavigate();
 
     const [subCatData, setsubCatData] = useState([]); 
+    const [checked, setchecked] = useState([]);
 
+    // console.log(checked);
+  
     //Fetch Sub-Category
     const handleFetchSubCat = async() => {
       try {
@@ -65,9 +68,55 @@ export default function ViewSubCategory() {
     //e.currentTarget- use coz btn is netsed (btn>svg) //it target btn only
     const productId = e.currentTarget.getAttribute("data-id");
     // console.log(productId);
-    // console.log(e.target.value)
+    // console.log(e.target.value);
     nav(`/sub-category/add-sub-category/${productId}`); //it is route to update routing pg. 
   };
+
+  const handleDelete = async(subCategoryId) =>{
+    if (!window.confirm('Are you sure to delete?')) return;
+
+    try {
+      const response = await axios.delete(`http://localhost:5200/subcategory/delete_subcategory/${subCategoryId}`)
+      console.log(response)
+      handleFetchSubCat();
+      // alert('product deleted successfully')
+
+    } catch (error) {
+      console.log(error)
+      alert('somthing went wrong!')
+    }
+  }
+
+  const handleCheckInput = async(e) =>{
+    console.log(e.target.value);
+    console.log(e.target.checked);
+
+    if (e.target.checked) {
+      const newArr = [...checked, e.target.value]
+      setchecked(newArr)
+    } 
+    //remove unchecked id value from array (1 june video)
+    else {
+      const newArr = [...checked]
+      const currentIndex = newArr.findIndex((item)=> item === e.target.value);
+      newArr.splice(currentIndex,1);
+      setchecked(newArr);
+    }    
+  }
+
+  const handleMultiDelete = async() =>{
+    if (!window.confirm('Are you sure to delete?')) return;
+    try{
+      const response = await axios.delete('http://localhost:5200/subcategory/delete_multi_subcategory', {data: checked})
+
+      if(response.status !==200) return alert('Something went wrong');
+      handleFetchSubCat();
+    }
+    catch(error){
+      alert('something went wrong')
+    } 
+    
+  }
 
   return (
     <section className="w-full">
@@ -89,9 +138,20 @@ export default function ViewSubCategory() {
     <table className="w-full  text-left rtl:text-right text-gray-500 ">
         <thead className="text-sm text-gray-700 uppercase bg-gray-50 ">
             <tr>
-                <th scope="col" className="px-6 py-3">
-                    Delete
-                </th>
+                    <th scope="col" className="py-3">
+                      <div className="flex items-center justify-center space-x-2">
+                        <input
+                          type="checkbox"
+                          className="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500"
+                        />
+                        <button
+                          onClick={handleMultiDelete}
+                          className="px-4 py-1 bg-red-500 text-white rounded"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </th>
                 <th scope="col" className="px-6 py-3">
                     S. No.
                 </th>
@@ -101,7 +161,6 @@ export default function ViewSubCategory() {
                 <th scope="col" className="px-6 py-3">
                     Sub Category Name 
                 </th>
-               
                 <th scope="col" className="px-6 py-3">
                     Action
                 </th>
@@ -115,20 +174,21 @@ export default function ViewSubCategory() {
                 subCatData?.map((subCat, i) => {
                     return(
                         <tr key={subCat._id} className="bg-white border-b">
-                <th scope="row" className="px-6 py-4 text-[18px] font-semibold text-gray-900 whitespace-nowrap ">
-                <input name='deleteCheck' id="purple-checkbox" type="checkbox" value="" className="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 "/>
+                <th scope="row" className="ps-14 py-4 text-[18px] font-semibold text-gray-900 whitespace-nowrap ">
+                <input name='deleteCheck' onClick={handleCheckInput} id="purple-checkbox" type="checkbox" value={subCat._id} className="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 "/>
                 </th>
                 <td className="px-6 py-4">
                     {i+1}
                 </td>
                 <td className="px-6 py-4">
-                    {subCat.category.categoryName}
+                    {/* {subCat.category.categoryName} */}
+                    {subCat.category && subCat.category.categoryName ? subCat.category.categoryName : "Category Deleted"}
                 </td>
                 <td className="px-6 py-4">
                     {subCat.subCatName}
                 </td>              
                         <td className="px-6 py-4 flex gap-3 mt-0">
-                          <button>
+                          <button onClick={()=>handleDelete(subCat._id)}>
                             <svg
                               fill="red"
                               className="w-4 h-4"

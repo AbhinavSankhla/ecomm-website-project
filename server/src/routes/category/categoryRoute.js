@@ -7,7 +7,8 @@ const { insertCategory,
         trueCategory,
         searchCategory,
         updateCategory,
-        readSingleCategory, 
+        readSingleCategory,
+        deleteMultiCat, 
         } = require('../../controllers/controllers');
 
 //create an router
@@ -21,6 +22,8 @@ categoryRoutes.get('/true_category', trueCategory);
 categoryRoutes.get('/search_category/:key', searchCategory);
 categoryRoutes.get('/fetch_category_with_id/:_id', readSingleCategory);
 categoryRoutes.put('/update_category/:_id', updateCategory);
+categoryRoutes.delete('/delete_multi_category', deleteMultiCat);
+
 
 
 module.exports = categoryRoutes;

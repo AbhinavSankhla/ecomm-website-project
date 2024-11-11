@@ -124,7 +124,7 @@ const handlleAddSubCat = async(e) => {
                     for="base-input"
                     className="block mb-5 text-md font-medium text-gray-900"
                   >
-                    Category Name
+                    Sub Category Name
                   </label>
                   <input
                     type="text"

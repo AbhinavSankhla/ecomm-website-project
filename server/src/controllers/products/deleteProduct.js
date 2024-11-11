@@ -8,6 +8,7 @@ const deleteProduct = async(req,res) =>{
         const response = await Product.findOneAndDelete(req.params);
 
         if(response === null) return res.status(402).json({message: 'product id does not exist'})
+        // or if(!response) return....    
  
         //return true or false if file exist.(when it assign in var and console)    
         if(fs.existsSync(path.join('src', 'uploads', response.thumbnail))){
@@ -20,7 +21,7 @@ const deleteProduct = async(req,res) =>{
             };  
         })
 
-        res.status(200).json({message: 'product deleted successfully'})
+        res.status(200).json({message: 'product deleted successfully', data:response})
     } 
     catch (error) 
     {

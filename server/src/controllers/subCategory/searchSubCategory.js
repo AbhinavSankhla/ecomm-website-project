@@ -10,7 +10,8 @@ const searchSubCategory = async(req,res) =>{
             // {subCatName: {$regex:req.params.key}} //it match only full input eg(p and php)
 
             //here we make pattern which return if any keyword match
-            {subCatName: {$regex: new RegExp(req.params.key, "i")}} //i flag make search case-insensitive.
+            {subCatName: {$regex: new RegExp(req.params.key, "i")}}, //i flag make search case-insensitive.
+            // {category: {$regex: new RegExp(req.params.key, "i")}}
         ]});
 
         console.log(response)

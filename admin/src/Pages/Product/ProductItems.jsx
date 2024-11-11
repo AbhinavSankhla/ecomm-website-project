@@ -10,6 +10,7 @@ export default function ProductItems() {
   let [orderModal, setOrderModal] = useState(false);
   const [productData, setProductData] = useState([]);
   const [filePath, setfilePath] = useState('');
+  const [checked, setchecked] = useState([]);
 
   const handleFetchProduct = async() => {
     
@@ -46,7 +47,7 @@ export default function ProductItems() {
     });
     handleFetchProduct();
 
-    console.log(response);
+    // console.log(response);
 
     } catch (error) {
       alert('something went wrong')
@@ -68,10 +69,59 @@ export default function ProductItems() {
   const handleUpdate = (e) =>{
     //e.currentTarget- use coz btn is netsed (btn>svg) //it target btn only
     const productId = e.currentTarget.getAttribute("data-id");
-    // console.log(productId);
-    // console.log(e.target.value)
     nav(`/product/product-details/${productId}`); //it is route so update routing pg. 
   };
+
+  //second method
+  // const handleUpdate = (productId) => {
+  //   // Navigate to the update product page with the productId
+  //   nav(`/product/product-details/${productId}`);
+  // };
+
+  const handleDelete = async(productId) =>{
+    if (!window.confirm('Are you sure to delete?')) return;
+
+    try {
+      const response = await axios.delete(`http://localhost:5200/product/delete_product/${productId}`)
+      console.log(response)
+      handleFetchProduct();
+      // alert('product deleted successfully')
+
+    } catch (error) {
+      console.log(error)
+      alert('somthing went wrong!')
+    }
+  }
+
+  const handleCheckInput = async(e) =>{
+    console.log(e.target.value);
+    console.log(e.target.checked);
+
+    if (e.target.checked) {
+      const newArr = [...checked, e.target.value]
+      setchecked(newArr)
+    } 
+    //remove unchecked id value from array (1 june video)
+    else {
+      const newArr = [...checked]
+      const currentIndex = newArr.findIndex((item)=> item === e.target.value);
+      newArr.splice(currentIndex,1);
+      setchecked(newArr);
+    }    
+  }
+
+  const handleMultiDelete = async() =>{
+    if (!window.confirm('Are you sure to delete?')) return;
+    try{
+      const response = await axios.delete('http://localhost:5200/product/delete_multi_product', {data: checked})
+
+      if(response.status !==200) return alert('Something went wrong');
+      handleFetchProduct();
+    }
+    catch(error){
+      alert('something went wrong')
+    }  
+  }
 
   return (
     <section className="w-full">
@@ -212,9 +262,20 @@ export default function ProductItems() {
                   <table className="w-full  text-left rtl:text-right text-gray-500 ">
                     <thead className="text-sm text-gray-700 uppercase bg-gray-50 ">
                       <tr>
-                        <th scope="col" className="px-6 py-3">
-                          Delete
-                        </th>
+                        <th scope="col" className="py-3">
+                        <div className="ps-5 flex items-center justify-center space-x-2">
+                          <input
+                            type="checkbox"
+                            className="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500"
+                          />
+                          <button
+                            onClick={handleMultiDelete}
+                            className="px-4 py-1 bg-red-500 text-white rounded"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </th>
                         <th scope="col" className="px-6 py-3">
                           S. No.
                         </th>
@@ -245,13 +306,14 @@ export default function ProductItems() {
                             <tr key={i} className="bg-white border-b">
                             <th
                               scope="row"
-                              className="px-6 py-4 text-[18px] font-semibold text-gray-900 whitespace-nowrap "
+                              className="ps-16 py-4 text-[18px] font-semibold text-gray-900 whitespace-nowrap"
                             >
                               <input
                                 id="purple-checkbox"
+                                onClick={handleCheckInput}
                                 name="deleteCheck"
                                 type="checkbox"
-                                value=""
+                                value={product._id}
                                 className="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 "
                               />
                             </th>
@@ -287,7 +349,7 @@ export default function ProductItems() {
                               />
                             </td>
                             <td className="px-6 py-4 flex gap-3 mt-6">
-                              <button>
+                              <button onClick={()=>handleDelete(product._id)}>
                               <svg
                                 fill="red"
                                 className="w-4 h-4"
