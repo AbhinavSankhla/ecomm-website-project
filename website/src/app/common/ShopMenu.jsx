@@ -4,7 +4,7 @@ import { categories } from './Categories'
 export default function ShopMenu() {
   return (
     <>
-      <div className='grid grid-cols-4 gap-4 p-6 bg-[#232323] w-[75%] mx-auto'>
+      <div className='grid grid-cols-4 gap-4 p-6 bg-[#232323] w-[75%] mx-auto shadow-lg'>
         {
           categories.map((category,index) => {
             return(

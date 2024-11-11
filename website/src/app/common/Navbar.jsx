@@ -16,6 +16,9 @@ import { IoIosArrowDown } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
 import { AiOutlineUser } from "react-icons/ai";
 import { FiHeart } from "react-icons/fi";
+import { HiOutlineUser } from "react-icons/hi2";
+import { FaRegUser } from "react-icons/fa6";
+
 
 const Navbar = () => {
 
@@ -23,6 +26,7 @@ const Navbar = () => {
   const {WishCount} = useContext(WishlistContext);
   const [MenuOpen, setMenuOpen] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
+  const [isHoveringUser, setIsHoveringUser] = useState(false);
   const [MobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // useEffect(() => {
@@ -82,12 +86,37 @@ const Navbar = () => {
                 {/* bg-[#232323] */}
                 <div className='bg-red-500 text-[white] font-semibold text-[11px] py-[1px] px-2 top-[10%] left-[63%] absolute rounded-full'>{count}</div>
               </div>
-              <div className='hidden lg:block'>
-                <button className='text-[#747474] hover:bg-[#e2e2e2] flex items-center gap-2 p-3'>
-                  My account
-                  <FaAngleRight />
-                </button>
+              <div
+                className="hidden lg:block py-[26px] pe-3"
+                onMouseEnter={() => setIsHoveringUser(true)}
+                onMouseLeave={() => setIsHoveringUser(false)}
+              >
+                {/* Profile Icon */}
+                <div className="cursor-pointer">
+                  <FaRegUser className="text-[18px] text-[#626262]"/>
+                </div>
+
+                {/* Hover Menu */}
+                {isHoveringUser && (
+                  <div className="absolute top-full right-2 p-4 bg-[#232323] shadow-lg border border-black text-gray-300 cursor-pointer w-[20%] h-[200px] text-[14px]">
+                    {/* Content of the hover menu */}
+                    <ul className='space-y-2'>
+                      <li className='space-y-2'>
+                        <p>Welcome</p>
+                        <p className='text-[12px]'>To access account and manage orders</p>
+                        <div className='text-center space-x-2'>
+                          <button className='px-4 py-1 border border-gray-300 hover:border-gray-100 hover:text-gray-100 duration-200 ease-in-out rounded'>Login</button>
+                          <button className='px-4 py-1 border border-gray-300 hover:border-gray-100 hover:text-gray-100 duration-200 ease-in-out rounded'>Sign Up</button>
+                        </div>
+                      </li>
+                      <li className='border-1 border-t border-gray-300 my-5'></li>
+                      <li>My orders</li>
+                    </ul>
+                  </div>
+                )}
               </div>
+
+                
               {/* <div className='lg:hidden'>
                 <AiOutlineUser className='text-[18px] font-thin'/>
               </div> */}
