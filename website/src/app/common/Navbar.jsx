@@ -1,6 +1,7 @@
-'use client'
+"use client"
 
 import Link from 'next/link'
+// import { useRouter } from 'next/router';
 import {  React, useState, useContext, useEffect } from 'react'
 import { myContext } from '../context/CartContext';
 import { WishlistContext } from '../context/WishlistContext';
@@ -16,18 +17,23 @@ import { IoIosArrowDown } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
 import { AiOutlineUser } from "react-icons/ai";
 import { FiHeart } from "react-icons/fi";
-import { HiOutlineUser } from "react-icons/hi2";
 import { FaRegUser } from "react-icons/fa6";
-
 
 const Navbar = () => {
 
+  // const router = useRouter();
   const {count} = useContext(myContext);
   const {WishCount} = useContext(WishlistContext);
   const [MenuOpen, setMenuOpen] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   const [isHoveringUser, setIsHoveringUser] = useState(false);
   const [MobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // useEffect(() => {
+  //   console.log(router); // Ensure this only logs after component mounts
+  // }, [router]);
+
+
 
   // useEffect(() => {
   //   if (MenuOpen) {
@@ -102,14 +108,18 @@ const Navbar = () => {
                     {/* Content of the hover menu */}
                     <ul className='space-y-2'>
                       <li className='space-y-2'>
-                        <p>Welcome</p>
+                        <p className='text-gray-100'>Welcome</p>
                         <p className='text-[12px]'>To access account and manage orders</p>
-                        <div className='text-center space-x-2'>
+                        <div className='text-center space-x-2 space-y-2'>
                           <button className='px-4 py-1 border border-gray-300 hover:border-gray-100 hover:text-gray-100 duration-200 ease-in-out rounded'>Login</button>
-                          <button className='px-4 py-1 border border-gray-300 hover:border-gray-100 hover:text-gray-100 duration-200 ease-in-out rounded'>Sign Up</button>
+                          <Link href={'/register'}><button className='px-4 py-1 border border-gray-300 hover:border-gray-100 hover:text-gray-100 duration-200 ease-in-out rounded'>Sign Up</button></Link>
+                          
+                        </div>
+                        {/* <div className='border-t border-gray-300  my-5'></div> */}
+                        <div className='py-3'>
+                          <div className='border-t border-gray-300'></div>
                         </div>
                       </li>
-                      <li className='border-1 border-t border-gray-300 my-5'></li>
                       <li>My orders</li>
                     </ul>
                   </div>
