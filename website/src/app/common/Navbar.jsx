@@ -111,7 +111,7 @@ const Navbar = () => {
                         <p className='text-gray-100'>Welcome</p>
                         <p className='text-[12px]'>To access account and manage orders</p>
                         <div className='text-center space-x-2 space-y-2'>
-                          <button className='px-4 py-1 border border-gray-300 hover:border-gray-100 hover:text-gray-100 duration-200 ease-in-out rounded'>Login</button>
+                          <Link href={'/login'}><button className='px-4 py-1 border border-gray-300 hover:border-gray-100 hover:text-gray-100 duration-200 ease-in-out rounded'>Login</button></Link>
                           <Link href={'/register'}><button className='px-4 py-1 border border-gray-300 hover:border-gray-100 hover:text-gray-100 duration-200 ease-in-out rounded'>Sign Up</button></Link>
                           
                         </div>

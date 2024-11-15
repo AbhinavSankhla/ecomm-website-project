@@ -36,6 +36,10 @@ const updateSubCategory = require('./subCategory/updateSubCategory')
 const deleteMultiSubCat = require('./subCategory/deleteMultiSubCat')
 const deleteMultiProduct = require('./products/deleteMultiProduct')
 
+//OTP Controllers
+const otpGenerator = require('./otp/otpGenerator')
+
+
 module.exports = {
     registerAdmin,
     adminLogin,
@@ -65,5 +69,6 @@ module.exports = {
     searchSubCategory,
     readSingleSubCategory,
     updateSubCategory,
-    deleteMultiSubCat
+    deleteMultiSubCat,
+    otpGenerator
 }
