@@ -17,6 +17,7 @@ export default function Register() {
   // useEffect(()=>{main(), []})
 
   // formValidation to accept a parameter that specifies which fields to validate.
+
   const formValidation = (fieldsToValidate = ["email", "password", "cpassword"]) =>{
 
     const newArr = {};
@@ -68,14 +69,12 @@ export default function Register() {
       setTimeout(() => {seterrors({})}, 5000);
       return;      
     }
-
   }
 
   const handelOtpGen = () => {
     console.log("clicked")
     const ifFormValid = formValidation(["email"]);
     console.log("Form is valid:", ifFormValid);
-
   
     if (!ifFormValid) {
       setTimeout(() => seterrors({}), 5000);
