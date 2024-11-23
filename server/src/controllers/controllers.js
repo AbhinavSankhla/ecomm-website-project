@@ -39,6 +39,8 @@ const deleteMultiProduct = require('./products/deleteMultiProduct')
 //OTP Controllers
 const otpGenerator = require('./otp/otpGenerator')
 
+//User
+const registerUser = require('./users/registerUser')
 
 module.exports = {
     registerAdmin,
@@ -70,5 +72,6 @@ module.exports = {
     readSingleSubCategory,
     updateSubCategory,
     deleteMultiSubCat,
-    otpGenerator
+    otpGenerator,
+    registerUser
 }
