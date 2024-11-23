@@ -1,4 +1,5 @@
 "use client";
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 export default function Register() {
@@ -44,7 +45,17 @@ export default function Register() {
         newArr.cpassword = 'Password and confirm password do not match';
       }
     }
-    // console.log(ifEmail, ifPassword, ifCpassword);
+
+    // OTP Validation
+    if (fieldsToValidate.includes("otp")) {
+      const otpPattern = /^[0-9]{6}$/; // Adjust pattern if OTP has a different format
+      const ifOtp = otpPattern.test(data.otp); // Ensure `data.otp` is defined in your state
+      if (!ifOtp) {
+        newArr.otp = 'Please enter a valid 6-digit OTP';
+      }
+    }
+
+    // console.log(ifEmail, ifPassword, ifCpassword, ifOtp);
     seterrors(newArr)
 
     //here we check newArr object is empty or not?(empty = no error) 
@@ -63,34 +74,47 @@ export default function Register() {
 
   const handleFormSubmit = async(e) =>{
     e.preventDefault();
-    const ifFormValid = formValidation(["email", "password", "cpassword"]);
+    const ifFormValid = formValidation(["email", "password", "cpassword", "otp"]);
 
     if(!ifFormValid){
       setTimeout(() => {seterrors({})}, 5000);
       return;      
     }
+    // console.log(data)
+
+    try {
+      const response = await axios.post('http://localhost:5200/users/register_user',data);
+      if(response.status !== 200 ) return alert('something went wrong')
+      if(response.status === 409 ) return alert(response.data.data.message)
+
+      alert('user registered successfully');
+
+      console.log(response.data)      
+    } catch (error) {
+      console.log(error)
+      alert('something went wrong');
+    }
   }
 
-  const handelOtpGen = () => {
-    console.log("clicked")
+  const handelOtpGen = async() => {
+    // console.log("clicked")
     const ifFormValid = formValidation(["email"]);
     console.log("Form is valid:", ifFormValid);
   
     if (!ifFormValid) {
       setTimeout(() => seterrors({}), 5000);
       return; // Stop execution if form is not valid
-    }
-  
+    }  
     setifOtp(true);
     setotpBtn(true);
   
-    let counter = 10;
+    let counter = 30;
     setbtnText(`Resend OTP in ${counter}s`);
     counter--;
   
     const otpInterval = setInterval(() => {
       setbtnText(`Resend OTP in ${counter}s`);
-  
+
       if (counter < 1) {
         clearInterval(otpInterval);
         setbtnText('Generate OTP');
@@ -98,6 +122,17 @@ export default function Register() {
       }
       counter--;
     }, 1000);
+
+    try {
+      const response = await axios.post('http://localhost:5200/otp/generate_otp',{
+          email : data.email
+      });
+      if(response.status !== 200 ) return alert('something went wrong')
+      // console.log(response.data)      
+    } catch (error) {
+      console.log(error)
+      alert('something went wrong')
+    }
   };
   
   //abc!123ABC098
@@ -143,6 +178,7 @@ export default function Register() {
                 name="password"
                 id="password"
                 onChange={(e)=>{setData({...data,password:e.target.value})}}
+                placeholder="Enter password"
                 className="w-full px-4 py-2 mt-1 text-black bg-gray-200 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
               />
               {errors.password && <span className='text-[red]'>{errors.password}</span>}
@@ -156,6 +192,7 @@ export default function Register() {
                 name='confirmPassword'
                 id="confirmPassword"
                 onChange={(e)=>{setData({...data,cpassword:e.target.value})}}
+                placeholder="Confirm password"
                 className="w-full px-4 py-2 mt-1 text-black bg-gray-200 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
               />
               {errors.cpassword && <span className='text-[red]'>{errors.cpassword}</span>}
@@ -166,15 +203,18 @@ export default function Register() {
               <label className="block text-sm font-medium mb-1" htmlFor="otp">OTP</label>
               <input
                 type="text"
+                name='otp'
                 id="otp"
-                placeholder="Enter OTP"
+                onChange={(e)=>{setData({...data,otp:e.target.value})}}
+                placeholder="Enter 6 digit OTP"
                 className="w-full px-4 py-2 mt-1 text-black bg-gray-200 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
               />
+              {errors.otp && <span className='text-[red]'>{errors.otp}</span>}
             </div>
 
             {/* Terms and Conditions Checkbox */}
             <div className="flex items-center">
-              <input
+              <input 
                 type="checkbox"
                 id="terms"
                 className="mr-2 rounded focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
