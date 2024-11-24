@@ -41,6 +41,8 @@ const otpGenerator = require('./otp/otpGenerator')
 
 //User
 const registerUser = require('./users/registerUser')
+const readUser = require('./users/readUser')
+const deleteUser = require('./users/deleteUser')
 
 module.exports = {
     registerAdmin,
@@ -73,5 +75,7 @@ module.exports = {
     updateSubCategory,
     deleteMultiSubCat,
     otpGenerator,
-    registerUser
+    registerUser,
+    readUser,
+    deleteUser
 }

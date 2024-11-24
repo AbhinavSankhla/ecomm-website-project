@@ -1,10 +1,15 @@
 "use client";
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
+import { useRouter } from 'next/navigation';
 
 export default function Register() {
+  const router = useRouter();
+  console.log(router);
+
   const [acceptedTerms, setAcceptedTerms] = useState(false);
-  const [data, setData] = useState({})
+  const [data, setData] = useState({});
   const [errors, seterrors] = useState({});
   const [ifOtp, setifOtp] = useState(false);
   const [otpBtn, setotpBtn] = useState(false);
@@ -74,6 +79,7 @@ export default function Register() {
 
   const handleFormSubmit = async(e) =>{
     e.preventDefault();
+  
     const ifFormValid = formValidation(["email", "password", "cpassword", "otp"]);
 
     if(!ifFormValid){
@@ -86,10 +92,17 @@ export default function Register() {
       const response = await axios.post('http://localhost:5200/users/register_user',data);
       if(response.status !== 200 ) return alert('something went wrong')
       if(response.status === 409 ) return alert(response.data.data.message)
+      console.log(response.data.data)
+                  //cookie name //value   
+      Cookies.set('user-data', JSON.stringify(response.data.data), { expires: 7 });
+
+      const userData = JSON.parse(Cookies.get('user-data'));
+      console.log(userData); // Now it will log the actual object
+
 
       alert('user registered successfully');
+      router.push('/');
 
-      console.log(response.data)      
     } catch (error) {
       console.log(error)
       alert('something went wrong');
@@ -129,7 +142,8 @@ export default function Register() {
       });
       if(response.status !== 200 ) return alert('something went wrong')
       // console.log(response.data)      
-    } catch (error) {
+    } 
+    catch (error) {
       console.log(error)
       alert('something went wrong')
     }

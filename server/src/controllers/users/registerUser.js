@@ -15,9 +15,11 @@ const registerUser = async(req,res) =>{
         })
 
         const response = await userdata.save();
-        const filteredResponse =  
 
-        res.status(200).json({message : 'user register successfully', data: response})
+        //sends only user email not password
+        const {password, ...filteredResponse} = response._doc
+
+        res.status(200).json({message : 'user register successfully', data: filteredResponse})
         otpSaver.delete(req.body.email);
     }
 
