@@ -23,33 +23,50 @@ export default function Login() {
     let [passwdStatus, setpasswdStatus] = useState(false);
     
     const handleLogin = async() =>{
-        try {
-            // const response = await axios.post('http://localhost:5200/admin/login', admindata); //set header automatic
-            const response = await fetch('http://localhost:5200/admin/login',{
-                method: 'POST',
-                headers: {
-                    'Content-Type' : 'application/json'
-                },
-                body: JSON.stringify(adminData)
-            });
-            if (response.status !== 200) {
-                const errorMessage = await response.json(); // Capture server error message 
-                // Display the server's error message (like "invalid password" or "invalid mail") by fetching the JSON response and passing it to throw new Error(...)
-                throw new Error(errorMessage.message || "Invalid credentials");
-            }
-    
+        const response = await fetch('http://localhost:5200/admin/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(adminData)
+          });
+      
+          if(response.status === 200){
             const data = await response.json();
-            // console.log(data.data);
-
-            Cookies.set('admin', JSON.stringify(data.data))
-            nav('/dashboard')
-
-        } catch (error) {
-            //alert("Invalid credentials") will only show when there's an actual issue with the login credentials or other errors.
-            alert(error.message || "Invalid credentials");
-            // console.log(error);
-        }
+      
+            Cookies.set('admin', JSON.stringify({...data.data, auth:data.auth}));
+            nav('/dashboard');
+          }
+          else{
+            alert("Invalid Credentials");
+          }
     }
+
+
+//     const handleLogin = async () => {
+//   try {
+//     const response = await fetch("http://localhost:5200/admin/login", {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify(adminData),
+//       credentials: "include", // Include cookies in the request
+//     });
+
+//     if (response.status !== 200) {
+//       const errorMessage = await response.json();
+//       throw new Error(errorMessage.message || "Invalid credentials");
+//     }
+
+//     const data = await response.json();
+//     console.log(data.data);
+//     nav("/dashboard");
+//   } catch (error) {
+//     alert(error.message || "Invalid credentials");
+//   }
+// };
+
 
   return (
     <section className="bg-gray-50">

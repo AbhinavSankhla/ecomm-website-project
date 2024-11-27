@@ -1,4 +1,5 @@
 "use client";
+
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
@@ -58,7 +59,7 @@ export default function Register() {
       if (!ifOtp) {
         newArr.otp = 'Please enter a valid 6-digit OTP';
       }
-    }
+    } 
 
     // console.log(ifEmail, ifPassword, ifCpassword, ifOtp);
     seterrors(newArr)
@@ -92,13 +93,12 @@ export default function Register() {
       const response = await axios.post('http://localhost:5200/users/register_user',data);
       if(response.status !== 200 ) return alert('something went wrong')
       if(response.status === 409 ) return alert(response.data.data.message)
-      console.log(response.data.data)
+      // console.log(response.data.data)
                   //cookie name //value   
       Cookies.set('user-data', JSON.stringify(response.data.data), { expires: 7 });
 
       const userData = JSON.parse(Cookies.get('user-data'));
-      console.log(userData); // Now it will log the actual object
-
+      // console.log(userData); // Now it will log the actual object
 
       alert('user registered successfully');
       router.push('/');
@@ -112,7 +112,7 @@ export default function Register() {
   const handelOtpGen = async() => {
     // console.log("clicked")
     const ifFormValid = formValidation(["email"]);
-    console.log("Form is valid:", ifFormValid);
+    // console.log("Form is valid:", ifFormValid);
   
     if (!ifFormValid) {
       setTimeout(() => seterrors({}), 5000);
@@ -148,7 +148,6 @@ export default function Register() {
       alert('something went wrong')
     }
   };
-  
   //abc!123ABC098
 
   return (

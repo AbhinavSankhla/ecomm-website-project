@@ -3,6 +3,7 @@ import Breadcrumb from "../../common/Breadcrumb";
 import axios from "axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 export default function ProductItems() {
   const nav = useNavigate();
@@ -11,9 +12,13 @@ export default function ProductItems() {
   const [productData, setProductData] = useState([]);
   const [filePath, setfilePath] = useState('');
   const [checked, setchecked] = useState([]);
+  const [adminData, setadminData] = ('');
+
+  useEffect(() =>{
+    const data = Cookies.get('admin')
+  },[])
 
   const handleFetchProduct = async() => {
-    
     try{
       const response = await axios.get('http://localhost:5200/product/read_product')
 
@@ -22,7 +27,6 @@ export default function ProductItems() {
       setfilePath(response.data.filepath)
       setProductData(response.data.data)
     }
-
     catch(error){
       console.log(error)
       alert('something went wrong')
@@ -46,7 +50,6 @@ export default function ProductItems() {
       }  
     });
     handleFetchProduct();
-
     // console.log(response);
 
     } catch (error) {
@@ -101,6 +104,7 @@ export default function ProductItems() {
       const newArr = [...checked, e.target.value]
       setchecked(newArr)
     } 
+    
     //remove unchecked id value from array (1 june video)
     else {
       const newArr = [...checked]
