@@ -8,7 +8,7 @@ export default function Header() {
 
     const ifadminLoggedIn = () =>{
         const ifadmin = Cookies.get('admin');
-        console.log(ifadmin);
+        // console.log(ifadmin);
 
         if(!ifadmin){
             nav('/')

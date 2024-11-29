@@ -12,16 +12,22 @@ export default function ProductItems() {
   const [productData, setProductData] = useState([]);
   const [filePath, setfilePath] = useState('');
   const [checked, setchecked] = useState([]);
-  const [adminData, setadminData] = ('');
+  const [adminData, setadminData] = useState('');
 
   useEffect(() =>{
-    const data = Cookies.get('admin')
+    // The JSON.parse() function is used to convert a JSON string into a JavaScript object.
+    const data = JSON.parse(Cookies.get('admin'))
+    setadminData(data);
   },[])
 
   const handleFetchProduct = async() => {
     try{
-      const response = await axios.get('http://localhost:5200/product/read_product')
-
+      const response = await axios.get('http://localhost:5200/product/read_product',{
+        //data:{}, //send body here(req.body part)
+        headers : {
+          'Authorization' : `Bearer ${adminData.auth}`
+        }
+      })
       if(response.status !== 200) return alert('something went wrong')
 
       setfilePath(response.data.filepath)
