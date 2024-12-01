@@ -7,7 +7,6 @@ import axios from 'axios';
 
 export default function Login() {
     const nav = useNavigate();
-
     const ifadminLoggedIn = () =>{
         const ifadmin = Cookies.get('admin');
         // console.log(ifadmin);
@@ -33,7 +32,7 @@ export default function Login() {
       
           if(response.status === 200){
             const data = await response.json();
-      
+            
             Cookies.set('admin', JSON.stringify({...data.data, auth:data.auth}));
             nav('/dashboard');
           }
@@ -41,7 +40,6 @@ export default function Login() {
             alert("Invalid Credentials");
           }
     }
-
 
 //     const handleLogin = async () => {
 //   try {
