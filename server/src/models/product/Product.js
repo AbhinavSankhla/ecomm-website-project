@@ -92,13 +92,19 @@ const productSchema = new mongoose.Schema({
         default: Date.now
     },
     updated_at: {
-        type: Date,
-        default: Date.now
+        type: Date
     }
 });
 
 // Update the updated_at field before saving
-productSchema.pre('save', function (next) {
+
+// .pre is used to define pre-hooks (also called middleware) in Mongoose. These hooks allow you to run custom logic before certain actions take place in the database.
+// For example:
+// Before saving a document (save)
+// Before updating a document (updateOne)
+// Before querying (find)
+
+productSchema.pre('save', (next) => {
     this.updated_at = Date.now();
     next();
 });

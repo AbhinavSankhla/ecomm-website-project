@@ -1,11 +1,12 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaShoppingCart, FaHeart} from "react-icons/fa";
 import Link from 'next/link';
 import { useContext } from 'react';
 import { myContext } from '../../context/CartContext';
 import { WishlistContext } from '../../context/WishlistContext';
+import axios from 'axios';
 // import { CartContext } from '@/app/context/CartContext';
 
 const products = [
@@ -78,20 +79,46 @@ const products = [
 export default function ProductList() {
 
   //var name can be any name.
-  const {addToCart} = useContext(myContext);
-  const {addToWishlist} = useContext(WishlistContext);
+  const { addToCart } = useContext(myContext);
+  const { addToWishlist } = useContext(WishlistContext);
+
+
+  const [productData, setproductData] = useState([]);
+  const [filePath, setfilePath] = useState('');
+
+
+  const getProduct = async (req, res) => {
+    try {
+      const response = await axios.get('http://localhost:5200/product/true_product')
+
+      if(response.status !== 200) return alert('something went wrong')
+
+      setproductData(response.data.data)
+      setfilePath(response.data.filepath)    
+      
+    } 
+    catch (error) {
+      console.log(error)
+      alert('something went wrong')  
+    }
+    
+  };
+
+  useEffect(() => {
+    getProduct();
+  }, [])
 
   return (
     <div className="">
       <div className=" mx-auto w-[85%] max-w-screen-xl px-4 sm:px-6 lg:px-8">
         <div className="mt-5 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-          {products.map((product) => (
-            <div key={product.id} className="">
-              <div className="group relative aspect-h-1 aspect-w-1 w-full overflow-hidden  bg-black lg:aspect-none lg:h-80">
-                <Link href={`/products/${product.id}`}>
+          {productData.map((product) => (
+            <div key={product._id} className="">
+              <div className="group relative aspect-h-1 aspect-w-1 w-full overflow-hidden  bg-black lg:aspect-none lg:h-90">
+                <Link href={`/products/${product._id}`}>
                   <img
-                    alt={product.imageAlt}
-                    src={product.imageSrc}
+                    alt={product.name}
+                    src={filePath + '/' + product.thumbnail}
                     className="h-full w-full object-cover object-center lg:h-full lg:w-full transition-transform duration-300 ease-in-out transform group-hover:scale-125 group-hover:opacity-80" 
                   />
                 </Link>

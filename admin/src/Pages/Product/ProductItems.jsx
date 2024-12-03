@@ -12,7 +12,7 @@ export default function ProductItems() {
   const [productData, setProductData] = useState([]);
   const [filePath, setfilePath] = useState('');
   const [checked, setchecked] = useState([]);
-  const [adminData, setadminData] = useState('');
+  // const [adminData, setadminData] = useState('');
 
   // useEffect(() =>{
   //   // The JSON.parse() function is used to convert a JSON string into a JavaScript object.
@@ -22,7 +22,7 @@ export default function ProductItems() {
 
   const handleFetchProduct = async() => {
     const data = JSON.parse(Cookies.get('admin'))
-    setadminData(data);
+    // setadminData(data);
     try{
       const response = await axios.get('http://localhost:5200/product/read_product',{
         //data:{}, //used to send something in body(req.body part)
@@ -53,10 +53,12 @@ export default function ProductItems() {
       status : (e.target.textContent === 'Active') ? false : true
     }
     // console.log(statusData);
+    const data = JSON.parse(Cookies.get('admin'))
     try {
     const response = await axios.put('http://localhost:5200/product/change_product_status', statusData, {
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        'Authorization' : `Bearer ${data.auth}`
       }  
     });
     handleFetchProduct();
