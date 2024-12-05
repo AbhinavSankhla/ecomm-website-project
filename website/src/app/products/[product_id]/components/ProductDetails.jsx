@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaWhatsapp, FaFacebook, FaLinkedinIn } from "react-icons/fa";
 import { FaInstagram, FaSquareXTwitter } from "react-icons/fa6";
 import { SiGmail } from "react-icons/si";
@@ -10,6 +10,8 @@ import { BsHandbagFill } from "react-icons/bs"
 
 import { useContext } from 'react';
 import { myContext } from '../../../context/CartContext';
+import { useParams } from 'next/navigation';
+import axios from 'axios';
 
 export default function ProductDetails() {
 
@@ -33,21 +35,125 @@ export default function ProductDetails() {
   // State to hold the currently displayed image
   const [currentImage, setCurrentImage] = useState(images[0]);
 
+  //fetch single product data using param
+  const params = useParams();
+  const [productData, setproductData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const fetchProduct = async(id) =>{
+    try{
+      console.log(id)
+      if (!id) {
+        console.error("Product ID is missing");
+        return;
+      }
+      const url = `http://localhost:5200/product/fetch_product_with_id/${id}`;
+      const response = await axios.get(url)
+      setproductData(response.data.data);
+      setLoading(false);
+    }
+    catch(error){
+      console.error("Error fetching product details:", error);
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    if (params.product_id) {
+      fetchProduct(params.product_id);
+    }
+  }, [params.product_id]);
+
+  //loading skeleton
+  if (loading) return <div>
+    <section>
+      <div className='w-[85%] max-w-screen-xl mx-auto py-5 mt-6'>
+        <div className='grid lg:grid-cols-2 gap-2'>
+          <div>
+            {/* {
+                  productData.map()
+              } */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 overflow-hidden">
+              <div
+                className="w-[270px] lg:w-[360px] sm:w-1/2 h-[410px] md:h-[550px] lg:h-[480px] bg-cover bg-center border border-gray-300 hover:scale-105 overflow-hidden duration-500 ease-in-out bg-gray-300"
+              >
+              </div>
+              <div className="flex justify-center gap-2 sm:flex-col w-full sm:w-1/4 bg-white">
+                <div className='thumbnail w-14 h-14 sm:w-24 sm:h-24 bg-cover bg-center bg-gray-300 rounded cursor-pointer'></div>
+                <div className='thumbnail w-14 h-14 sm:w-24 sm:h-24 bg-cover bg-center bg-gray-300 rounded cursor-pointer'></div>
+                <div className='thumbnail w-14 h-14 sm:w-24 sm:h-24 bg-cover bg-center bg-gray-300 rounded cursor-pointer'></div>
+                <div className='thumbnail w-14 h-14 sm:w-24 sm:h-24 bg-cover bg-center bg-gray-300 rounded cursor-pointer'></div>
+              </div>
+            </div>
+            <div className="py-10 flex items-center justify-center">
+              <span className='text-[13px] lg:text-[15px] text-[#626262] me-4 font-bold'>Share:</span>
+              <button className='me-3 text-lg'><Link href={'#'}><FaInstagram /></Link></button>
+              <button className='me-3 text-lg'><Link href={'#'}><FaWhatsapp /></Link></button>
+              <button className='me-3 text-lg'><Link href={'#'}><FaFacebook /></Link></button>
+              <button className='me-3 text-lg'><Link href={'#'}><FaSquareXTwitter /></Link></button>
+              <button className='me-3 text-lg'><Link href={'#'}><FaLinkedinIn /></Link></button>
+              <button className='me-3 text-lg'><Link href={'#'}><SiGmail /></Link></button>
+            </div>
+          </div>
+          <div>
+            <div className='w-[30%] h-8 bg-gray-300'></div>
+            <div className='w-[50%] h-5 mt-5 bg-gray-300'></div>
+            <div className='flex items-center justify-start pt-4'>
+              <div className="w-14 h-6 bg-gray-300 pe-1"></div>
+              <div className="w-14 h-6 bg-gray-300 px-2"></div>
+              <div className="w-14 h-6 bg-gray-300"></div>
+            </div>
+            <div className="grid grid-cols-[30%,auto] sm:grid-cols-[20%,auto] gap-4 items-center my-6">
+              <div className='w-[90%] h-4 bg-gray-300 mb-4'></div>
+              <div className='w-[50%] h-4 bg-gray-300 mb-4'></div>
+
+              <div className='w-[90%] h-4 bg-gray-300 mb-4'></div>
+              <div className='w-[50%] h-4 bg-gray-300 mb-4'></div>
+
+              <div className='w-[90%] h-4 bg-gray-300 mb-4'></div>
+              <div className='w-[50%] h-4 bg-gray-300 mb-4'></div>
+
+              <div className='w-[90%] h-4 bg-gray-300 mb-4'></div>
+              <div className='w-[50%] h-4 bg-gray-300 mb-4'></div>
+            </div>
+
+            <div className="w-[18%] h-4 bg-gray-300 mb-3"></div>
+            <div className="flex gap-4">
+              <div className='w-10 h-10 bg-gray-300'></div>
+              <div className='w-10 h-10 bg-gray-300'></div>
+              <div className='w-10 h-10 bg-gray-300'></div>
+              <div className='w-10 h-10 bg-gray-300'></div>
+              <div className='w-10 h-10 bg-gray-300'></div>
+              <div className='w-10 h-10 bg-gray-300'></div>
+            </div>
+
+            <div className="py-4 flex">
+              <div className="bg-gray-300 sm:py-3 sm:px-10 py-2 px-3 w-20 hover:bg-opacity-80 transition-opacity duration-300 mx-4 h-2">
+              </div>
+              <div className=" bg-gray-300 sm:py-3 sm:px-10 py-2 px-3  hover:bg-opacity-80 transition-opacity duration-300 w-20 h-2">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>;
+
   return (
     <>
       <section>
         <div className='w-[85%] max-w-screen-xl mx-auto py-5 mt-6'>
           <div className='grid lg:grid-cols-2 gap-2'>
             <div>
-
+              {/* {
+                  productData.map()
+              } */}
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4 overflow-hidden">
-              
                 <div
                   className="w-[270px] lg:w-[360px] sm:w-1/2 h-[410px] md:h-[550px] lg:h-[480px] bg-cover bg-center border border-gray-300 hover:scale-105 overflow-hidden duration-500 ease-in-out bg-black"
                   style={{ backgroundImage: `url(${currentImage})` }}
                 >
                 </div>
-          
                 <div className="flex justify-center gap-2 sm:flex-col w-full sm:w-1/4 bg-white">
                   {images.map((image, index) => (
                     <div
@@ -70,32 +176,32 @@ export default function ProductDetails() {
               </div>
             </div>
             <div>
-              <h3 className='text-[35px] text-[#161922]'>Allen Soly</h3>
-              <p className='text-[13px] lg:text-[20px] font-light text-[#626262]'>Classic color casual shirt for men</p>
+              <h3 className='text-[35px] text-[#161922]'>{productData.name}</h3>
+              <p className='text-[13px] lg:text-[20px] font-light text-[#626262]'>{productData.name}</p>
               <div className='flex items-center justify-start pt-4'>
-                <p className="text-[22px] pe-1">Rs. 799</p>
-                <p className='text-[20px] font-light px-2 line-through text-[#161922]'>Rs.1599</p>
-                <p className='text-[20px] text-red-500 font-light'>(50% off)</p>
+                <p className="text-[22px] pe-1">{`Rs. ${productData.price}`}</p>
+                <p className='text-[20px] font-light px-2 line-through text-[#161922]'>{`Rs. ${productData.mrp}`}</p>
+                <p className='text-[20px] text-red-500 font-light'>{`(${productData.discount}% OFF)`}</p>
 
               </div>
               <div className="grid grid-cols-[30%,auto] sm:grid-cols-[20%,auto] gap-4 items-center my-6">
                 <div className="text-[13px] lg:text-[15px] text-[#626262] font-bold border-b border-gray-300 pb-4">Occasion:</div>
-                <div className='text-[13px] lg:text-[15px] text-[#626262] border-b border-gray-300 pb-4'>Casual</div>
+                <div className='text-[13px] lg:text-[15px] text-[#626262] border-b border-gray-300 pb-4'>{productData.occasion}</div>
 
                 <div className="text-[13px] lg:text-[15px] text-[#626262] font-bold border-b border-gray-300 pb-4">Fit Type:</div>
-                <div className='text-[13px] lg:text-[15px] text-[#626262] border-b border-gray-300 pb-4'>Regular</div>
+                <div className='text-[13px] lg:text-[15px] text-[#626262] border-b border-gray-300 pb-4'>{productData.fit}</div>
 
                 <div className="text-[13px] lg:text-[15px] text-[#626262] font-bold border-b border-gray-300 pb-4">Color:</div>
-                <div className='text-[13px] lg:text-[15px] text-[#626262] border-b border-gray-300 pb-4'>Brown</div>
+                <div className='text-[13px] lg:text-[15px] text-[#626262] border-b border-gray-300 pb-4'>{productData.color}</div>
 
-                <div className="text-[13px] lg:text-[15px] text-[#626262] font-bold border-b border-gray-300 pb-4">Material:</div>
-                <div className='text-[13px] lg:text-[15px] text-[#626262] border-b border-gray-300 pb-4'>Polyester</div>
+                <div className="text-[13px] lg:text-[15px] text-[#626262] font-bold border-b border-gray-300 pb-4">Fabric:</div>
+                <div className='text-[13px] lg:text-[15px] text-[#626262] border-b border-gray-300 pb-4'>{productData.fabric}</div>
               </div>
 
               <div className="text-[13px] lg:text-[15px] text-[#626262] font-bold pb-4">Select Size:</div>
               <div className='text-[13px] lg:text-[15px] text-[#626262] pb-4'>
                 <div className="flex gap-4">
-                  {sizes.map((size) => (
+                  {productData.size.map((size) => (
                     <button
                       key={size}
                       className={`px-4 py-2 border cursor-pointer ${selectedSize === size

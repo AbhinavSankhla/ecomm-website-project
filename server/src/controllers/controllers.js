@@ -36,13 +36,16 @@ const updateSubCategory = require('./subCategory/updateSubCategory')
 const deleteMultiSubCat = require('./subCategory/deleteMultiSubCat')
 const deleteMultiProduct = require('./products/deleteMultiProduct')
 
-//OTP Controllers
+//OTP Controller
 const otpGenerator = require('./otp/otpGenerator')
 
-//User
+//User Controllers
 const registerUser = require('./users/registerUser')
 const readUser = require('./users/readUser')
 const deleteUser = require('./users/deleteUser')
+
+//Payment Controller
+const reqPayment = require('./payment/reqPayment')
 
 module.exports = {
     registerAdmin,
@@ -77,5 +80,6 @@ module.exports = {
     otpGenerator,
     registerUser,
     readUser,
-    deleteUser
+    deleteUser,
+    reqPayment
 }

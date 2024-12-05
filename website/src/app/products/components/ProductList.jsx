@@ -87,7 +87,7 @@ export default function ProductList() {
   const [filePath, setfilePath] = useState('');
 
 
-  const getProduct = async (req, res) => {
+  const getProduct = async () => {
     try {
       const response = await axios.get('http://localhost:5200/product/true_product')
 
@@ -135,13 +135,13 @@ export default function ProductList() {
               </div>
               <div>
                   <h3 className="text-[20px] text-[#161922] pt-2 font-roboto">
-                      <Link href={`/products/${product.id}`}>
+                      <Link href={`/products/${product._id}`}>
                         {product.name}
                       </Link>
                   </h3>
                   <p className='text-[15px] font-roboto font-light pb-1 text-[#161922]'>{product.description}</p>
                   <span className="text-base">Rs. {product.price}</span>
-                  <span className='text-[12px] mx-2 line-through text-[#161922]'>{product.mrp}</span>
+                  <span className='text-[12px] mx-2 line-through text-[#161922]'>Rs. {product.mrp}</span>
                   <span className='text-[12px] text-red-500'>({product.discount} off)</span>
               </div>
             </div>
