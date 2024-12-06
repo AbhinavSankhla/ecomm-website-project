@@ -6,8 +6,6 @@ import { FaInstagram, FaSquareXTwitter } from "react-icons/fa6";
 import { SiGmail } from "react-icons/si";
 import Link from 'next/link';
 import { PiHandbagFill } from "react-icons/pi";
-import { BsHandbagFill } from "react-icons/bs"
-
 import { useContext } from 'react';
 import { myContext } from '../../../context/CartContext';
 import { useParams } from 'next/navigation';
@@ -16,41 +14,42 @@ import axios from 'axios';
 export default function ProductDetails() {
 
   // const {addToCart} = useContext(myContext);
-  // Define the image URLs
-  const images = [
-    'https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/28219632/2024/3/12/2f53aaab-40e1-4c5b-8148-6ad150e5f4341710256687634CampusSutraMenClassicOpaqueCheckedCasualShirt2.jpg',
-
-    'https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/28219632/2024/3/12/4fc84572-cad2-4b42-9a39-006351e9db651710256687610CampusSutraMenClassicOpaqueCheckedCasualShirt1.jpg',
-
-    'https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/28219632/2024/3/12/c7a70b3a-e915-4313-a3d3-b632d0121c691710256687658CampusSutraMenClassicOpaqueCheckedCasualShirt3.jpg',
-
-    'https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/28219632/2024/3/12/9da6c838-2e37-451c-91ee-619d95be9a2b1710256687563CampusSutraMenClassicOpaqueCheckedCasualShirt4.jpg',
-  ];
-
-  const sizes = ["S", "M", "L", "XL", "XXL"];
 
   // State for the current image and selected size
   const [selectedSize, setSelectedSize] = useState("");
 
   // State to hold the currently displayed image
-  const [currentImage, setCurrentImage] = useState(images[0]);
+  const [currentImage, setCurrentImage] = useState('');
+  const [activeTab, setActiveTab] = useState('tab1');
 
   //fetch single product data using param
   const params = useParams();
-  const [productData, setproductData] = useState(null);
+  const [productData, setproductData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const fetchProduct = async(id) =>{
     try{
-      console.log(id)
-      if (!id) {
-        console.error("Product ID is missing");
-        return;
-      }
       const url = `http://localhost:5200/product/fetch_product_with_id/${id}`;
       const response = await axios.get(url)
-      setproductData(response.data.data);
+
+
+    // Safely access the product data
+      const product = response.data?.data;
+      if (!product) {
+        console.error("Product data is missing in the response");
+        setLoading(false);
+        return;
+      }
+
+      // Split the image string into an array and ensure proper URLs
+      const imagesArray = product.images[0]
+        ?.split(',')
+        .map((img) => (img.startsWith("http") ? img : `http://localhost:5200/uploads/${img}`)) || [];
+
+      setproductData({ ...product, images: imagesArray }); // Correctly update the product data
+      setCurrentImage(imagesArray[0]); // Set the first image as default
       setLoading(false);
+
     }
     catch(error){
       console.error("Error fetching product details:", error);
@@ -75,7 +74,7 @@ export default function ProductDetails() {
               } */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 overflow-hidden">
               <div
-                className="w-[270px] lg:w-[360px] sm:w-1/2 h-[410px] md:h-[550px] lg:h-[480px] bg-cover bg-center border border-gray-300 hover:scale-105 overflow-hidden duration-500 ease-in-out bg-gray-300"
+                className="w-[270px] lg:w-[360px] sm:w-1/2 h-[410px] md:h-[550px] lg:h-[480px] bg-cover bg-center border border-gray-300 bg-gray-300"
               >
               </div>
               <div className="flex justify-center gap-2 sm:flex-col w-full sm:w-1/4 bg-white">
@@ -119,12 +118,11 @@ export default function ProductDetails() {
 
             <div className="w-[18%] h-4 bg-gray-300 mb-3"></div>
             <div className="flex gap-4">
-              <div className='w-10 h-10 bg-gray-300'></div>
-              <div className='w-10 h-10 bg-gray-300'></div>
-              <div className='w-10 h-10 bg-gray-300'></div>
-              <div className='w-10 h-10 bg-gray-300'></div>
-              <div className='w-10 h-10 bg-gray-300'></div>
-              <div className='w-10 h-10 bg-gray-300'></div>
+              <div className='w-6 h-6 sm:w-10 sm:h-10 bg-gray-300'></div>
+              <div className='w-6 h-6 sm:w-10 sm:h-10 bg-gray-300'></div>
+              <div className='w-6 h-6 sm:w-10 sm:h-10 bg-gray-300'></div>
+              <div className='w-6 h-6 sm:w-10 sm:h-10 bg-gray-300'></div>
+              <div className='w-6 h-6 sm:w-10 sm:h-10 bg-gray-300'></div>
             </div>
 
             <div className="py-4 flex">
@@ -139,6 +137,14 @@ export default function ProductDetails() {
     </section>
   </div>;
 
+  const handleBuyCourse = async(e) =>{
+    if(productData._id === e.target.value) {
+      console.log("Selected product details:", productData);
+
+      
+    }
+  }
+
   return (
     <>
       <section>
@@ -150,12 +156,12 @@ export default function ProductDetails() {
               } */}
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4 overflow-hidden">
                 <div
-                  className="w-[270px] lg:w-[360px] sm:w-1/2 h-[410px] md:h-[550px] lg:h-[480px] bg-cover bg-center border border-gray-300 hover:scale-105 overflow-hidden duration-500 ease-in-out bg-black"
+                  className="w-[270px] lg:w-[360px] sm:w-1/2 h-[410px] md:h-[550px] lg:h-[480px] bg-cover bg-center border border-gray-300 hover:scale-105 overflow-hidden duration-500 ease-in-out bg-gray-300"
                   style={{ backgroundImage: `url(${currentImage})` }}
                 >
                 </div>
                 <div className="flex justify-center gap-2 sm:flex-col w-full sm:w-1/4 bg-white">
-                  {images.map((image, index) => (
+                  {productData.images.map((image, index) => (
                     <div
                       key={index}
                       className={`thumbnail w-14 h-14 sm:w-24 sm:h-24 bg-cover bg-center border border-gray-300 rounded cursor-pointer ${currentImage === image ? 'ring-2 ring-gray-300' : ''}`}
@@ -177,7 +183,7 @@ export default function ProductDetails() {
             </div>
             <div>
               <h3 className='text-[35px] text-[#161922]'>{productData.name}</h3>
-              <p className='text-[13px] lg:text-[20px] font-light text-[#626262]'>{productData.name}</p>
+              <p className='text-[13px] lg:text-[20px] font-light text-[#626262]'>{productData.description}</p>
               <div className='flex items-center justify-start pt-4'>
                 <p className="text-[22px] pe-1">{`Rs. ${productData.price}`}</p>
                 <p className='text-[20px] font-light px-2 line-through text-[#161922]'>{`Rs. ${productData.mrp}`}</p>
@@ -204,32 +210,66 @@ export default function ProductDetails() {
                   {productData.size.map((size) => (
                     <button
                       key={size}
-                      className={`px-4 py-2 border cursor-pointer ${selectedSize === size
+                      className={`px-3 py-[6px] sm:px-4 sm:py-2 border cursor-pointer ${selectedSize === size
                           ? 'bg-[#2d2d2d] text-white'
                           : 'bg-gray-100 text-gray-800'
                         }`}
                       onClick={() => setSelectedSize(size)}
                     >
-                      {size}
+                      {size.toUpperCase()}
                     </button>
                   ))}
                 </div>
                 {selectedSize && (
-                  <p className="pt-2 text-sm text-gray-500">Selected Size: {selectedSize}</p>
+                  <p className="pt-2 text-sm text-gray-500">Selected Size: {selectedSize.toUpperCase()}</p>
                 )}
               </div>
 
               <div className=''>
                 <div className="py-4 flex">
                   <button className="bg-black text-white sm:py-3 sm:px-10 py-2 px-3 text-[14px] sm:text-[16px] hover:bg-opacity-80 transition-opacity duration-300 mx-4 flex items-center font-medium">
-                  <PiHandbagFill className='me-2'/>
-                  <span>ADD TO BAG</span>
+                    <PiHandbagFill className='me-2' />
+                    <span>ADD TO BAG</span>
                   </button>
-                  <button className=" bg-black text-white sm:py-3 sm:px-10 py-2 px-3 text-[14px] sm:text-[16px] hover:bg-opacity-80 transition-opacity duration-300 font-medium">
+                  <button value={productData._id} onClick={handleBuyCourse} className=" bg-black text-white sm:py-3 sm:px-10 py-2 px-3 text-[14px] sm:text-[16px] hover:bg-opacity-80 transition-opacity duration-300 font-medium">
                     BUY NOW
                   </button>
                 </div>
               </div>
+            </div>
+          </div>
+          <div className="w-full">
+            {/* Tabs Navigation */}
+            <div className="flex space-x-4 border-b">
+              <button
+                onClick={() => setActiveTab('tab1')}
+                className={`py-2 px-4 text-sm font-medium ${activeTab === 'tab1'
+                    ? 'border-b-2 border-black text-black'
+                    : 'text-gray-500'
+                  }`}
+              >
+                Description
+              </button>
+              <button
+                onClick={() => setActiveTab('tab2')}
+                className={`py-2 px-4 text-sm font-medium ${activeTab === 'tab2'
+                    ? 'border-b-2 border-black text-black'
+                    : 'text-gray-500'
+                  }`}
+              >
+                Additional Information
+              </button>
+            </div>
+
+            {/* Tabs Content */}
+            <div className="mt-4 p-4">
+              {activeTab === 'tab1' ? (
+                <div>
+                  <p>{productData.full_description}</p>
+                </div>
+              ) : (
+                <div>Content for Tab 2 (To be fetch)</div>
+              )}
             </div>
           </div>
         </div>
