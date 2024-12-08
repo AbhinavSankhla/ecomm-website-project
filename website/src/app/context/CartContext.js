@@ -1,5 +1,7 @@
 'use client'
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { createContext, useState, useEffect } from "react";
 
 export const myContext = createContext();
@@ -9,8 +11,19 @@ export const CartContext = ({ children }) => {
     const [count, setCount] = useState(0);  // state to keep track of cart count
 
     const addToCart = (ProductData) => {
-        setCart([...cart, { ...ProductData, qnt: 1 }]);
-        console.log([...cart, ProductData]);
+        try {
+            // Show toast notification
+            // console.log(ProductData)
+            
+            toast.success('Product Added to Cart!');
+            setCart((prevCart) => [...prevCart, { ...ProductData, qnt: 1 }]);
+                 console.log([...cart, ProductData]);    
+            
+
+          } catch (error) {
+            console.error("Error adding product:", error);
+            toast.error("Failed to add product to cart.");
+          }
     };
 
     const removeFromCart = (productId) => {

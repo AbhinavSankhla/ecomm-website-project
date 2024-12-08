@@ -7,6 +7,8 @@ import { useContext } from 'react';
 import { myContext } from '../../context/CartContext';
 import { WishlistContext } from '../../context/WishlistContext';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // import { CartContext } from '@/app/context/CartContext';
 
 const products = [
@@ -101,7 +103,6 @@ export default function ProductList() {
       console.log(error)
       alert('something went wrong')  
     }
-    
   };
 
   useEffect(() => {
@@ -111,6 +112,20 @@ export default function ProductList() {
   return (
     <div className="">
       <div className=" mx-auto w-[85%] max-w-screen-xl px-4 sm:px-6 lg:px-8">
+      <ToastContainer
+position="top-right"
+autoClose={3000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="dark"
+className="mt-16 z-50"
+/>
+
         <div className="mt-5 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
           {productData.map((product) => (
             <div key={product._id} className="">

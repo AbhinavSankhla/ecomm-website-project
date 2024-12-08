@@ -12,7 +12,7 @@ export default function Home() {
       <Navbar/>
       <HeroSection/>
       <Featured bgColor={'bg-white'}/>
-      <Featured bgColor={'bg-[#EAF1F5]'}/>
+      {/* <Featured bgColor={'bg-[#EAF1F5]'}/> */}
       <WhoWeAre/>
       <Facilities/>
       <Banner/>

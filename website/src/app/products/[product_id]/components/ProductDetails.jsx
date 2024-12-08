@@ -40,13 +40,12 @@ export default function ProductDetails() {
         setLoading(false);
         return;
       }
-
       // Split the image string into an array and ensure proper URLs
       const imagesArray = product.images[0]
         ?.split(',')
         .map((img) => (img.startsWith("http") ? img : `http://localhost:5200/uploads/${img}`)) || [];
 
-      setproductData({ ...product, images: imagesArray }); // Correctly update the product data
+      setproductData([{ ...product, images: imagesArray }]); // Correctly update the product data
       setCurrentImage(imagesArray[0]); // Set the first image as default
       setLoading(false);
 
@@ -137,11 +136,29 @@ export default function ProductDetails() {
     </section>
   </div>;
 
-  const handleBuyCourse = async(e) =>{
-    if(productData._id === e.target.value) {
-      console.log("Selected product details:", productData);
-
+  const handleBuyProduct = async(e) =>{
+    if(productData[0]._id === e.target.value) {
       
+      const data = [{ 
+        name : productData[0].name,  
+        thumbnail : productData[0].thumbnail,
+        price : productData[0].price,
+        size : selectedSize,
+        // qnt : 1
+      }]
+
+      // console.log(data)
+      // const productDetails = productData;      
+      // console.log(productDetails)
+      try {
+        const response = await axios.post('http://localhost:5200/payment/req-payment', {
+          data : data
+        })
+      } 
+      catch (error) {
+        console.log(error)
+        alert('something went wrogn')
+      }
     }
   }
 
@@ -161,7 +178,7 @@ export default function ProductDetails() {
                 >
                 </div>
                 <div className="flex justify-center gap-2 sm:flex-col w-full sm:w-1/4 bg-white">
-                  {productData.images.map((image, index) => (
+                  {productData[0].images.map((image, index) => (
                     <div
                       key={index}
                       className={`thumbnail w-14 h-14 sm:w-24 sm:h-24 bg-cover bg-center border border-gray-300 rounded cursor-pointer ${currentImage === image ? 'ring-2 ring-gray-300' : ''}`}
@@ -182,32 +199,32 @@ export default function ProductDetails() {
               </div>
             </div>
             <div>
-              <h3 className='text-[35px] text-[#161922]'>{productData.name}</h3>
-              <p className='text-[13px] lg:text-[20px] font-light text-[#626262]'>{productData.description}</p>
+              <h3 className='text-[35px] text-[#161922]'>{productData[0].name}</h3>
+              <p className='text-[13px] lg:text-[20px] font-light text-[#626262]'>{productData[0].description}</p>
               <div className='flex items-center justify-start pt-4'>
-                <p className="text-[22px] pe-1">{`Rs. ${productData.price}`}</p>
-                <p className='text-[20px] font-light px-2 line-through text-[#161922]'>{`Rs. ${productData.mrp}`}</p>
-                <p className='text-[20px] text-red-500 font-light'>{`(${productData.discount}% OFF)`}</p>
+                <p className="text-[22px] pe-1">{`Rs. ${productData[0].price}`}</p>
+                <p className='text-[20px] font-light px-2 line-through text-[#161922]'>{`Rs. ${productData[0].mrp}`}</p>
+                <p className='text-[20px] text-red-500 font-light'>{`(${productData[0].discount}% OFF)`}</p>
 
               </div>
               <div className="grid grid-cols-[30%,auto] sm:grid-cols-[20%,auto] gap-4 items-center my-6">
                 <div className="text-[13px] lg:text-[15px] text-[#626262] font-bold border-b border-gray-300 pb-4">Occasion:</div>
-                <div className='text-[13px] lg:text-[15px] text-[#626262] border-b border-gray-300 pb-4'>{productData.occasion}</div>
+                <div className='text-[13px] lg:text-[15px] text-[#626262] border-b border-gray-300 pb-4'>{productData[0].occasion}</div>
 
                 <div className="text-[13px] lg:text-[15px] text-[#626262] font-bold border-b border-gray-300 pb-4">Fit Type:</div>
-                <div className='text-[13px] lg:text-[15px] text-[#626262] border-b border-gray-300 pb-4'>{productData.fit}</div>
+                <div className='text-[13px] lg:text-[15px] text-[#626262] border-b border-gray-300 pb-4'>{productData[0].fit}</div>
 
                 <div className="text-[13px] lg:text-[15px] text-[#626262] font-bold border-b border-gray-300 pb-4">Color:</div>
-                <div className='text-[13px] lg:text-[15px] text-[#626262] border-b border-gray-300 pb-4'>{productData.color}</div>
+                <div className='text-[13px] lg:text-[15px] text-[#626262] border-b border-gray-300 pb-4'>{productData[0].color}</div>
 
                 <div className="text-[13px] lg:text-[15px] text-[#626262] font-bold border-b border-gray-300 pb-4">Fabric:</div>
-                <div className='text-[13px] lg:text-[15px] text-[#626262] border-b border-gray-300 pb-4'>{productData.fabric}</div>
+                <div className='text-[13px] lg:text-[15px] text-[#626262] border-b border-gray-300 pb-4'>{productData[0].fabric}</div>
               </div>
 
               <div className="text-[13px] lg:text-[15px] text-[#626262] font-bold pb-4">Select Size:</div>
               <div className='text-[13px] lg:text-[15px] text-[#626262] pb-4'>
                 <div className="flex gap-4">
-                  {productData.size.map((size) => (
+                  {productData[0].size.map((size) => (
                     <button
                       key={size}
                       className={`px-3 py-[6px] sm:px-4 sm:py-2 border cursor-pointer ${selectedSize === size
@@ -228,10 +245,10 @@ export default function ProductDetails() {
               <div className=''>
                 <div className="py-4 flex">
                   <button className="bg-black text-white sm:py-3 sm:px-10 py-2 px-3 text-[14px] sm:text-[16px] hover:bg-opacity-80 transition-opacity duration-300 mx-4 flex items-center font-medium">
-                    <PiHandbagFill className='me-2' />
+                    <PiHandbagFill className='me-2'/>
                     <span>ADD TO BAG</span>
                   </button>
-                  <button value={productData._id} onClick={handleBuyCourse} className=" bg-black text-white sm:py-3 sm:px-10 py-2 px-3 text-[14px] sm:text-[16px] hover:bg-opacity-80 transition-opacity duration-300 font-medium">
+                  <button value={productData[0]._id} onClick={handleBuyProduct} className=" bg-black text-white sm:py-3 sm:px-10 py-2 px-3 text-[14px] sm:text-[16px] hover:bg-opacity-80 transition-opacity duration-300 font-medium">
                     BUY NOW
                   </button>
                 </div>
@@ -265,7 +282,7 @@ export default function ProductDetails() {
             <div className="mt-4 p-4">
               {activeTab === 'tab1' ? (
                 <div>
-                  <p>{productData.full_description}</p>
+                  <p>{productData[0].full_description}</p>
                 </div>
               ) : (
                 <div>Content for Tab 2 (To be fetch)</div>

@@ -45,7 +45,9 @@ const readUser = require('./users/readUser')
 const deleteUser = require('./users/deleteUser')
 
 //Payment Controller
+// const reqPayment = require('./payment/reqPayment')
 const reqPayment = require('./payment/reqPayment')
+
 
 module.exports = {
     registerAdmin,

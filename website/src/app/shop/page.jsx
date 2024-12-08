@@ -15,8 +15,8 @@ export default function shopPage(addToCart) {
       <HeroSection title ={'Shop'}/>      
       <Sorting/>
       <ProductList/>
-      <ProductList/>
-      <ProductList/>
+      {/* <ProductList/>
+      <ProductList/> */}
       <Pagination/>
       <Footer/>
     </>
