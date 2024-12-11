@@ -129,7 +129,7 @@ className="mt-16 z-50"
         <div className="mt-5 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
           {productData.map((product) => (
             <div key={product._id} className="">
-              <div className="group relative aspect-h-1 aspect-w-1 w-full overflow-hidden  bg-black lg:aspect-none lg:h-90">
+              <div className="group relative aspect-h-1 aspect-w-1 w-full overflow-hidden  bg-black lg:aspect-none lg:h-80">
                 <Link href={`/products/${product._id}`}>
                   <img
                     alt={product.name}
@@ -143,7 +143,7 @@ className="mt-16 z-50"
                         <FaShoppingCart className='text-2xl'/>
                     </button>
                     <button className="p-4 text-white bg-black bg-opacity-75 hover:bg-white hover:text-black transition-colors duration-300 ease-in-out" onClick={()=>addToWishlist(product)}>
-                        <FaHeart className='text-2xl '/>
+                        <FaHeart className='text-2xl'/>
                     </button>
                   </div>
                 </div>

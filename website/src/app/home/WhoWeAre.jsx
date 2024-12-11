@@ -3,7 +3,7 @@ import React from 'react'
 export default function WhoWeAre() {
   return (
     <>
-      <section>
+      <section className=''>
         <div className= "bg-cover bg-no-repeat bg-top bg-fixed" style={{ backgroundImage: "url('https://themes.muffingroup.com/be/clothing2/wp-content/uploads/2020/07/clothing2-sectionbg1.jpg')"}}>
           <div className='text-center pt-[80px] text-[65px] tracking-normal text-gray-900'>
             <h2 className='font-light'>Who we are</h2>

@@ -10,6 +10,7 @@ import { useContext } from 'react';
 import { myContext } from '../../../context/CartContext';
 import { useParams } from 'next/navigation';
 import axios from 'axios';
+import {loadStripe} from '@stripe/stripe-js';
 
 export default function ProductDetails() {
 
@@ -32,7 +33,6 @@ export default function ProductDetails() {
       const url = `http://localhost:5200/product/fetch_product_with_id/${id}`;
       const response = await axios.get(url)
 
-
     // Safely access the product data
       const product = response.data?.data;
       if (!product) {
@@ -50,8 +50,10 @@ export default function ProductDetails() {
       setLoading(false);
 
     }
+    
     catch(error){
-      console.error("Error fetching product details:", error);
+      // console.error("Error fetching product details:", error);
+      alert('something went wrong')
       setLoading(false);
     }
   }
@@ -137,8 +139,11 @@ export default function ProductDetails() {
   </div>;
 
   const handleBuyProduct = async(e) =>{
+
+    const stripe =  await loadStripe('pk_test_51LiyTNSH4QsKt7gApjEgxNySurOKQbOlLuc0XxwsqJek8ItuUyPQLIwIThhZ7Q4Ut7dYzWkrlg15v5kgV2opUJF6002wEvois3')
+
     if(productData[0]._id === e.target.value) {
-      
+
       const data = [{ 
         name : productData[0].name,  
         thumbnail : productData[0].thumbnail,
@@ -147,13 +152,15 @@ export default function ProductDetails() {
         // qnt : 1
       }]
 
-      // console.log(data)
-      // const productDetails = productData;      
-      // console.log(productDetails)
       try {
         const response = await axios.post('http://localhost:5200/payment/req-payment', {
           data : data
+        });
+
+        stripe.redirectToCheckout({
+          sessionId: response.data.session
         })
+
       } 
       catch (error) {
         console.log(error)
@@ -182,7 +189,7 @@ export default function ProductDetails() {
                     <div
                       key={index}
                       className={`thumbnail w-14 h-14 sm:w-24 sm:h-24 bg-cover bg-center border border-gray-300 rounded cursor-pointer ${currentImage === image ? 'ring-2 ring-gray-300' : ''}`}
-                      style={{ backgroundImage: `url(${image})` }}
+                      style={{ backgroundImage: `url(${image})`}}
                       onClick={() => setCurrentImage(image)}
                     ></div>
                   ))}
@@ -205,7 +212,6 @@ export default function ProductDetails() {
                 <p className="text-[22px] pe-1">{`Rs. ${productData[0].price}`}</p>
                 <p className='text-[20px] font-light px-2 line-through text-[#161922]'>{`Rs. ${productData[0].mrp}`}</p>
                 <p className='text-[20px] text-red-500 font-light'>{`(${productData[0].discount}% OFF)`}</p>
-
               </div>
               <div className="grid grid-cols-[30%,auto] sm:grid-cols-[20%,auto] gap-4 items-center my-6">
                 <div className="text-[13px] lg:text-[15px] text-[#626262] font-bold border-b border-gray-300 pb-4">Occasion:</div>
@@ -241,7 +247,6 @@ export default function ProductDetails() {
                   <p className="pt-2 text-sm text-gray-500">Selected Size: {selectedSize.toUpperCase()}</p>
                 )}
               </div>
-
               <div className=''>
                 <div className="py-4 flex">
                   <button className="bg-black text-white sm:py-3 sm:px-10 py-2 px-3 text-[14px] sm:text-[16px] hover:bg-opacity-80 transition-opacity duration-300 mx-4 flex items-center font-medium">
