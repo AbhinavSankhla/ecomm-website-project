@@ -1,10 +1,37 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import ProductList from '../products/components/ProductList'
+import axios from 'axios';
 
 export default function Featured({bgColor}) {
+
+  const [productData, setproductData] = useState([]);
+  const [filePath, setfilePath] = useState('');
+  
+  const getProduct = async () => {
+    try {
+      const response = await axios.get('http://localhost:5200/product/true_product')
+
+      if(response.status !== 200) return alert('something went wrong')
+
+      setproductData(response.data.data)
+      setfilePath(response.data.filepath)    
+      console.log(response.data.data)
+    } 
+
+    catch (error) {
+      console.log(error)
+      alert('something went wrong')  
+    }
+  };
+
+  useEffect(() => {
+    getProduct();
+  }, [])
+
+
   return (
     <>
       <section>
@@ -17,7 +44,7 @@ export default function Featured({bgColor}) {
               </div>
             </div>
           </div>
-          <ProductList/>
+          <ProductList productData={productData} limit={4} filePath={filePath}/>
            
           <div className="flex justify-center py-[60px] border-solid">
             <Link href="/shop">

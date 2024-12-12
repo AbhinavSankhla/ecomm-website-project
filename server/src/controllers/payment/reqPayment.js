@@ -28,7 +28,6 @@ const reqPayment = async(req,res) => {
                 state : 'Rajasthan',
                 postal_code : '11224',
                 country : 'IN'
-
             }
         });
         console.log(customer)

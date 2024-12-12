@@ -2,7 +2,7 @@ import { MdKeyboardArrowLeft, MdKeyboardArrowRight  } from "react-icons/md";
 
 export default function Pagination() {
   return (
-    <div className="w-[85%] mx-auto flex items-center justify-between border-t border-gray-200 bg-white px-4 py-6 mt-8 sm:px-8">
+    <div className="w-[85%] max-w-screen-xl mx-auto flex items-center justify-between border-t border-gray-200 bg-white px-4 py-6 mt-8 sm:px-8">
       <div className="flex flex-1 justify-between sm:hidden">
         <a
           href="#"

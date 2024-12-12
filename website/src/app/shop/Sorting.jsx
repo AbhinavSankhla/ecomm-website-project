@@ -1,11 +1,38 @@
-import React from 'react'
+'use client'
+
+import React, { useEffect, useState } from 'react'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { IoIosArrowDown } from "react-icons/io";
+import axios from 'axios';
+import ProductList from '../products/components/ProductList';
 
 export default function Sorting() {
   
-  const result = 12;  
-    
+  const result = 12;
+  const [productData, setproductData] = useState([]);
+  const [filePath, setfilePath] = useState('');
+  
+  const getProduct = async () => {
+    try {
+      const response = await axios.get('http://localhost:5200/product/true_product')
+
+      if(response.status !== 200) return alert('something went wrong')
+
+      setproductData(response.data.data)
+      setfilePath(response.data.filepath)    
+    } 
+
+    catch (error) {
+      console.log(error)
+      alert('something went wrong')  
+    }
+  };
+
+  useEffect(() => {
+    getProduct();
+  }, [])
+
+
   return (
     <>
         <div className='bg-white'>
@@ -78,8 +105,8 @@ export default function Sorting() {
                         </Menu>
                     </div>
                 </div>
-                {/* <ProductList/> */}
             </div>
+            <ProductList productData={productData} limit={productData.length} filePath={filePath}/>
         </div>
     </>
   )
