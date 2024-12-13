@@ -14,6 +14,6 @@ export const categories = [
     {
       name: 'Footwear',
       subcategories: ['Sneakers', 'Casual Shoes', 'Sports Shoes', 'Formal Shoes'],
-    },
+    }
   ];
 

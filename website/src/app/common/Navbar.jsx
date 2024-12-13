@@ -5,12 +5,10 @@ import Link from 'next/link'
 import {  React, useState, useContext, useEffect } from 'react'
 import { myContext } from '../context/CartContext';
 import { WishlistContext } from '../context/WishlistContext';
-import NavLinks from './NavLinks';
 import ShopMenu from './ShopMenu';
 import {categories} from './Categories';
 import { SlHandbag } from "react-icons/sl";
 import { BsSearch } from "react-icons/bs";
-import { FaAngleRight } from "react-icons/fa6";
 import { AiOutlineMenu } from "react-icons/ai";
 import { IoCloseOutline } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
@@ -77,7 +75,14 @@ const Navbar = () => {
                 Shop
               </Link>
             </li>
-            <NavLinks/>
+            <li>
+              <Link className='px-4 pb-[24px] hover:border-b-[2px] hover:border-[#212121] hover:text-black duration-100 ease-in-out capitalize' href={"/about"}>about
+              </Link>
+            </li>
+            <li>
+              <Link className='px-4 pb-[24px] hover:border-b-[2px] hover:border-[#212121] hover:text-black duration-100 ease-in-out capitalize' href={"/contact"}>contact
+              </Link>
+            </li>
           </ul>
           <div>
             <div className='flex items-center justify-between gap-[2vw] gap-x-3 sm:gap-x-6'>
