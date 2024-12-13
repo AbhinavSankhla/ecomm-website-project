@@ -11,6 +11,7 @@ export default function Sorting() {
   const result = 12;
   const [productData, setproductData] = useState([]);
   const [filePath, setfilePath] = useState('');
+  const [loading, setLoading] = useState(true);
   
   const getProduct = async () => {
     try {
@@ -19,12 +20,14 @@ export default function Sorting() {
       if(response.status !== 200) return alert('something went wrong')
 
       setproductData(response.data.data)
-      setfilePath(response.data.filepath)    
+      setfilePath(response.data.filepath)
+      setLoading(false);    
     } 
 
     catch (error) {
       console.log(error)
-      alert('something went wrong')  
+      alert('something went wrong')
+      setLoading(false);  
     }
   };
 
@@ -106,7 +109,7 @@ export default function Sorting() {
                     </div>
                 </div>
             </div>
-            <ProductList productData={productData} limit={productData.length} filePath={filePath}/>
+            <ProductList loading={loading} productData={productData} limit={productData.length} filePath={filePath}/>
         </div>
     </>
   )

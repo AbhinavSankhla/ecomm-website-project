@@ -9,6 +9,7 @@ export default function Featured({bgColor}) {
 
   const [productData, setproductData] = useState([]);
   const [filePath, setfilePath] = useState('');
+  const [loading, setLoading] = useState(true);
   
   const getProduct = async () => {
     try {
@@ -17,13 +18,15 @@ export default function Featured({bgColor}) {
       if(response.status !== 200) return alert('something went wrong')
 
       setproductData(response.data.data)
-      setfilePath(response.data.filepath)    
-      console.log(response.data.data)
+      setfilePath(response.data.filepath)
+      setLoading(false);    
     } 
 
     catch (error) {
       console.log(error)
-      alert('something went wrong')  
+      setLoading(false);    
+      alert('something went wrong')
+
     }
   };
 
@@ -44,7 +47,7 @@ export default function Featured({bgColor}) {
               </div>
             </div>
           </div>
-          <ProductList productData={productData} limit={4} filePath={filePath}/>
+          <ProductList loading={loading} productData={productData} limit={4} filePath={filePath}/>
            
           <div className="flex justify-center py-[60px] border-solid">
             <Link href="/shop">

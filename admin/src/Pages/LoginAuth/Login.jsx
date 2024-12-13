@@ -10,7 +10,7 @@ export default function Login() {
     const ifadminLoggedIn = () =>{
         const ifadmin = Cookies.get('admin');
         // console.log(ifadmin);
-
+        
         if(ifadmin){
             nav('/dashboard')
         }

@@ -117,7 +117,7 @@ export default function ProductDetails() {
               <div className='w-[50%] h-4 bg-gray-300 mb-4'></div>
             </div>
 
-            <div className="w-[18%] h-4 bg-gray-300 mb-3"></div>
+            <div className='w-[90%] h-4 bg-gray-300 mb-4'></div>
             <div className="flex gap-4">
               <div className='w-6 h-6 sm:w-10 sm:h-10 bg-gray-300'></div>
               <div className='w-6 h-6 sm:w-10 sm:h-10 bg-gray-300'></div>

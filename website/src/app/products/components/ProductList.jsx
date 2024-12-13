@@ -11,14 +11,32 @@ import 'react-toastify/dist/ReactToastify.css';
 import { CartContext } from '@/app/context/CartContext';
 
 
-export default function ProductList({limit, productData, filePath}) {
+export default function ProductList({limit, productData, filePath, loading}) {
 
   //var name can be any name.
   const { addToCart } = useContext(myContext);
   const { addToWishlist } = useContext(WishlistContext);
 
-  // const [productData, setproductData] = useState([]);
-  // const [filePath, setfilePath] = useState('');
+  if (loading) return <div>
+    <div className=" mx-auto w-[83%] max-w-screen-xl px-4 sm:px-6 lg:px-8">
+      <div className="mt-5 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+      {[...Array(4)].map((_, index) => (
+        <div
+          key={index}
+          className="animate-pulse shadow-sm p-4"
+        >
+          <div className="h-80 bg-gray-300"></div>
+          <div className="mt-4 space-y-2">
+            <div className="h-4 bg-gray-300 rounded w-3/4"></div>
+            <div className="h-4 bg-gray-300 rounded w-1/2"></div>
+            <div className="h-6 bg-gray-300 rounded w-3/4"></div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    </div>
+  </div>
 
 
   return (
