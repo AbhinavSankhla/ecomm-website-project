@@ -39,7 +39,7 @@ export default function ShopMenu() {
   }, []);
 
   if (loading) return <div>
-    <div className='grid grid-cols-4 gap-4 p-6 bg-[#232323] h-40  w-[75%] mx-auto'>
+    <div className='grid grid-cols-4 gap-4 p-6 bg-[#232323] h-40 w-[75%] mx-auto'>
        
     </div>
     

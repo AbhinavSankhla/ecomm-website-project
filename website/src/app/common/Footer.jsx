@@ -17,7 +17,7 @@ export default function Footer() {
 
   return (
     <>
-      <footer className='bg-[#F7EAE6]'>
+      <footer className='bg-rose-100'>
         <div className='grid grid-cols-1 md:grid-cols-4  mx-auto w-[85%] max-w-screen-xl'>
             <div className='mt-[100px]'>
               <ul>
@@ -92,7 +92,7 @@ export default function Footer() {
             </div>
         </div>
 
-        <div className="border-t-[1px] border-[#bcbcbc] mt-[100px]"></div>
+        <div className="border-t-[1px] border-[#bcbcbccb] mt-[100px]"></div>
 
         {/* up arrow for mobile case   */}
         <div className='mt-8 mx-auto lg:hidden text-center'>
@@ -102,7 +102,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 items-center xl:grid-cols-[60%_auto] w-[85%] mx-auto py-8 max-w-screen-xl">
           <div className="text-center xl:text-left text-[13px] lg:text-[15px] text-[#555555]">
             <p>
-            © 2024 Website by <Link href="" className='hover:text-black duration-0'>Abhinav Sankhla</Link> | All Rights Reserved | Powered by <Link href="#" className='hover:text-black duration-0'>tailwindcss</Link>
+              © 2024 Website by <a href="http://www.abhinavdev.com" target="_blank"
+                rel="noopener noreferrer" className='hover:text-black duration-0'>Abhinav Sankhla</a> | All Rights Reserved | Powered by <Link href="#" className='hover:text-black duration-0'>tailwindcss</Link>
             </p>
           </div>  
           <div className="flex justify-center items-center lg:text-left text-[13px] lg:text-[15px] text-[#555555] mt-5 xl:mt-0">

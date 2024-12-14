@@ -17,7 +17,7 @@ export default function ProductList({limit, productData, filePath, loading}) {
   const { addToCart } = useContext(myContext);
   const { addToWishlist } = useContext(WishlistContext);
 
-  if (loading) return <div>
+  if (loading || !productData || productData.length === 0) return <div>
     <div className=" mx-auto w-[83%] max-w-screen-xl px-4 sm:px-6 lg:px-8">
       <div className="mt-5 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
       {[...Array(4)].map((_, index) => (
@@ -45,14 +45,14 @@ export default function ProductList({limit, productData, filePath, loading}) {
         <ToastContainer
           position="top-right"
           autoClose={3000}
-          hideProgressBar={false}
+          hideProgressBar={true}
           newestOnTop={false}
           closeOnClick
           rtl={false}
           pauseOnFocusLoss
           draggable
           pauseOnHover
-          theme="dark"
+          theme="light"
           className="mt-16 z-50"
         />
 

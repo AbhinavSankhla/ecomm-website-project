@@ -116,6 +116,180 @@ export default function Profile() {
                           placeholder="Enter X Account Link"
                         />
                       </div>
+                    <div className="flex">
+                      <span className="inline-flex items-center px-3 text-sm">
+                        {/* WhatsApp SVG Icon */}
+                        <svg
+
+                          className="w-5 h-5 me-1 text-gray-500"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M19.05 4.95A10.902 10.902 0 0 0 12 2C6.48 2 2 6.48 2 12c0 1.95.57 3.77 1.55 5.32L2 22l4.68-1.55A10.886 10.886 0 0 0 12 22c5.52 0 10-4.48 10-10 0-2.93-1.26-5.56-3.32-7.05Zm-7.05 14c-1.73 0-3.35-.52-4.72-1.41l-3.37.97.97-3.37A8.007 8.007 0 0 1 4 12a8 8 0 0 1 13.63-5.63A8.003 8.003 0 0 1 12 19ZM15.2 13c-.27-.13-1.59-.79-1.83-.88-.24-.09-.41-.13-.58.13s-.66.88-.81 1.06c-.15.18-.3.2-.57.07-.27-.13-1.14-.42-2.17-1.33-.8-.71-1.34-1.58-1.5-1.85-.15-.27-.02-.42.11-.57.11-.11.24-.27.36-.4.12-.13.18-.22.27-.36.09-.15.05-.29 0-.42-.04-.13-.58-1.39-.8-1.91-.21-.51-.42-.44-.58-.44h-.49c-.18 0-.48.07-.72.33s-.95.93-.95 2.27.97 2.63 1.11 2.81c.13.18 1.92 2.92 4.65 4.1 1.33.57 1.85.62 2.51.53.4-.06 1.23-.5 1.4-1 .17-.5.17-.93.12-1.01s-.24-.18-.5-.31Z"
+                          />
+                        </svg>
+                      </span>
+                      <input
+                        type="text"
+                        name="whatsappNumber"
+                        id="whatsapp-number"
+                        className="rounded-lg border-2 text-black font-semibold shadow-sm  block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
+                        placeholder="Enter WhatsApp Number"
+                      />
+                    </div>
+
+                    <label
+                      htmlFor="base-input"
+                      className="block mb-5 text-md font-medium text-gray-900"
+                    >
+                      Contact Details
+                    </label>
+
+                    <div className="flex">
+                      <label htmlFor="contactnum" className="inline-flex items-center px-3">
+                        Contact Number
+                      </label>
+                      <input
+                        type="text"
+                        name="contactnum"
+                        id="contactnum"
+                        className="rounded-lg border-2 text-black font-semibold shadow-sm  block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
+                        placeholder="Enter Contact Number"
+                      />
+                    </div>
+
+                    <div className="flex">
+                      <label htmlFor="email" className="inline-flex items-center px-3">
+                        Email
+                      </label>
+                      <input
+                        type="text"
+                        name="email"
+                        id="email"
+                        className="rounded-lg border-2 text-black font-semibold shadow-sm  block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
+                        placeholder="Enter Email"
+                      />
+                    </div>
+
+                    <div className="flex">
+                      <label htmlFor="address" className="inline-flex items-center px-3">
+                        Address
+                      </label>
+                      <input
+                        type="text"
+                        name="address"
+                        id="address"
+                        className="rounded-lg border-2 text-black font-semibold shadow-sm  block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
+                        placeholder="Enter Office Address"
+                      />
+                    </div>
+
+                    <div className="flex">
+                      <label htmlFor="weekday_time" className="inline-flex items-center px-3">
+                        Weekday Time
+                      </label>
+                      <input
+                        type="text"
+                        name="weekday_time"
+                        id="weekday_time"
+                        className="rounded-lg border-2 text-black font-semibold shadow-sm  block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
+                        placeholder="eg. 10 AM - 5 PM "
+                      />
+                    </div>
+
+                    <div className="flex">
+                      <label htmlFor="weekend_time" className="inline-flex items-center px-3">
+                        Weekend Time
+                      </label>
+                      <input
+                        type="text"
+                        name="weekend_time"
+                        id="weekend_time"
+                        className="rounded-lg border-2 text-black font-semibold shadow-sm  block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
+                        placeholder="eg. 8 AM - 12 PM "
+                      />
+                    </div>
+
+                    <label
+                      htmlFor="base-input"
+                      className="block mb-5 text-md font-medium text-gray-900"
+                    >
+                      About Us(Home Page)
+                    </label>
+
+                    <div className="flex">
+                      <label htmlFor="about_heading" className="inline-flex items-center px-3">
+                        Heading
+                      </label>
+                      <input
+                        type="text"
+                        name="about_heading"
+                        id="about_heading"
+                        className="rounded-lg border-2 text-black font-semibold shadow-sm  block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
+                        placeholder="Who we are?"
+                      />
+                    </div>
+
+                    <div className="flex">
+                      <label htmlFor="about_para1" className="inline-flex items-center px-3">
+                        Line 1
+                      </label>
+                      <textarea
+                        type="text"
+                        name="about_para1"
+                        id="about_para1"
+                        className="rounded-lg border-2 text-black font-semibold shadow-sm  block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
+                        placeholder="Enter the Line"
+                      />
+                    </div>
+
+                    <div className="flex">
+                      <label htmlFor="about_para2" className="inline-flex items-center px-3">
+                        Line 2
+                      </label>
+                      <textarea
+                        type="text"
+                        name="about_para2"
+                        id="about_para2"
+                        className="rounded-lg border-2 text-black font-semibold shadow-sm  block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
+                        placeholder="Enter the Line"
+                      />
+                    </div>
+
+
+
+                    <div className="mb-5">
+                      <label
+                        htmlFor="thumbnailInput"
+                        className="block mb-5 text-md font-medium text-gray-900"
+                      >
+                        Contact Page Image
+                      </label>
+                      <div className="w-1/2 flex items-center">
+                        <label htmlFor="thumbnailInput" className="sr-only">
+                          Choose file
+                        </label>
+                        <input
+                          type="file"
+                          name="thumbnail"
+                          // onChange={handleThumbnailPrev}
+                          id="thumbnailInput"
+                          className="block w-full border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none  
+                      file:bg-gray-50 file:border-0
+                      file:me-4
+                      file:py-3 file:px-4
+                      "
+                        />
+                        {/* <div className='ps-5 w-[100px] gap-x-5 flex'>
+                                      <img src={previewThumbnail || data.thumbnail || imgprev} alt="" className='w-full'/>
+                                    </div> */}
+                        <div>gdgdfg</div>
+                      </div>
+                    </div>
+
+                    
+                    
                     </div>
                     <div className="mb-5">
                       <label
@@ -135,7 +309,7 @@ export default function Profile() {
                         htmlFor="base-input"
                         className="block my-8 text-md font-medium text-gray-900"
                       >
-                        Sub Logo
+                        Fav Icon
                       </label>
                       <img
                         className="w-20 border-black border-2 shadow-md rounded-md"
@@ -148,7 +322,7 @@ export default function Profile() {
                         htmlFor="base-input"
                         className="block my-8 text-md font-medium text-gray-900"
                       >
-                        Sub Logo
+                        Password
                       </label>
                       <div className="grid gap-3 grid-cols-[80%_auto] items-baseline">
                       <input

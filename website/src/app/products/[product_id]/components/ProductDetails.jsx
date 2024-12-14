@@ -65,7 +65,7 @@ export default function ProductDetails() {
   }, [params.product_id]);
 
   //loading skeleton
-  if (loading) return <div>
+  if (loading || !productData) return <div>
     <section>
       <div className='w-[85%] max-w-screen-xl mx-auto py-5 mt-6'>
         <div className='grid lg:grid-cols-2 gap-2'>
