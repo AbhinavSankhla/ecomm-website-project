@@ -51,6 +51,7 @@ const reqPayment = require('./payment/reqPayment')
 const insertProfileData = require('./profile/insertProfileData')
 const readProfileData = require('./profile/readData')
 const deleteProfileData = require('./profile/deleteProfileData')
+const updateProfileData = require('./profile/updateProfileData')
 
 
 module.exports = {
@@ -90,5 +91,6 @@ module.exports = {
     reqPayment,
     insertProfileData,
     readProfileData,
-    deleteProfileData
+    deleteProfileData,
+    updateProfileData
 }

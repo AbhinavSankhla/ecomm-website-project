@@ -4,12 +4,14 @@ const uploadMiddleware = upload('profile'); // Pass 'profile' as the module
 
 const { insertProfileData, 
     readProfileData, 
-    deleteProfileData} = require('../../controllers/controllers');
+    deleteProfileData,
+    updateProfileData} = require('../../controllers/controllers');
 
 const profileRoutes = express.Router();
 
-profileRoutes.post('/insertProfileData', uploadMiddleware, insertProfileData)
-profileRoutes.get('/readProfileData', readProfileData)
+profileRoutes.post('/insertProfileData', uploadMiddleware, insertProfileData);
+profileRoutes.get('/readProfileData', readProfileData);
 profileRoutes.delete('/deleteProfileData/:_id', deleteProfileData);
+profileRoutes.put('/update_profiledata',uploadMiddleware,updateProfileData);
 
 module.exports = profileRoutes;

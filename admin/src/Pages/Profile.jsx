@@ -4,11 +4,18 @@ import Header from "../common/Header";
 import Breadcrumb from "../common/Breadcrumb";
 import Footer from "../common/Footer";
 import axios from "axios";
+import imgprev from "../assets//imgprev.png"
 
 export default function Profile() {
 
   const [data, setdata] = useState({});
   const [isUpdateMode, setIsUpdateMode] = useState(false); // To check Insert/Update Mode
+
+  //states for preview image
+  const [previewThumbnail, setpreviewThumbnail] = useState('');
+  const [previewLogo, setpreviewLogo] = useState('');
+  const [previewProfilepic, setpreviewProfilepic] = useState('');
+  const [previewFavicon, setpreviewFavicon] = useState('');
 
   // Handle input changes dynamically
   const handleInputChange = (e) => {
@@ -17,20 +24,6 @@ export default function Profile() {
       ...prevData,
       [name]: value, // Update specific key in state
     }));
-  };
-
-  const handleAddProfile = async(e) => {
-    e.preventDefault()
-    const form = e.target;
-    const formData = new FormData(form);
-  
-    try {
-      const response = await axios.post('http://localhost:5200/profile/insertProfileData', formData, {});
-      // console.log(response.data)
-    } catch (error) {
-      alert('something went wrong')
-      console.log(error)
-    }
   };
 
   const FetchProfileData = async() =>{
@@ -56,6 +49,84 @@ export default function Profile() {
     FetchProfileData();
   },[])
 
+  // Handle form submission (Insert or Update)
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    try {
+      if (isUpdateMode) {
+        // Update API Call
+        await axios.put("http://localhost:5200/profile/update_profiledata", formData);
+        alert("Profile updated successfully!");
+      } else {
+        // Insert API Call
+        await axios.post('http://localhost:5200/profile/insertProfileData', formData, {});
+        alert("Profile added successfully!");
+      }
+    } catch (error) {
+      console.error("Error submitting data:", error);
+    }
+  };
+
+
+  //function for preview image
+  //Thumbail preview
+  const handleThumbnailPrev = (e) =>{
+    //FileRader- Js constructor to read files.
+    const reader = new FileReader();
+    const file = e.target.files[0];
+    
+    if(file){
+      reader.readAsDataURL(file);
+    }
+    reader.onload = () =>{
+      setpreviewThumbnail(reader.result)
+    }
+  }
+
+  
+  const handleLogoPrev = (e) =>{
+    //FileRader- Js constructor to read files.
+    const reader = new FileReader();
+    const file = e.target.files[0];
+    
+    if(file){
+      reader.readAsDataURL(file);
+    }
+    reader.onload = () =>{
+      setpreviewLogo(reader.result)
+    }
+  }
+
+  const handleFaviconPrev = (e) =>{
+    //FileRader- Js constructor to read files.
+    const reader = new FileReader();
+    const file = e.target.files[0];
+    
+    if(file){
+      reader.readAsDataURL(file);
+    }
+    reader.onload = () =>{
+      setpreviewFavicon(reader.result)
+    }
+  }
+
+  const handleProfileprev = (e) =>{
+    //FileRader- Js constructor to read files.
+    const reader = new FileReader();
+    const file = e.target.files[0];
+    
+    if(file){
+      reader.readAsDataURL(file);
+    }
+    reader.onload = () =>{
+      setpreviewProfilepic(reader.result)
+    }
+  }
+
+  
+
   return (
     <>
     <Breadcrumb path={"Profile"} />
@@ -64,7 +135,7 @@ export default function Profile() {
               <h3 className="text-[20px] font-semibold bg-slate-100 py-2 px-3 rounded-t-md border border-slate-400">
                 Profile
               </h3>
-              <form onSubmit={handleAddProfile} className="p-3 border border-t-0 rounded-b-md border-slate-400">
+              <form onSubmit={handleSubmit} className="p-3 border border-t-0 rounded-b-md border-slate-400">
                 <div className="grid grid-cols-2">
                 <div>
                   <div className="mb-5">
@@ -76,6 +147,7 @@ export default function Profile() {
                     </label>
                     <input
                       value = {data.name}
+                      onChange={handleInputChange}
                       name="name"
                       type="text"
                       id="name"
@@ -105,6 +177,7 @@ export default function Profile() {
                         </span>
                         <input
                           name="facebook"
+                          onChange={handleInputChange}
                           value={data.facebook}
                           type="text"
                           id="facebook"
@@ -126,6 +199,8 @@ export default function Profile() {
                         <input
                           type="text"
                           name="insta"
+                          value={data.insta}
+                          onChange={handleInputChange}
                           id="insta"
                           className="rounded-lg border-2 text-black font-semibold shadow-sm  focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
                           placeholder="Enter Instagram Account Link"
@@ -145,6 +220,8 @@ export default function Profile() {
                         <input
                           type="text"
                           name="youtube"
+                          value={data.youtube}
+                          onChange={handleInputChange}
                           id="youtube"
                           className="rounded-lg border-2 text-black font-semibold shadow-sm  focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
                           placeholder="Enter Youtube Account Link"
@@ -164,6 +241,8 @@ export default function Profile() {
                         <input
                           type="text"
                           name="x"
+                          value={data.x}
+                          onChange={handleInputChange}
                           id="x"
                           className="rounded-lg border-2 text-black font-semibold shadow-sm  focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
                           placeholder="Enter X Account Link"
@@ -186,6 +265,8 @@ export default function Profile() {
                       <input
                         type="text"
                         name="whatsapp"
+                        value={data.whatsapp}
+                        onChange={handleInputChange}
                         id="whatsapp"
                         className="rounded-lg border-2 text-black font-semibold shadow-sm  block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
                         placeholder="Enter WhatsApp Number"
@@ -206,6 +287,8 @@ export default function Profile() {
                       <input
                         type="text"
                         name="contactnum"
+                        value={data.contactnum}
+                        onChange={handleInputChange}
                         id="contactnum"
                         className="rounded-lg border-2 text-black font-semibold shadow-sm  block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
                         placeholder="Enter Contact Number"
@@ -219,6 +302,8 @@ export default function Profile() {
                       <input
                         type="text"
                         name="email"
+                        value={data.email}
+                        onChange={handleInputChange}
                         id="email"
                         className="rounded-lg border-2 text-black font-semibold shadow-sm  block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
                         placeholder="Enter Email"
@@ -232,6 +317,8 @@ export default function Profile() {
                       <input
                         type="text"
                         name="address"
+                        value={data.address}
+                        onChange={handleInputChange}
                         id="address"
                         className="rounded-lg border-2 text-black font-semibold shadow-sm  block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
                         placeholder="Enter Office Address"
@@ -245,6 +332,8 @@ export default function Profile() {
                       <input
                         type="text"
                         name="weekday_time"
+                        value={data.weekday_time}
+                        onChange={handleInputChange}
                         id="weekday_time"
                         className="rounded-lg border-2 text-black font-semibold shadow-sm  block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
                         placeholder="eg. 10 AM - 5 PM "
@@ -258,6 +347,8 @@ export default function Profile() {
                       <input
                         type="text"
                         name="weekend_time"
+                        value={data.weekend_time}
+                        onChange={handleInputChange}
                         id="weekend_time"
                         className="rounded-lg border-2 text-black font-semibold shadow-sm  block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
                         placeholder="eg. 8 AM - 12 PM "
@@ -278,6 +369,8 @@ export default function Profile() {
                       <input
                         type="text"
                         name="about_heading"
+                        value={data.about_heading}
+                        onChange={handleInputChange}
                         id="about_heading"
                         className="rounded-lg border-2 text-black font-semibold shadow-sm  block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
                         placeholder="Who we are?"
@@ -291,6 +384,8 @@ export default function Profile() {
                       <textarea
                         type="text"
                         name="about_para1"
+                        value={data.about_para1}
+                        onChange={handleInputChange}
                         id="about_para1"
                         className="rounded-lg border-2 text-black font-semibold shadow-sm  block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
                         placeholder="Enter the Line"
@@ -304,6 +399,8 @@ export default function Profile() {
                       <textarea
                         type="text"
                         name="about_para2"
+                        value={data.about_para2}
+                        onChange={handleInputChange}
                         id="about_para2"
                         className="rounded-lg border-2 text-black font-semibold shadow-sm  block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
                         placeholder="Enter the Line"
@@ -326,7 +423,7 @@ export default function Profile() {
                         <input
                           type="file"
                           name="thumbnail"
-                          // onChange={handleThumbnailPrev}
+                          onChange={handleThumbnailPrev}
                           id="thumbnailInput"
                           className="block w-full border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none  
                       file:bg-gray-50 file:border-0
@@ -334,10 +431,10 @@ export default function Profile() {
                       file:py-3 file:px-4
                       "
                         />
-                        {/* <div className='ps-5 w-[100px] gap-x-5 flex'>
-                                      <img src={previewThumbnail || data.thumbnail || imgprev} alt="" className='w-full'/>
-                                    </div> */}
-                        <div>gdgdfg</div>
+                        <div className='ps-5 w-[100px] gap-x-5 flex'>
+                                      <img src={previewThumbnail ||data.thumbnail || imgprev} alt="banner" className='w-full'/>
+                                    </div>
+                    
                       </div>
                     </div>
 
@@ -359,20 +456,19 @@ export default function Profile() {
                         <input
                           type="file"
                           name="logo"
-                          // onChange={handleThumbnailPrev}
+                          onChange={handleLogoPrev}
                           id="logoInput"
                           className="block w-full border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none  
                       file:bg-gray-50 file:border-0
                       file:me-4
                       file:py-3 file:px-4
                       "
-                        />
-                        {/* <div className='ps-5 w-[100px] gap-x-5 flex'>
-                                      <img src={previewThumbnail || data.thumbnail || imgprev} alt="" className='w-full'/>
-                                    </div> */}
-                        <div>gdgdfg</div>
+                      />
+                    
+                      <div className="ps-5 w-[150px] gap-x-5 flex"><img src={previewLogo || data.logo || imgprev} alt="logo" />
                       </div>
                     </div>
+                  </div>
 
                     <div className="mb-5">
                       <label
@@ -388,7 +484,7 @@ export default function Profile() {
                       <input
                         type="file"
                         name="favicon"
-                        // onChange={handleThumbnailPrev}
+                        onChange={handleFaviconPrev}
                         id="faviconInput"
                         className="block w-full border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none  
                       file:bg-gray-50 file:border-0
@@ -396,14 +492,10 @@ export default function Profile() {
                       file:py-3 file:px-4
                       "
                       />
-                      {/* <div className='ps-5 w-[100px] gap-x-5 flex'>
-                                      <img src={previewThumbnail || data.thumbnail || imgprev} alt="" className='w-full'/>
-                                    </div> */}
-                      <div>gdgdfg</div>
+                      <div className="ps-5 w-[150px] gap-x-5 flex"><img src={previewFavicon || data.favicon || imgprev} alt="favicon" />
+                      </div>
                     </div>
                   </div>
-
-
 
                   <div className="mb-5">
                     <label
@@ -429,7 +521,7 @@ export default function Profile() {
               </div>
               <div className="pt-16 flex items-center justify-start flex-col">
                 <figure>
-                  <img className="rounded-full w-40 h-40 border-2 object-cover shadow-lg" src="https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="" />
+                  <img className="rounded-full w-40 h-40 border-2 object-cover shadow-lg" src={previewProfilepic || data.profilepic || imgprev} alt="profilepic" />
                 </figure>
                 <h5 className="mt-3 text-[20px]">Profile Image</h5>
                 <div className="w-1/2 flex items-center">
@@ -439,7 +531,7 @@ export default function Profile() {
                   <input
                     type="file"
                     name="profilepic"
-                    // onChange={handleThumbnailPrev}
+                    onChange={handleProfileprev}
                     id="profilepic"
                     className="block w-full border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none  
                       file:bg-gray-50 file:border-0
@@ -448,27 +540,26 @@ export default function Profile() {
                       "
                   />
                   {/* <div className='ps-5 w-[100px] gap-x-5 flex'>
-                                      <img src={previewThumbnail || data.thumbnail || imgprev} alt="" className='w-full'/>
-                                    </div> */}
-                  <div>gdgdfg</div>
+                    <img src={data.profilepic || imgprev} alt="profilepic" className='w-full' />
+                  </div> */}
+
                 </div>
               </div>
             </div>
             <div className="flex justify-center items-center space-x-4">
-            <button
+            {/* <button
               onClick={FetchProfileData}
               className="focus:outline-none my-10 text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-6 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900"
             >
               UPDATE
-            </button>
+            </button> */}
             <button
               type="submit"
               className="focus:outline-none my-10 text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-6 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900"
             >
-              SUMBIT
+               {isUpdateMode ? "Update Profile" : "Add Profile"}
             </button>
                     
-
             </div>            
             
           </form>
