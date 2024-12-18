@@ -45,8 +45,12 @@ const readUser = require('./users/readUser')
 const deleteUser = require('./users/deleteUser')
 
 //Payment Controller
-// const reqPayment = require('./payment/reqPayment')
 const reqPayment = require('./payment/reqPayment')
+
+//profile Controllers
+const insertProfileData = require('./profile/insertProfileData')
+const readProfileData = require('./profile/readData')
+const deleteProfileData = require('./profile/deleteProfileData')
 
 
 module.exports = {
@@ -83,5 +87,8 @@ module.exports = {
     registerUser,
     readUser,
     deleteUser,
-    reqPayment
+    reqPayment,
+    insertProfileData,
+    readProfileData,
+    deleteProfileData
 }

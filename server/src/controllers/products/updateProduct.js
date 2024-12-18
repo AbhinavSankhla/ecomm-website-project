@@ -8,7 +8,7 @@ const updateProduct = async(req,res) =>{
         //find console array and findOne console object.
         const ifExist = await Product.findOne(req.params)
         if(!ifExist) return res.status(404).json({message : 'data not found'})
-        console.log(ifExist)                         
+        // console.log(ifExist)                         
 
         const {name,
             description,

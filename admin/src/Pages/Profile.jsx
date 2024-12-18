@@ -1,10 +1,61 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../common/Sidebar";
 import Header from "../common/Header";
 import Breadcrumb from "../common/Breadcrumb";
 import Footer from "../common/Footer";
+import axios from "axios";
 
 export default function Profile() {
+
+  const [data, setdata] = useState({});
+  const [isUpdateMode, setIsUpdateMode] = useState(false); // To check Insert/Update Mode
+
+  // Handle input changes dynamically
+  const handleInputChange = (e) => {
+    const { name, value } = e.target; // Extract input name and value
+    setdata((prevData) => ({
+      ...prevData,
+      [name]: value, // Update specific key in state
+    }));
+  };
+
+  const handleAddProfile = async(e) => {
+    e.preventDefault()
+    const form = e.target;
+    const formData = new FormData(form);
+  
+    try {
+      const response = await axios.post('http://localhost:5200/profile/insertProfileData', formData, {});
+      // console.log(response.data)
+    } catch (error) {
+      alert('something went wrong')
+      console.log(error)
+    }
+  };
+
+  const FetchProfileData = async() =>{
+    try {
+
+      const response = await axios.get('http://localhost:5200/profile/readProfileData');
+      if (response.data.data.length > 0) {
+        setdata(response.data.data[0])
+        setIsUpdateMode(true); // Set Update Mode
+        console.log(response.data.data[0])
+      }
+      else {
+        setIsUpdateMode(false); // Set Insert Mode
+      }
+    } 
+    catch (error) {
+      alert('something went wrong')
+      console.log(error)
+    }
+  }
+
+  useEffect(()=>{
+    FetchProfileData();
+  },[])
+
   return (
     <>
     <Breadcrumb path={"Profile"} />
@@ -13,20 +64,21 @@ export default function Profile() {
               <h3 className="text-[20px] font-semibold bg-slate-100 py-2 px-3 rounded-t-md border border-slate-400">
                 Profile
               </h3>
-              <form className="p-3 border border-t-0 rounded-b-md border-slate-400">
+              <form onSubmit={handleAddProfile} className="p-3 border border-t-0 rounded-b-md border-slate-400">
                 <div className="grid grid-cols-2">
                 <div>
                   <div className="mb-5">
                     <label
-                      htmlFor="base-input"
+                      htmlFor="name"
                       className="block mb-5 text-md font-medium text-gray-900"
                     >
                       Name
                     </label>
                     <input
-                      name="userName"
+                      value = {data.name}
+                      name="name"
                       type="text"
-                      id="base-input"
+                      id="name"
                       className="text-[19px] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-3 "
                       placeholder="Enter your name"
                     />
@@ -52,9 +104,10 @@ export default function Profile() {
                           </svg>
                         </span>
                         <input
-                          name="facebookLink"
+                          name="facebook"
+                          value={data.facebook}
                           type="text"
-                          id="fb-link"
+                          id="facebook"
                           className="rounded-lg border-2 text-black font-semibold shadow-sm  focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
                           placeholder="Enter Facebook Account Link"
                         />
@@ -72,8 +125,8 @@ export default function Profile() {
                         </span>
                         <input
                           type="text"
-                          name="instagramLink"
-                          id="ig-link"
+                          name="insta"
+                          id="insta"
                           className="rounded-lg border-2 text-black font-semibold shadow-sm  focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
                           placeholder="Enter Instagram Account Link"
                         />
@@ -91,8 +144,8 @@ export default function Profile() {
                         </span>
                         <input
                           type="text"
-                          name="youtubeLink"
-                          id="yt-link"
+                          name="youtube"
+                          id="youtube"
                           className="rounded-lg border-2 text-black font-semibold shadow-sm  focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
                           placeholder="Enter Youtube Account Link"
                         />
@@ -110,8 +163,8 @@ export default function Profile() {
                         </span>
                         <input
                           type="text"
-                          name="xLink"
-                          id="x-link"
+                          name="x"
+                          id="x"
                           className="rounded-lg border-2 text-black font-semibold shadow-sm  focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
                           placeholder="Enter X Account Link"
                         />
@@ -132,8 +185,8 @@ export default function Profile() {
                       </span>
                       <input
                         type="text"
-                        name="whatsappNumber"
-                        id="whatsapp-number"
+                        name="whatsapp"
+                        id="whatsapp"
                         className="rounded-lg border-2 text-black font-semibold shadow-sm  block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
                         placeholder="Enter WhatsApp Number"
                       />
@@ -291,40 +344,75 @@ export default function Profile() {
                     
                     
                     </div>
-                    <div className="mb-5">
+
+                    <div className="mb-5 mt-5">
                       <label
-                        htmlFor="base-input"
-                        className="block my-8 text-md font-medium text-gray-900"
+                        htmlFor="logoInput"
+                        className="block mb-5 text-md font-medium text-gray-900"
                       >
                         Logo
                       </label>
-                      <img
-                        className="w-20 border-black border-2 shadow-md rounded-md"
-                        src="https://img.freepik.com/free-vector/bird-colorful-logo-gradient-vector_343694-1365.jpg?size=338&ext=jpg&ga=GA1.1.2008272138.1723766400&semt=ais_hybrid"
-                        alt=""
-                      />
+                      <div className="w-1/2 flex items-center">
+                        <label htmlFor="logoInput" className="sr-only">
+                          Choose file
+                        </label>
+                        <input
+                          type="file"
+                          name="logo"
+                          // onChange={handleThumbnailPrev}
+                          id="logoInput"
+                          className="block w-full border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none  
+                      file:bg-gray-50 file:border-0
+                      file:me-4
+                      file:py-3 file:px-4
+                      "
+                        />
+                        {/* <div className='ps-5 w-[100px] gap-x-5 flex'>
+                                      <img src={previewThumbnail || data.thumbnail || imgprev} alt="" className='w-full'/>
+                                    </div> */}
+                        <div>gdgdfg</div>
+                      </div>
                     </div>
+
                     <div className="mb-5">
                       <label
-                        htmlFor="base-input"
-                        className="block my-8 text-md font-medium text-gray-900"
-                      >
-                        Fav Icon
+                      htmlFor="faviconInput"
+                      className="block mb-5 text-md font-medium text-gray-900"
+                    >
+                      Favicon
+                    </label>
+                    <div className="w-1/2 flex items-center">
+                      <label htmlFor="faviconInput" className="sr-only">
+                        Choose file
                       </label>
-                      <img
-                        className="w-20 border-black border-2 shadow-md rounded-md"
-                        src="https://img.freepik.com/free-vector/vortex-abstract-modern-logo_530521-889.jpg?size=338&ext=jpg&ga=GA1.1.2008272138.1723680000&semt=ais_hybrid"
-                        alt=""
+                      <input
+                        type="file"
+                        name="favicon"
+                        // onChange={handleThumbnailPrev}
+                        id="faviconInput"
+                        className="block w-full border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none  
+                      file:bg-gray-50 file:border-0
+                      file:me-4
+                      file:py-3 file:px-4
+                      "
                       />
+                      {/* <div className='ps-5 w-[100px] gap-x-5 flex'>
+                                      <img src={previewThumbnail || data.thumbnail || imgprev} alt="" className='w-full'/>
+                                    </div> */}
+                      <div>gdgdfg</div>
                     </div>
-                    <div className="mb-5">
+                  </div>
+
+
+
+                  <div className="mb-5">
                     <label
-                        htmlFor="base-input"
-                        className="block my-8 text-md font-medium text-gray-900"
-                      >
-                        Password
-                      </label>
-                      <div className="grid gap-3 grid-cols-[80%_auto] items-baseline">
+                      htmlFor="base-input"
+                      className="block my-8 text-md font-medium text-gray-900"
+                    >
+                      Password
+                    </label>
+                    <div className="grid gap-3 grid-cols-[80%_auto] items-baseline">
                       <input
                         type="password"
                         name="changePassword"
@@ -332,23 +420,60 @@ export default function Profile() {
                         autoComplete="on"
                         className="border-2 border-gray-300 text-black shadow-md text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5"
                         placeholder="Change Password"
-                        required
+                        // required
                       />
-                      <button type="submit" className="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">Submit</button>
-                      </div>
+                      <button type="" className="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">Change</button>
                     </div>
                   </div>
-                  </div>
-                  <div className="pt-16 flex items-center justify-start flex-col">
-                    <figure>
-                        <img className="rounded-full w-40 h-40 border-2 object-cover shadow-lg" src="https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="" />
-                    </figure>
-                    <h5 className="mt-3 text-[20px]">Profile Image</h5>
-                  </div>
                 </div>
-              </form>
+              </div>
+              <div className="pt-16 flex items-center justify-start flex-col">
+                <figure>
+                  <img className="rounded-full w-40 h-40 border-2 object-cover shadow-lg" src="https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="" />
+                </figure>
+                <h5 className="mt-3 text-[20px]">Profile Image</h5>
+                <div className="w-1/2 flex items-center">
+                  <label htmlFor="profilepic" className="sr-only">
+                    Choose file
+                  </label>
+                  <input
+                    type="file"
+                    name="profilepic"
+                    // onChange={handleThumbnailPrev}
+                    id="profilepic"
+                    className="block w-full border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none  
+                      file:bg-gray-50 file:border-0
+                      file:me-4
+                      file:py-3 file:px-4
+                      "
+                  />
+                  {/* <div className='ps-5 w-[100px] gap-x-5 flex'>
+                                      <img src={previewThumbnail || data.thumbnail || imgprev} alt="" className='w-full'/>
+                                    </div> */}
+                  <div>gdgdfg</div>
+                </div>
+              </div>
             </div>
-          </div>
-          </>
+            <div className="flex justify-center items-center space-x-4">
+            <button
+              onClick={FetchProfileData}
+              className="focus:outline-none my-10 text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-6 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900"
+            >
+              UPDATE
+            </button>
+            <button
+              type="submit"
+              className="focus:outline-none my-10 text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-6 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900"
+            >
+              SUMBIT
+            </button>
+                    
+
+            </div>            
+            
+          </form>
+        </div>
+      </div>
+    </>
   );
 }

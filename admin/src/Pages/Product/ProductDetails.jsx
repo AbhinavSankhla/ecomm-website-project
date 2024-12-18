@@ -78,11 +78,11 @@ export default function ProductDetails() {
   }, [data]);
 
   //update data
-  const handleDataUpdate = (e)=>{
-    const olddata = {...data};
-    olddata[e.target.name] = e.target.value;
-    setData(olddata);
-  }
+  const handleDataUpdate = (e) => {
+    const olddata = { ...data }; // Clone the current state
+    olddata[e.target.name] = e.target.value; // Update the specific property
+    setData(olddata); // Update the state
+  };
   
   const [categoryData, setcategoryData] = useState([]);
   const [subCatData, setsubCatData] = useState([]);
@@ -119,7 +119,7 @@ export default function ProductDetails() {
     try {
       const response = await axios.get('http://localhost:5200/subcategory/true_subcategory');
       if (response.status !== 200) return 'Something went wrong';
-      console.log(response.data.data)
+      // console.log(response.data.data)
       setsubCatData(response.data.data);
     } catch (error) {
       console.log(error);

@@ -4,8 +4,8 @@ const insertProduct = async(req,res) => {
     try {
         const { name, description, full_description, price, mrp, discount, occasion, fit, fabric, weight, category, subcategory, stock, color, size, status}= req.body;
 
-        console.log(req.body);
-        console.log(req.files)
+        // console.log(req.body);
+        // console.log(req.files)
 
         const thumbnail = req.files.thumbnail[0].filename
         const images = req.files.images.map((imgData)=>{

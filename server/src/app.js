@@ -8,6 +8,7 @@ const adminRoutes = require('./routes/admin/adminRoutes');
 const otpRouter = require('./routes/otp/otp');
 const userRoutes = require('./routes/users/users');
 const paymentRoutes = require('./routes/payment/paymentRoute');
+const profileRoutes = require('./routes/profile/profileRoute');
 // const verifyJWT = require('./middleware/JWT/jwtVerifier');
 
 // const allRoutes = express.Router();
@@ -23,6 +24,7 @@ allRoutes.use('/admin', adminRoutes);
 allRoutes.use('/otp', otpRouter);
 allRoutes.use('/users', userRoutes);
 allRoutes.use('/payment', paymentRoutes);
+allRoutes.use('/profile', profileRoutes)
 
 // allRoutes.use('/',verifyRoutes)
 
