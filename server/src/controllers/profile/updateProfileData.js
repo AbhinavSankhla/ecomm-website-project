@@ -5,7 +5,7 @@ const path = require("path");
 
 const updateProfileData = async(req,res) =>{
     try {
-        const { name, facebook, insta, youtube, x, whatsapp, contactnum, email, address, weekday_time, weekend_time, about_heading, about_para1, about_para2}= req.body;
+        const { name, facebook, insta, youtube, x, whatsapp, featured_title,contactnum, email, address, weekday_time, weekend_time, about_heading, about_para1, about_para2}= req.body;
 
         //find console array and findOne console object.
         const ifExist = await Profile.findOne()
@@ -13,7 +13,7 @@ const updateProfileData = async(req,res) =>{
         // console.log(ifExist)
 
         const data = {
-            name, facebook, insta, youtube, x, whatsapp, contactnum, email, address, weekday_time, weekend_time, about_heading, about_para1, about_para2
+            name, facebook, insta, youtube, x, whatsapp,featured_title, contactnum, email, address, weekday_time, weekend_time, about_heading, about_para1, about_para2
         }
 
         if (req.files.thumbnail !== undefined) {
@@ -45,6 +45,14 @@ const updateProfileData = async(req,res) =>{
 
             if (fs.existsSync(path.join('src', 'uploads', ifExist.profilepic))) {
                 fs.unlinkSync(path.join('src', 'uploads', ifExist.profilepic))
+            };
+        }
+
+        if (req.files.about_img !== undefined) {
+            data.about_img = req.files.about_img[0].filename
+
+            if (fs.existsSync(path.join('src', 'uploads', ifExist.about_img))) {
+                fs.unlinkSync(path.join('src', 'uploads', ifExist.about_img))
             };
         }
 

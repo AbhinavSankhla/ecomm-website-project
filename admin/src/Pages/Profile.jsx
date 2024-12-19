@@ -16,6 +16,7 @@ export default function Profile() {
   const [previewLogo, setpreviewLogo] = useState('');
   const [previewProfilepic, setpreviewProfilepic] = useState('');
   const [previewFavicon, setpreviewFavicon] = useState('');
+  const [previewAboutImg, setpreviewAboutImg] = useState('');
 
   // Handle input changes dynamically
   const handleInputChange = (e) => {
@@ -125,7 +126,18 @@ export default function Profile() {
     }
   }
 
-  
+  const handleAboutImg_prev = (e) =>{
+    //FileRader- Js constructor to read files.
+    const reader = new FileReader();
+    const file = e.target.files[0];
+    
+    if(file){
+      reader.readAsDataURL(file);
+    }
+    reader.onload = () =>{
+      setpreviewAboutImg(reader.result)
+    }
+  }  
 
   return (
     <>
@@ -277,6 +289,27 @@ export default function Profile() {
                       htmlFor="base-input"
                       className="block mb-5 text-md font-medium text-gray-900"
                     >
+                      Featured Section
+                    </label>
+                    <div className="flex">
+                      <label htmlFor="featured_title" className="inline-flex items-center px-3">
+                        Title
+                      </label>
+                      <input
+                        type="text"
+                        name="featured_title"
+                        value={data.featured_title}
+                        onChange={handleInputChange}
+                        id="featured_title"
+                        className="rounded-lg border-2 text-black font-semibold shadow-sm  block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
+                        placeholder="Enter Featured Title"
+                      />
+                    </div>
+
+                    <label
+                      htmlFor="base-input"
+                      className="block mb-5 text-md font-medium text-gray-900"
+                    >
                       Contact Details
                     </label>
 
@@ -407,6 +440,34 @@ export default function Profile() {
                       />
                     </div>
 
+                    <div className="mb-5">
+                      <label
+                      htmlFor="faviconInput"
+                      className="block mb-5 text-md font-medium text-gray-900"
+                    >
+                      Home Page About Section Image
+                    </label>
+                    <div className="w-1/2 flex items-center">
+                      <label htmlFor="about_img" className="sr-only">
+                        Choose file
+                      </label>
+                      <input
+                        type="file"
+                        name="about_img"
+                        onChange={handleAboutImg_prev}
+                        id="about_img"
+                        className="block w-full border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none  
+                      file:bg-gray-50 file:border-0
+                      file:me-4
+                      file:py-3 file:px-4
+                      "
+                      />
+                      <div className="ps-5 w-[150px] gap-x-5 flex"><img src={previewAboutImg || data.about_img || imgprev} alt="favicon" />
+                      </div>
+                    </div>
+                  </div>
+
+
 
 
                     <div className="mb-5">
@@ -431,7 +492,7 @@ export default function Profile() {
                       file:py-3 file:px-4
                       "
                         />
-                        <div className='ps-5 w-[100px] gap-x-5 flex'>
+                        <div className='ps-5 w-[150px] gap-x-5 flex'>
                                       <img src={previewThumbnail ||data.thumbnail || imgprev} alt="banner" className='w-full'/>
                                     </div>
                     

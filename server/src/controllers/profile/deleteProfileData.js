@@ -5,7 +5,7 @@ const path = require("path");
 const deleteProfileData = async(req,res) =>{
     try 
     {
-        const response = await Profile.findOneAndDelete(req.params);
+        const response = await Profile.findOneAndDelete();
 
         if(response === null) return res.status(402).json({message: 'id does not exist'})
         // or if(!response) return....    
@@ -25,6 +25,10 @@ const deleteProfileData = async(req,res) =>{
 
         if(fs.existsSync(path.join('src', 'uploads', response.profilepic))){
             fs.unlinkSync(path.join('src', 'uploads', response.profilepic))
+        };
+
+        if(fs.existsSync(path.join('src', 'uploads', response.about_img))){
+            fs.unlinkSync(path.join('src', 'uploads', response.about_img))
         };
 
         res.status(200).json({message: 'data deleted successfully', data:response})

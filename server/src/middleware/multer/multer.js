@@ -25,6 +25,7 @@ const uploadFields = (module) => {
             { name: 'logo', maxCount: 1 },
             { name: 'favicon', maxCount: 1 },
             { name: 'profilepic', maxCount: 1 },
+            { name: 'about_img', maxCount: 1 },
         ];
     } else {
         throw new Error('Invalid module specified');

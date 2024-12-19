@@ -17,7 +17,7 @@ import { AiOutlineUser } from "react-icons/ai";
 import { FiHeart } from "react-icons/fi";
 import { FaRegUser } from "react-icons/fa6";
 
-const Navbar = () => {
+const Navbar = ({logo}) => {
 
   // const router = useRouter();
   const {count} = useContext(myContext);
@@ -52,7 +52,7 @@ const Navbar = () => {
         <div className='text-[15px] relative flex items-center justify-between px-3 sm:px-6'>
           <div>
             <Link href={'/'}>
-              <img src="https://themes.muffingroup.com/be/clothing2/wp-content/uploads/2020/07/retina-clothing2.png" alt="logo" className='w-[140px] h-auto sm:w-[180px]'/>
+              <img src={logo} alt="BeClothing logo" className='w-[140px] h-auto sm:w-[180px]'/>
             </Link>
           </div>
           <ul className='hidden lg:flex items-center gap-x-4'>

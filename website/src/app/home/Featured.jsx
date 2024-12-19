@@ -5,7 +5,7 @@ import Link from 'next/link'
 import ProductList from '../products/components/ProductList'
 import axios from 'axios';
 
-export default function Featured({bgColor}) {
+export default function Featured({bgColor, data}) {
 
   const [productData, setproductData] = useState([]);
   const [filePath, setfilePath] = useState('');
@@ -43,7 +43,7 @@ export default function Featured({bgColor}) {
             <p className='text-[13px] md:text-[16px] lg:text-[19px] font-light text-[#161922]'>Featured</p>
             <div>
               <div>
-                <h2 className="text-[#161922] text-[39px] sm:text-[45px] md:text-[55px] lg:text-[65px] tracking-normal pb-8 font-light">weekly deals</h2>
+                <h2 className="text-[#161922] text-[39px] sm:text-[45px] md:text-[55px] lg:text-[65px] tracking-normal pb-8 font-light">{data}</h2>
               </div>
             </div>
           </div>

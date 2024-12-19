@@ -3,10 +3,12 @@
 import Link from 'next/link';
 import React from 'react'
 import { FaEnvelope } from "react-icons/fa";
+import { MdOutlineMailOutline } from "react-icons/md";
 import { FaMobileAlt } from "react-icons/fa";
 import { SlArrowUp } from "react-icons/sl";
+import { FaYoutube,  FaWhatsapp ,FaSquareXTwitter, FaInstagram} from "react-icons/fa6";
 
-export default function Footer() {
+export default function Footer({whatsapp, email, logo}) {
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -23,10 +25,20 @@ export default function Footer() {
               <ul>
                   <li>
                       <div className='flex justify-center md:justify-start mb-[30px]'>
-                        <img src="https://themes.muffingroup.com/be/clothing2/wp-content/uploads/2020/07/retina-clothing2.png" className='w-[140px] h-auto' alt="BeClothinf Logo"/>
+                        <img src={logo} className='w-[140px] h-auto' alt="BeClothinf Logo"/>
                       </div>
                   </li>
                   <li className='mt-6 mb-[10px]'> 
+                    <div className='flex items-center justify-center md:justify-start whitespace-nowrap'>
+                      <div className="font-light text-[14px] md:text-[15px] lg:text-[19px]">
+                        <FaWhatsapp/>
+                      </div>
+                      <div className='font-light text-[13px] md:text-[15px] lg:text-[19px] text-base ml-[10px] '>
+                        {whatsapp}
+                      </div>
+                    </div>
+                  </li>
+                  {/* <li className='mb-[10px]'> 
                     <div className='flex items-center justify-center md:justify-start whitespace-nowrap'>
                       <div className="font-light text-[14px] md:text-[15px] lg:text-[19px]">
                         <FaMobileAlt/>
@@ -35,23 +47,25 @@ export default function Footer() {
                         +91 98971 XXXXX
                       </div>
                     </div>
-                  </li>
+                  </li> */}
 
                   <li className='mb-[30px]'>
                     <div className='flex items-center justify-center md:justify-start whitespace-nowrap'>
                       <div className="font-light text-[14px] md:text-[15px] lg:text-[19px]">
-                        <FaEnvelope/>
+                        <MdOutlineMailOutline/>
                       </div >
                       <div className='text-[13px] md:text-[15px] lg:text-[19px] font-light text-base ml-[13px]'>
-                        <a href="www.gmail.com" >xyz@gmail.com</a>
+                        <a href="https://www.gmail.com" target="_blank" rel="noopener noreferrer">{email}</a>
                       </div>
                     </div>
                   </li>
+
                   <li className='mb-[10px] ps-[10px]'>
                     <div className='w-[45%] h-auto mb-[30px] mx-auto md:ms-0 md:w-[90%]'>
                       <img src="https://themes.muffingroup.com/be/clothing2/wp-content/uploads/2020/07/clothing2-footer-pic1.png" alt="Payment Services" />
                     </div>
                   </li>
+                  
               </ul>
             </div>
             <div className='mt-[100px] ps-[20px] text-center md:text-left'>

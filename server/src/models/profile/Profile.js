@@ -38,6 +38,12 @@ const profileSchema = new mongoose.Schema({
         min: 0
     },
 
+    featured_title: {
+        type: String,
+        required: true,
+        trim: true
+    },
+
     email: {
         type: String,
         required: true,
@@ -96,6 +102,11 @@ const profileSchema = new mongoose.Schema({
     },
 
     profilepic: {
+        type: String,
+        required: true
+    },
+
+    about_img: {
         type: String,
         required: true
     },

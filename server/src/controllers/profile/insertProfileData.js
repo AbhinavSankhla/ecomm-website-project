@@ -2,12 +2,13 @@ const Profile = require("../../models/profile/Profile");
 
 const insertProfileData = async(req,res) => {
     try {
-        const { name, facebook, insta, youtube, x, whatsapp, contactnum, email, address, weekday_time, weekend_time, about_heading, about_para1, about_para2}= req.body;
+        const { name, facebook, insta, youtube, x, whatsapp,featured_title, contactnum, email, address, weekday_time, weekend_time, about_heading, about_para1, about_para2}= req.body;
 
         const thumbnail = req.files.thumbnail[0].filename
         const logo = req.files.logo[0].filename
-        const favicon = req.files.logo[0].filename
+        const favicon = req.files.favicon[0].filename
         const profilepic = req.files.profilepic[0].filename
+        const about_img = req.files.about_img[0].filename
         
         // console.log(req.body);
         // console.log(thumbnail, logo, favicon, profilepic);
@@ -24,8 +25,7 @@ const insertProfileData = async(req,res) => {
         }
         
         const dataToInsert = new Profile({
-            name, facebook, insta, youtube, x, whatsapp, contactnum, email, address, weekday_time, weekend_time, about_heading, about_para1, about_para2,
-            thumbnail,logo,favicon,profilepic
+            name, facebook, insta, youtube, x, whatsapp, contactnum,featured_title, email, address, weekday_time, weekend_time, about_heading, about_para1, about_para2,thumbnail,logo,favicon,profilepic,about_img
         })
  
         const response = await dataToInsert.save()

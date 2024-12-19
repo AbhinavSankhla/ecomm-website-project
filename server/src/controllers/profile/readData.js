@@ -10,9 +10,14 @@ const readProfileData = async (req, res) => {
             return {
                 ...item._doc, // Extract the document data from Mongoose object
                 thumbnail: `${req.protocol}://${req.get("host")}/uploads/${item.thumbnail}`,
+
                 logo: `${req.protocol}://${req.get("host")}/uploads/${item.logo}`,
+
                 favicon: `${req.protocol}://${req.get("host")}/uploads/${item.favicon}`,
+
                 profilepic: `${req.protocol}://${req.get("host")}/uploads/${item.profilepic}`,
+                
+                about_img: `${req.protocol}://${req.get("host")}/uploads/${item.about_img}`,
             };
         });
 
