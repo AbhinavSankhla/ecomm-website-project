@@ -13,7 +13,6 @@ const insertProfileData = async(req,res) => {
         // console.log(req.body);
         // console.log(thumbnail, logo, favicon, profilepic);
 
-
         // Check if a profile already exists in the database
         const existingProfile = await Profile.findOne();
 

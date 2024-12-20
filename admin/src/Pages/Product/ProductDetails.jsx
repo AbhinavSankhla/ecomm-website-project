@@ -354,7 +354,7 @@ const handleImgPreview = (e) => {
   "
                 />
                 <div className='ps-5 w-[100px] gap-x-5 flex'>
-                  <img src={previewThumbnail || data.thumbnail || imgprev} alt="thumbnail" className='w-full'/>
+                  <img src={previewThumbnail || data.thumbnail || imgprev} alt="thumbnail" className='w-full' />
                 </div>
               </div>
             </div>

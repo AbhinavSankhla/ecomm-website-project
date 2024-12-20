@@ -13,8 +13,8 @@ import Login from "./Pages/LoginAuth/Login.jsx";
 import Profile from "./Pages/Profile.jsx";
 import AddColor from "./Pages/Color/AddColor.jsx";
 import ViewColor from "./Pages/Color/ViewColor.jsx";
-import SizeDetails from "./Pages/Size/SizeDetails.jsx";
-import ViewSize from "./Pages/Size/ViewSize.jsx";
+import AboutDetails from "./Pages/About/AboutDetails.jsx";
+// import ViewSize from "./Pages/About/ViewSize.jsx";
 import AddCategory from "./Pages/Parent_Category/AddCategory.jsx";
 import ViewCategory from "./Pages/Parent_Category/ViewCategory.jsx";
 import AddSubCategory from "./Pages/Sub Category/AddSubCategory.jsx";
@@ -121,9 +121,9 @@ const route = createBrowserRouter(
           <Route path="add-color" element={<AddColor />}></Route>
           <Route path="view-color" element={<ViewColor />}></Route>
         </Route>
-        <Route path="size">
-          <Route path="size-details" element={<SizeDetails />}></Route>
-          <Route path="view-size" element={<ViewSize />}></Route>
+        <Route path="about">
+          <Route path="about-details" element={<AboutDetails />}></Route>
+          {/* <Route path="view-size" element={<ViewSize />}></Route> */}
         </Route>
         <Route path="parent-category">
           {/* ? - optional param ?(with ? - compulsary param) */}
