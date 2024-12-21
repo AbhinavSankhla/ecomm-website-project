@@ -23,7 +23,6 @@ const updateCategory = require('./category/updateCategory')
 const searchCategory = require('./category/searchCategory')
 const deleteMultiCat = require('./category/deleteMultiCat')
 
-
 //subCategory controllerse
 const insertSubCategory = require('./subCategory/insertSubCategory')
 const readSubCategory = require('./subCategory/readSubCategory')
@@ -53,6 +52,8 @@ const readProfileData = require('./profile/readData')
 const deleteProfileData = require('./profile/deleteProfileData')
 const updateProfileData = require('./profile/updateProfileData')
 
+//about controllers
+const insertAboutData = require('./aboutUs/insertAboutData')
 
 module.exports = {
     registerAdmin,
@@ -92,5 +93,6 @@ module.exports = {
     insertProfileData,
     readProfileData,
     deleteProfileData,
-    updateProfileData
+    updateProfileData,
+    insertAboutData
 }

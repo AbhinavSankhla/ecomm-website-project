@@ -27,7 +27,14 @@ const uploadFields = (module) => {
             { name: 'profilepic', maxCount: 1 },
             { name: 'about_img', maxCount: 1 },
         ];
-    } else {
+    } else if (module === 'aboutUs') {
+        return [
+            { name: 'img1', maxCount: 1 },
+            { name: 'img2', maxCount: 1 },
+            { name: 'img3', maxCount: 1 }
+        ];
+    }
+    else {
         throw new Error('Invalid module specified');
     }
 };
@@ -38,7 +45,6 @@ const upload = (module) => {
 };
 
 module.exports = upload;
-
 
 
 // for single module

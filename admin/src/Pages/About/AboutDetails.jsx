@@ -253,7 +253,7 @@ export default function AboutDetails() {
             </div>
 
             {/* SECTION 3 */}
-            <label className="block  my-10 text-md font-medium text-gray-900" htmlFor="pdMRP">SECTION 3</label>
+            <label className="block  my-10 text-md font-medium text-gray-900" htmlFor="">SECTION 3</label>
 
             <div className='mb-5 mt-5'>
               <div className="grid sm:grid-cols-2 gap-8">
@@ -321,14 +321,14 @@ export default function AboutDetails() {
                 Product Thumbnail
               </label>
               <div className="w-1/2 flex items-center">
-                <label htmlFor="thumbnailInput" className="sr-only">
+                <label htmlFor="img3" className="sr-only">
                   Choose file
                 </label>
                 <input
                   type="file"
-                  name="thumbnail"
+                  name="img3"
                   // onChange={handleThumbnailPrev}
-                  id="thumbnailInput"
+                  id="img3"
                   className="block w-full border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none  
               file:bg-gray-50 file:border-0
               file:me-4

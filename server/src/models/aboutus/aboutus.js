@@ -1,91 +1,98 @@
 const mongoose = require('mongoose');
-const Category = require('../Category/Category');
-const SubCategory = require('../Category/SubCategory'); 
 
-const productSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-        trim: true
+const aboutusSchema = new mongoose.Schema({
+    uppersection:{
+        heading: {
+            type: String,
+            required: true,
+            trim: true
+        },
+        location: {
+            type: String,
+            required: true,
+            trim: true
+        },
+        content_1: {
+            type: String,
+            required: true,
+            trim: true
+        },
+        content_2: {
+            type: String,
+            required: true,
+            trim: true
+        },
+        subheading_sec1: {
+            type: String,
+            required: true,
+            trim: true
+        },
+        content_3: {
+            type: String,
+            required: true,
+            trim: true
+        },
+        content_4: {
+            type: String,
+            required: true,
+            trim: true
+        },
+        img1: {
+            type: String,
+            required: true
+        }
     },
-    description: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    full_description: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    price: {
-        type: Number,
-        required: true,
-        min: 0
-    },
-    mrp: {
-        type: Number,
-        required: true
-    },
-    discount: {
-        type: Number,
-        required: true
-    },
-    occasion: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    fit: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    fabric: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    category: {
-        type: mongoose.Schema.Types.ObjectId, // Reference to Category model
-        ref: 'Category',
-        required: true
-    },
-    subcategory: {
-        type: mongoose.Schema.Types.ObjectId, // Reference to SubCategory model
-        ref: 'SubCategory',
-        required: true
-    },
-    size: {
-        type: [String], // Array of sizes
-        required: true,
-        enum: ['xs', 's', 'm', 'l', 'xl', 'xxl'] // Adjust sizes as needed
-    },
-    color: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    stock: {
-        type: Number,
-        required: true,
-        min: 0
-    },
-    weight: {
-        type: String,
-        required: true,
-    },
-    thumbnail: {
-        type: String,
-        required: true
-    },
-    images: {
-        type: Array,
-        required: true
-    },
-    status: {
-        type: Boolean,
-        required: true
+
+    lowersection :{
+        line1: {
+            type: String,
+            required: true,
+            trim: true
+        },
+        subheading_sec2: {
+            type: String,
+            required: true,
+            trim: true
+        },
+        content_5: {
+            type: String,
+            required: true,
+            trim: true
+        },
+        content_6: {
+            type: String,
+            required: true,
+            trim: true
+        },
+        img2: {
+            type: String,
+            required: true,
+            trim: true
+        },
+        line_2: {
+            type: String,
+            required: true,
+            trim: true
+        },
+        subheading_sec3: {
+            type: String,
+            required: true,
+            trim: true
+        },
+        content7: {
+            type: String,
+            required: true,
+            trim: true
+        },
+        content8: {
+            type: String,
+            required: true
+        },
+        img3: {
+            type: String,
+            required: true,
+            trim: true
+        }
     },
     created_at: {
         type: Date,
@@ -104,12 +111,12 @@ const productSchema = new mongoose.Schema({
 // Before updating a document (updateOne)
 // Before querying (find)
 
-productSchema.pre('save', (next) => {
+aboutusSchema.pre('save', (next) => {
     this.updated_at = Date.now();
     next();
 });
 
 // Check if the model already exists
-const Product = mongoose.models.Product || mongoose.model('Product', productSchema);
+const Aboutus = mongoose.models.Aboutus || mongoose.model('Aboutus', aboutusSchema);
 
-module.exports = Product;
+module.exports = Aboutus;
