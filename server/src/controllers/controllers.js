@@ -54,6 +54,10 @@ const updateProfileData = require('./profile/updateProfileData')
 
 //about controllers
 const insertAboutData = require('./aboutUs/insertAboutData')
+const readAboutData = require('./aboutUs/readAboutData')
+const updateAboutData = require('./aboutUs/updateAboutData')
+const deleteAboutData = require('./aboutUs/deleteAboutData')
+
 
 module.exports = {
     registerAdmin,
@@ -94,5 +98,8 @@ module.exports = {
     readProfileData,
     deleteProfileData,
     updateProfileData,
-    insertAboutData
+    insertAboutData,
+    readAboutData,
+    updateAboutData,
+    deleteAboutData
 }

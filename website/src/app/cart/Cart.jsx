@@ -1,9 +1,10 @@
 "use client"
+
 import { React, useContext, useEffect, useState } from 'react';
 import { IoClose } from "react-icons/io5";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { myContext } from '../context/CartContext';
-import { FaSortDown } from "react-icons/fa";
+// import { FaSortDown } from "react-icons/fa";
 import { FaChevronDown } from "react-icons/fa";
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 
@@ -26,7 +27,6 @@ export default function Cart() {
         setupdate_cart(_update_cart);
     };
 
-
     return (
         <>
             <div className='my-12 w-[80%] mx-auto max-w-screen-xl'>
@@ -48,10 +48,9 @@ export default function Cart() {
                                 <tr>
                                     <td className="text-[14px] font-bold px-4 py-2 border-b border-r border-gray-200 flex items-center justify-start">
                                         <figure className='mr-8'>
-                                            <img src={cartItem.imageSrc} alt="" className="w-[100px] h-[100px] object-cover" />
+                                            <img src={cartItem.thumbnail} alt="" className="w-[100px] h-[100px] object-cover" />
                                         </figure>
-                                        <span>{cartItem.name} - {cartItem.description}</span>
-                                        
+                                        <span>{cartItem.name} - {cartItem.description}</span>                                       
                                     </td>
                                     <td className="text-[15px] text-[#626262] px-4 py-2 border-b-[1px] border-r border-gray-200">Rs. {cartItem.price}</td>
                                     <td className="text-[15px] text-[#626262] px-4 py-2 border-b-[1px] border-gray-200 border-r">
@@ -114,7 +113,7 @@ export default function Cart() {
                                     </td>
                                     <td className="text-[14px] text-[#626262] px-4 py-2 border-b-[1px] border-r">
                                         <button onClick={() => handleQuantityChange(cartIndex, -1)}>
-                                            <FaMinus />
+                                            <FaMinus/>
                                         </button>
                                         <span className='px-2 py-1 mx-1 border'>{cartItem.qnt}</span>
                                         <button onClick={() => handleQuantityChange(cartIndex, 1)}>

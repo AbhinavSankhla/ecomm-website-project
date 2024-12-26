@@ -69,7 +69,7 @@ const aboutusSchema = new mongoose.Schema({
             required: true,
             trim: true
         },
-        line_2: {
+        line2: {
             type: String,
             required: true,
             trim: true
@@ -79,12 +79,12 @@ const aboutusSchema = new mongoose.Schema({
             required: true,
             trim: true
         },
-        content7: {
+        content_7: {
             type: String,
             required: true,
             trim: true
         },
-        content8: {
+        content_8: {
             type: String,
             required: true
         },

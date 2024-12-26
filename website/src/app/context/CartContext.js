@@ -13,12 +13,11 @@ export const CartContext = ({ children }) => {
     const addToCart = (ProductData) => {
         try {
             // Show toast notification
-            // console.log(ProductData)
+            console.log(ProductData)
             
             toast.success('Product Added to Cart!');
             setCart((prevCart) => [...prevCart, { ...ProductData, qnt: 1 }]);
-                 console.log([...cart, ProductData]);    
-            
+            // console.log([...cart, ProductData]);
 
           } catch (error) {
             console.error("Error adding product:", error);

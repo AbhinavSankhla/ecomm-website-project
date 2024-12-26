@@ -10,9 +10,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { CartContext } from '@/app/context/CartContext';
 
-
 export default function ProductList({limit, productData, filePath, loading}) {
-
+  
   //var name can be any name.
   const { addToCart } = useContext(myContext);
   const { addToWishlist } = useContext(WishlistContext);
@@ -37,7 +36,6 @@ export default function ProductList({limit, productData, filePath, loading}) {
 
     </div>
   </div>
-
 
   return (
     <div className="">
@@ -87,7 +85,7 @@ export default function ProductList({limit, productData, filePath, loading}) {
                   <p className='text-[15px] font-roboto font-light pb-1 text-[#161922]'>{product.description}</p>
                   <span className="text-base">Rs. {product.price}</span>
                   <span className='text-[12px] mx-2 line-through text-[#161922]'>Rs. {product.mrp}</span>
-                  <span className='text-[12px] text-red-500'>({product.discount} off)</span>
+                  <span className='text-[12px] text-red-500'>({product.discount}% off)</span>
               </div>
             </div>
           ))}

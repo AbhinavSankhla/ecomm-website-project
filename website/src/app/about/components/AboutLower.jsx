@@ -27,7 +27,6 @@ export default function AboutLower() {
             <div className=''>
             <img src="https://themes.muffingroup.com/be/clothing2/wp-content/uploads/2020/07/clothing2-about-pic2.jpg" alt="" className='h-[60%] mx-auto'/>
             </div>
-            
           </div>
         </div>
       </section>

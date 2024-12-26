@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
 export default function ShopMenu() {
@@ -39,8 +40,7 @@ export default function ShopMenu() {
   }, []);
 
   if (loading) return <div>
-    <div className='grid grid-cols-4 gap-4 p-6 bg-[#232323] h-40 w-[75%] mx-auto'>
-       
+    <div className='grid grid-cols-4 gap-4 p-6 bg-[#232323] h-40 w-[75%] mx-auto'>       
     </div>
     
   </div>
@@ -52,7 +52,10 @@ export default function ShopMenu() {
           <div key={index} className='text-gray-300 cursor-pointer'>
             {/* Main category */}
             <h3 className='font-bold uppercase mb-3 text-[15px] pl-2 py-1 hover:bg-[#212121] hover:text-white duration-200 ease-in-out'>
-              {category.categoryName}
+              {/* {category.categoryName} */}
+              <Link href={`/category/${category._id}`}>
+                {category.categoryName}
+              </Link>
             </h3>
             {/* Sub-category */}
             <ul className='space-y-2'>
@@ -71,9 +74,3 @@ export default function ShopMenu() {
     </>
   );
 }
-
-
-
-
-
-

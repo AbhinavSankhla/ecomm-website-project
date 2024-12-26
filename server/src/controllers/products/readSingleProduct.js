@@ -4,6 +4,7 @@ const readSingleProduct = async(req,res) => {
     try {
         console.log(req.params);
         const response = await Product.findOne(req.params);
+        
         response.thumbnail = `${req.protocol}://${req.get('host')}/uploads/${response.thumbnail}`;
 
         response.images = `${req.protocol}://${req.get('host')}/uploads/${response.images}`;

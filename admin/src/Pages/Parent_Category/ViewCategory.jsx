@@ -81,12 +81,13 @@ export default function ViewCategory() {
       // console.log(response)
       // handleFetchCategory();
       // alert('product deleted successfully')
-
-    } catch (error) {
+    } 
+    catch (error) {
       console.log(error)
       alert('somthing went wrong!')
     }
   }
+
   //write dependency if handleFetchCategory is'nt written inside of handleDelete fn.
   useEffect(()=>{handleFetchCategory()},[handleDelete]);
 

@@ -48,7 +48,6 @@ export default function ProductDetails() {
       setproductData([{ ...product, images: imagesArray }]); // Correctly update the product data
       setCurrentImage(imagesArray[0]); // Set the first image as default
       setLoading(false);
-
     }
     
     catch(error){

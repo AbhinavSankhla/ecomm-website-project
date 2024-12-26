@@ -19,10 +19,9 @@ export default function Home() {
       const response = await axios.get('http://localhost:5200/profile/readProfileData');
       // const data = await response.json();
       setApiData(response.data.data[0]);
-      setLoading(false);
-
+      setLoading(false);      
     }
-    catch (error) {
+    catch (error) {   
       console.log(error)
       setLoading(false);
     }
