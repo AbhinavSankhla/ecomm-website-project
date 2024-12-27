@@ -10,7 +10,8 @@ const { insertProduct,
         searchProduct,
         readSingleProduct,
         deleteMultiProduct,
-        trueProducts
+        trueProducts,
+        readbyCategory
         } = require('../../controllers/controllers');
 
 //create an router
@@ -23,6 +24,7 @@ productRoutes.put('/change_product_status', changeProductStatus);
 productRoutes.get('/search_product/:key', searchProduct);
 productRoutes.get('/fetch_product_with_id/:_id', readSingleProduct);
 productRoutes.get('/true_product', trueProducts );
+productRoutes.get('/filter_product', readbyCategory);
 productRoutes.put('/update_product/:_id',uploadMiddleware, updateProduct);
 productRoutes.delete('/delete_multi_product', deleteMultiProduct);
 

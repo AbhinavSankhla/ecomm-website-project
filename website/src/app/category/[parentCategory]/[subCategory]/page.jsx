@@ -1,11 +1,11 @@
 import React from 'react'
+import ChildCategory from './components/childCategory'
 
 const page = () => {
   return (
     <div>
-        <h1>sub category page</h1>
+      <ChildCategory/>
     </div>
   )
 }
-
 export default page

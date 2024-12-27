@@ -22,12 +22,13 @@ export default function ShopMenu() {
           return {
             ...category,
             subcategories: subcategoryData.data
-              .filter((subcategory) => subcategory.category === category._id)
-              .map((subcategory) => subcategory.subCatName),
+              .filter((subcategory) => subcategory.category === category._id),
+              
           };
-        });
 
+        });
         setCategories(combinedData);
+        console.log(combinedData);
         setLoading(false);
 
       } catch (error) {
@@ -35,14 +36,12 @@ export default function ShopMenu() {
         setLoading(false);
       }
     };
-
     fetchCategories();
   }, []);
 
   if (loading) return <div>
     <div className='grid grid-cols-4 gap-4 p-6 bg-[#232323] h-40 w-[75%] mx-auto'>       
-    </div>
-    
+    </div>    
   </div>
 
   return (
@@ -64,7 +63,9 @@ export default function ShopMenu() {
                   key={subindex}
                   className='text-[15px] pl-2 py-1 hover:bg-[#202020] hover:text-white'
                 >
-                  {subcategory}
+                  <Link href={`/category/${category._id}/${subcategory._id}`}>
+                {subcategory.subCatName}
+                  </Link>
                 </li>
               ))}
             </ul>
