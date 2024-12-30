@@ -16,8 +16,9 @@ import { IoIosArrowUp } from "react-icons/io";
 import { AiOutlineUser } from "react-icons/ai";
 import { FiHeart } from "react-icons/fi";
 import { FaRegUser } from "react-icons/fa6";
+import axios from 'axios';
 
-const Navbar = ({logo}) => {
+const Navbar = () => {
 
   // const router = useRouter();
   const {count} = useContext(myContext);
@@ -26,24 +27,23 @@ const Navbar = ({logo}) => {
   const [isHovering, setIsHovering] = useState(false);
   const [isHoveringUser, setIsHoveringUser] = useState(false);
   const [MobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [apiData, setApiData] = useState({});
 
-  // useEffect(() => {
-  //   console.log(router); // Ensure this only logs after component mounts
-  // }, [router]);
+  const fetchdata = async () => {
+    try {
+      const response = await axios.get('http://localhost:5200/profile/readProfileData');
+      // const data = await response.json();
+      setApiData(response.data.data[0]);
+      
+      // setLoading(false);      
+    }
+    catch (error) {   
+      console.log(error)
+      // setLoading(false);
+    }
+  }
 
-
-
-  // useEffect(() => {
-  //   if (MenuOpen) {
-  //     document.body.style.overflow = 'hidden';
-  //   } else {
-  //     document.body.style.overflow = 'auto';
-  //   }
-  
-  //   return () => {
-  //     document.body.style.overflow = 'auto';
-  //   };
-  //   }, [MenuOpen]);
+  useEffect(() => { fetchdata(); }, []);
 
   return (
     <>
@@ -52,7 +52,7 @@ const Navbar = ({logo}) => {
         <div className='text-[15px] relative flex items-center justify-between px-3 sm:px-6'>
           <div>
             <Link href={'/'}>
-              <img src={logo} alt="BeClothing logo" className='w-[140px] h-auto sm:w-[180px]'/>
+              <img src={apiData.logo} alt="BeClothing logo" className='w-[140px] h-auto sm:w-[180px]'/>
             </Link>
           </div>
           <ul className='hidden lg:flex items-center gap-x-4'>

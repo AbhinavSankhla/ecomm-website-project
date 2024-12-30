@@ -1,5 +1,6 @@
 'use client'
 
+import ProductList from '@/app/products/components/ProductList';
 import axios from 'axios';
 import { useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
@@ -9,8 +10,10 @@ export default function ChildCategory() {
     const params = useParams();
     console.log(params.subCategory);
 
-    const [products, setProducts] = useState([]);
+    const [productData, setProductData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [filePath, setfilePath] = useState('');
+     
 
     useEffect(() => {
       // Fetch products related to the selected category
@@ -26,7 +29,8 @@ export default function ChildCategory() {
           const productResponse = await axios.get(
             `http://localhost:5200/product/filter_product?subcategory=${subCategoryId}`
           );
-          setProducts(productResponse.data.data || []);
+          setProductData(productResponse.data.data || []);
+          setfilePath(productResponse.data.filepath)
           console.log(productResponse.data)
         } catch (error) {
           console.error("Error fetching products:", error);
@@ -38,37 +42,20 @@ export default function ChildCategory() {
       fetchProducts();
     }, [params]);
   
-    if (loading) {
-      return <div>Loading...</div>;
-    }
+    // if (loading) {
+    //   return <div>Loading...</div>;
+    // }
   
-    if (!products.length) {
-      return <div>No products found for this category.</div>;
-    }
+    // if (!products.length) {
+    //   return <div>No products found for this category.</div>;
+    // }
   
-    
-
   return (
     <div>
-      <div>
-      {/* <h1>Products for {params.parentCategory}</h1> */}
-      <div className="product-list">
-        {products.map((product) => (
-          <div key={product._id} className="product-card">
-            {/* <img
-              src={`/uploads/${product.thumbnail}`}
-              alt={product.name}
-              className="product-thumbnail"
-            /> */}
-            <h2>{product.name}</h2>
-            <p>{product.description}</p>
-            <p>Price: ₹{product.price}</p>
-            <p>MRP: ₹{product.mrp}</p>
-            <button>Add to Cart</button>
-          </div>
-        ))}
+      <div className='pt-12 py-5 w-[80%] mx-auto max-w-screen-xl'>
+        <p className='pt-16 text-[#161922] text-[13px] lg:text-[15px]'>Products for Selected Category</p>
       </div>
-    </div>
+      <ProductList loading={loading} productData={productData} limit={productData.length} filePath={filePath}/>
     </div>
   )
 }

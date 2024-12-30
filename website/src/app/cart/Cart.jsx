@@ -7,6 +7,7 @@ import { myContext } from '../context/CartContext';
 // import { FaSortDown } from "react-icons/fa";
 import { FaChevronDown } from "react-icons/fa";
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
+import Link from 'next/link';
 
 export default function Cart() {
     const { cart, removeFromCart } = useContext(myContext);
@@ -40,6 +41,7 @@ export default function Cart() {
                                 <th className="text-[13px] lg:text-[15px] text-[#444] px-4 py-2 border border-gray-200 text-left">Size</th>
                                 <th className="text-[13px] lg:text-[15px] text-[#444] px-4 py-2 border border-gray-200 text-left">Quantity</th>
                                 <th className="text-[13px] lg:text-[15px] text-[#444] px-4 py-2 border border-gray-200 text-left">Subtotal</th>
+                                <th className="text-[13px] lg:text-[15px] text-[#444] px-4 py-2 border border-gray-200 text-left">Shop Now</th>
                                 <th className="px-4 py-2 border border-gray-200"></th>
                             </tr>
                         </thead>
@@ -48,9 +50,9 @@ export default function Cart() {
                                 <tr>
                                     <td className="text-[14px] font-bold px-4 py-2 border-b border-r border-gray-200 flex items-center justify-start">
                                         <figure className='mr-8'>
-                                            <img src={cartItem.thumbnail} alt="" className="w-[100px] h-[100px] object-cover" />
+                                            <img src={`http://localhost:5200/uploads/${cartItem.thumbnail}`} alt="" className="w-[100px] h-[100px] object-cover" />
                                         </figure>
-                                        <span>{cartItem.name} - {cartItem.description}</span>                                       
+                                        <Link href={`/products/${cartItem._id}`}>{cartItem.name} - {cartItem.description}</Link>
                                     </td>
                                     <td className="text-[15px] text-[#626262] px-4 py-2 border-b-[1px] border-r border-gray-200">Rs. {cartItem.price}</td>
                                     <td className="text-[15px] text-[#626262] px-4 py-2 border-b-[1px] border-gray-200 border-r">
@@ -113,7 +115,7 @@ export default function Cart() {
                                     </td>
                                     <td className="text-[14px] text-[#626262] px-4 py-2 border-b-[1px] border-r">
                                         <button onClick={() => handleQuantityChange(cartIndex, -1)}>
-                                            <FaMinus/>
+                                            <FaMinus />
                                         </button>
                                         <span className='px-2 py-1 mx-1 border'>{cartItem.qnt}</span>
                                         <button onClick={() => handleQuantityChange(cartIndex, 1)}>
@@ -123,9 +125,14 @@ export default function Cart() {
                                     <td className="text-[15px] text-[#626262] px-4 py-2 border-b-[1px] border-r">
                                         {`Rs. ${cartItem.price * cartItem.qnt}`}
                                     </td>
+                                    <td className="text-[15px] text-[#626262] px-4 py-2 border-b-[1px] border-r">
+                                    <button className="text-white bg-black px-2 py-1 hover:opacity-75 transition-opacity duration-300">
+                                            BUY NOW
+                                        </button>
+                                    </td>
                                     <td className="text-[15px] px-4 py-2 border-b-[1px] text-center border-r">
                                         <button
-                                            onClick={() => removeFromCart(cartItem.id)}
+                                            onClick={() => removeFromCart(cartItem._id)}
                                             className="text-white bg-black p-1 hover:opacity-75 transition-opacity duration-300 font-bold"
                                         >
                                             <IoClose />
@@ -140,8 +147,11 @@ export default function Cart() {
                     <div className='md:hidden w-[97%] mx-auto'>
                         {update_cart?.map((cartItem, cartIndex) => (
                             <div key={cartIndex} className='grid grid-cols-2 items-center p-3 gap-y-2 border mb-4'>
-                                <div className='text-[13px] text-[#626262]'>Product:</div>
-                                <div className='text-right text-[14px] font-bold'>{cartItem.name}</div>
+                                
+                                <div className='py-4 text-[13px] text-[#626262]'>Product:</div>
+                                {/* <div className='py-4 text-right text-[14px] font-bold'>{cartItem.name} - {cartItem.description}</div> */}
+
+                                <Link className='py-4 text-right text-[14px] font-bold' href={`/products/${cartItem._id}`}>{cartItem.name} - {cartItem.description}</Link>
 
                                 <div className='text-[13px] text-[#626262]'>Price:</div>
                                 <div className='text-right text-[13px]'>Rs. {cartItem.price}</div>
@@ -204,7 +214,6 @@ export default function Cart() {
                                             </div>
                                         </MenuItems>
                                     </Menu>
-
                                 </div>
 
                                 <div className='text-[13px] text-[#626262]'>Quantity:</div>
@@ -223,7 +232,7 @@ export default function Cart() {
                                 <div className=''></div>
                                 <div className='flex justify-end'>
                                     <button
-                                        onClick={() => removeFromCart(cartItem.id)}
+                                        onClick={() => removeFromCart(cartItem._id)}
                                         className="text-white bg-black p-1 hover:opacity-75 transition-opacity duration-300 font-bold"
                                     >
                                         <IoClose />

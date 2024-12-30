@@ -69,13 +69,13 @@ export default function Home() {
 
   return (
     <>
-      <Navbar logo={apiData.logo} />
+      <Navbar/>
       <HeroSection />
       <Featured bgColor={'bg-white'} data={apiData.featured_title} />
       <WhoWeAre about_img={apiData.about_img} about_heading={apiData.about_heading} about_para1={apiData.about_para1} about_para2={apiData.about_para2} />
       <Facilities />
-      <Banner />
-      <Footer logo={apiData.logo} whatsapp={apiData.whatsapp} insta={apiData.insta} facebook={apiData.facebook} youtube={apiData.youtube} x={apiData.x} email={apiData.email} />
+      <Banner/>
+      <Footer/>
     </>
   );
 }
