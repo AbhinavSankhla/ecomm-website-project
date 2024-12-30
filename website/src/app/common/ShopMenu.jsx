@@ -23,10 +23,10 @@ export default function ShopMenu() {
             ...category,
             subcategories: subcategoryData.data
               .filter((subcategory) => subcategory.category === category._id),
-              
           };
 
         });
+
         setCategories(combinedData);
         console.log(combinedData);
         setLoading(false);
@@ -63,7 +63,7 @@ export default function ShopMenu() {
                   key={subindex}
                   className='text-[15px] pl-2 py-1 hover:bg-[#202020] hover:text-white'
                 >
-                  <Link href={`/category/${category._id}/${subcategory._id}`}>
+                  <Link href={`/category/${category.categoryName}/${subcategory._id}`}>
                 {subcategory.subCatName}
                   </Link>
                 </li>

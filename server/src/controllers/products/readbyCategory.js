@@ -4,21 +4,29 @@ const Product = require("../../models/product/Product");
 const readbyCategory = async (req, res) => {
     try {
         // Fetch category from query parameters
-        const { category} = req.query;
-        console.log(category);
+        const { category, subcategory} = req.query;
+        console.log(category, subcategory);
+
            // Build the query dynamically
            const query = { status: true }; // Include status: true in the query
 
            // Ensure category is being passed correctly and is a valid ObjectId
            if (category && mongoose.Types.ObjectId.isValid(category)) {
                query.category = new mongoose.Types.ObjectId(category); // Convert to ObjectId using 'new'
-           } else {
-               console.error("Invalid category ID:", category);
+           }
+        
+           else if (subcategory) {
+            query.subcategory = new mongoose.Types.ObjectId(subcategory);
+            }
+
+           else {
+               console.error("Invalid ID");
                return res.status(400).json({ message: 'Invalid category ID' });
            }
+
         // console.log("Query Object:", query);
-        // if (subcategory) {
-        //     query.subcategory = subcategory; // Assuming subcategory is stored as a string in the product model
+        //     if (subcategory) {
+        //     query.subcategory = new mongoose.Types.ObjectId(subcategory);
         // }
 
         // Fetch products based on the query
