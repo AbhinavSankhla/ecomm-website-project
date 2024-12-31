@@ -13,6 +13,8 @@ export default function Cart() {
     const { cart, removeFromCart } = useContext(myContext);
     const [update_cart, setupdate_cart] = useState([]);
 
+    // console.log(cart)
+ 
     useEffect(() => {
         setupdate_cart(cart);
     }, [cart]);
@@ -28,6 +30,41 @@ export default function Cart() {
         setupdate_cart(_update_cart);
     };
 
+    // console.log(update_cart);
+
+    const handleBuyProduct = async(e) =>{
+
+        const stripe =  await loadStripe('pk_test_51LiyTNSH4QsKt7gApjEgxNySurOKQbOlLuc0XxwsqJek8ItuUyPQLIwIThhZ7Q4Ut7dYzWkrlg15v5kgV2opUJF6002wEvois3')
+    
+        if(update_cart._id === e.target.value) {
+    
+          const data = [{ 
+            name : update_cart.name,  
+            thumbnail : update_cart.thumbnail,
+            price : update_cart.price,
+            size : selectedSize,
+            // qnt : 1
+          }]
+    
+          try {
+            const response = await axios.post('http://localhost:5200/payment/req-payment', {
+              data : data
+            });
+    
+            stripe.redirectToCheckout({
+              sessionId: response.data.session
+            })
+    
+          } 
+          catch (error) {
+            console.log(error)
+            alert('something went wrogn')
+          }
+        }
+      }
+
+
+
     return (
         <>
             <div className='my-12 w-[80%] mx-auto max-w-screen-xl'>
@@ -41,7 +78,7 @@ export default function Cart() {
                                 <th className="text-[13px] lg:text-[15px] text-[#444] px-4 py-2 border border-gray-200 text-left">Size</th>
                                 <th className="text-[13px] lg:text-[15px] text-[#444] px-4 py-2 border border-gray-200 text-left">Quantity</th>
                                 <th className="text-[13px] lg:text-[15px] text-[#444] px-4 py-2 border border-gray-200 text-left">Subtotal</th>
-                                <th className="text-[13px] lg:text-[15px] text-[#444] px-4 py-2 border border-gray-200 text-left">Shop Now</th>
+                                <th className="text-[13px] lg:text-[15px] text-[#444] px-4 py-2 border border-gray-200 text-left">Checkout</th>
                                 <th className="px-4 py-2 border border-gray-200"></th>
                             </tr>
                         </thead>
@@ -126,8 +163,8 @@ export default function Cart() {
                                         {`Rs. ${cartItem.price * cartItem.qnt}`}
                                     </td>
                                     <td className="text-[15px] text-[#626262] px-4 py-2 border-b-[1px] border-r">
-                                    <button className="text-white bg-black px-2 py-1 hover:opacity-75 transition-opacity duration-300">
-                                            BUY NOW
+                                        <button className="text-white bg-black px-2 py-1 hover:opacity-75 transition-opacity duration-300  text-[13px]">
+                                                BUY NOW
                                         </button>
                                     </td>
                                     <td className="text-[15px] px-4 py-2 border-b-[1px] text-center border-r">

@@ -37,7 +37,7 @@ const reqPayment = async(req,res) => {
             line_items: lineItems,
             mode: 'payment',
             success_url: 'http://localhost:3000/paymentSuccess',
-            cancel_url: 'http://localhost:3000/paymentFailer',
+            cancel_url: 'http://localhost:3000/paymentFailed',
             customer: customer.id
         })
         console.log(session)
