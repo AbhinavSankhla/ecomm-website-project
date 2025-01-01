@@ -33,6 +33,14 @@ const uploadFields = (module) => {
             { name: 'img2', maxCount: 1 },
             { name: 'img3', maxCount: 1 }
         ];
+    } else if (module === 'slider') {
+        return [
+            { name: 'img1', maxCount: 1 },
+            { name: 'img2', maxCount: 1 },
+            { name: 'img3', maxCount: 1 },
+            { name: 'img4', maxCount: 1 },
+            { name: 'img5', maxCount: 1 },
+        ];
     }
     else {
         throw new Error('Invalid module specified');

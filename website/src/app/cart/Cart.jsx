@@ -8,12 +8,15 @@ import { myContext } from '../context/CartContext';
 import { FaChevronDown } from "react-icons/fa";
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import Link from 'next/link';
+import axios from 'axios';
+import {loadStripe} from '@stripe/stripe-js';
+
 
 export default function Cart() {
     const { cart, removeFromCart } = useContext(myContext);
     const [update_cart, setupdate_cart] = useState([]);
 
-    // console.log(cart)
+    console.log(cart)
  
     useEffect(() => {
         setupdate_cart(cart);
@@ -32,37 +35,41 @@ export default function Cart() {
 
     // console.log(update_cart);
 
-    const handleBuyProduct = async(e) =>{
+    const handleBuyProduct = async (e) => {
+    const productId = e.target.value; // Get the product ID from the button value
+    const selectedProduct = update_cart.find(item => item._id === productId); // Find the product in the cart
 
-        const stripe =  await loadStripe('pk_test_51LiyTNSH4QsKt7gApjEgxNySurOKQbOlLuc0XxwsqJek8ItuUyPQLIwIThhZ7Q4Ut7dYzWkrlg15v5kgV2opUJF6002wEvois3')
-    
-        if(update_cart._id === e.target.value) {
-    
-          const data = [{ 
-            name : update_cart.name,  
-            thumbnail : update_cart.thumbnail,
-            price : update_cart.price,
-            size : selectedSize,
-            // qnt : 1
-          }]
-    
-          try {
-            const response = await axios.post('http://localhost:5200/payment/req-payment', {
-              data : data
-            });
-    
-            stripe.redirectToCheckout({
-              sessionId: response.data.session
-            })
-    
-          } 
-          catch (error) {
-            console.log(error)
-            alert('something went wrogn')
-          }
-        }
-      }
+    if (!selectedProduct) {
+        alert('Product not found in the cart!');
+        return;
+    }
 
+    try {
+        const stripe = await loadStripe('pk_test_51LiyTNSH4QsKt7gApjEgxNySurOKQbOlLuc0XxwsqJek8ItuUyPQLIwIThhZ7Q4Ut7dYzWkrlg15v5kgV2opUJF6002wEvois3');
+
+        // const totalPrice = selectedProduct.price * selectedProduct.qnt;
+
+        const data = [{
+            name: selectedProduct.name,
+            description : selectedProduct.description,
+            thumbnail: selectedProduct.thumbnail,
+            price: selectedProduct.price,
+            size: selectedProduct.size || 'L', // Provide size if available, or fallback
+            qnt : selectedProduct.qnt,
+        }];
+
+        const response = await axios.post('http://localhost:5200/payment/req-payment', {
+            data: data,
+        });
+
+        await stripe.redirectToCheckout({
+            sessionId: response.data.session,
+        });
+    } catch (error) {
+        console.error('Payment error:', error);
+        alert('Something went wrong during payment.');
+    }
+};
 
 
     return (
@@ -87,7 +94,15 @@ export default function Cart() {
                                 <tr>
                                     <td className="text-[14px] font-bold px-4 py-2 border-b border-r border-gray-200 flex items-center justify-start">
                                         <figure className='mr-8'>
-                                            <img src={`http://localhost:5200/uploads/${cartItem.thumbnail}`} alt="" className="w-[100px] h-[100px] object-cover" />
+                                            <img
+                                                src={
+                                                    cartItem.thumbnail.startsWith('http')
+                                                        ? cartItem.thumbnail
+                                                        : `http://localhost:5200/uploads/${cartItem.thumbnail}`
+                                                }
+                                                alt=""
+                                                className="w-[100px] h-[100px] object-cover"
+                                            />
                                         </figure>
                                         <Link href={`/products/${cartItem._id}`}>{cartItem.name} - {cartItem.description}</Link>
                                     </td>
@@ -163,7 +178,7 @@ export default function Cart() {
                                         {`Rs. ${cartItem.price * cartItem.qnt}`}
                                     </td>
                                     <td className="text-[15px] text-[#626262] px-4 py-2 border-b-[1px] border-r">
-                                        <button className="text-white bg-black px-2 py-1 hover:opacity-75 transition-opacity duration-300  text-[13px]">
+                                        <button value={cartItem._id} onClick={handleBuyProduct} className="text-white bg-black px-2 py-1 hover:opacity-75 transition-opacity duration-300  text-[13px]">
                                                 BUY NOW
                                         </button>
                                     </td>

@@ -9,6 +9,7 @@ const reqPayment = async(req,res) => {
                 currency : 'inr',
                 product_data : {
                     name : cart_item.name,
+                    description : cart_item.description,
                     images: [cart_item.thumbnail]
                     // image : cart_item.thumbnail,
                     // images : [cart_item.images]
@@ -16,7 +17,7 @@ const reqPayment = async(req,res) => {
                 //*100 to convert paisa into rupee cuz currency is inr
                 unit_amount : cart_item.price*100,
             },
-            quantity : 1
+            quantity : cart_item.qnt || 1 
         }))
 
         const customer = await stripe.customers.create({
@@ -30,7 +31,7 @@ const reqPayment = async(req,res) => {
                 country : 'IN'
             }
         });
-        console.log(customer)
+        // console.log(customer)
 
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
@@ -40,7 +41,7 @@ const reqPayment = async(req,res) => {
             cancel_url: 'http://localhost:3000/paymentFailed',
             customer: customer.id
         })
-        console.log(session)
+        // console.log(session)
 
         res.status(200).json({message : "done", session : session.id});
 

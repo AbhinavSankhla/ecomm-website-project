@@ -7,14 +7,16 @@ import { SiGmail } from "react-icons/si";
 import Link from 'next/link';
 import { PiHandbagFill } from "react-icons/pi";
 import { useContext } from 'react';
-import { myContext } from '../../../context/CartContext';
 import { useParams } from 'next/navigation';
 import axios from 'axios';
 import {loadStripe} from '@stripe/stripe-js';
+import { myContext } from '../../../context/CartContext';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function ProductDetails() {
 
-  // const {addToCart} = useContext(myContext);
+  const { addToCart } = useContext(myContext);
 
   // State for the current image and selected size
   const [selectedSize, setSelectedSize] = useState("");
@@ -56,12 +58,13 @@ export default function ProductDetails() {
       setLoading(false);
     }
   }
-
+  
   useEffect(() => {
     if (params.product_id) {
       fetchProduct(params.product_id);
     }
   }, [params.product_id]);
+  // console.log(productData[0]);
 
   //loading skeleton
   if (loading || !productData) return <div>
@@ -138,17 +141,18 @@ export default function ProductDetails() {
   </div>;
 
   const handleBuyProduct = async(e) =>{
-
+    // console.log(productData[0]);
     const stripe =  await loadStripe('pk_test_51LiyTNSH4QsKt7gApjEgxNySurOKQbOlLuc0XxwsqJek8ItuUyPQLIwIThhZ7Q4Ut7dYzWkrlg15v5kgV2opUJF6002wEvois3')
 
     if(productData[0]._id === e.target.value) {
 
       const data = [{ 
         name : productData[0].name,  
+        description : productData[0].description,
         thumbnail : productData[0].thumbnail,
         price : productData[0].price,
-        size : selectedSize,
-        // qnt : 1
+        size: selectedProduct.size || 'L',
+        quantity : 1
       }]
 
       try {
@@ -172,6 +176,19 @@ export default function ProductDetails() {
     <>
       <section>
         <div className='w-[85%] max-w-screen-xl mx-auto py-5 mt-6'>
+           {/* <ToastContainer
+                    position="top-right"
+                    autoClose={3000}
+                    hideProgressBar={true}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="light"
+                    className="mt-16 z-50"
+            /> */}
           <div className='grid lg:grid-cols-2 gap-2'>
             <div>
               {/* {
@@ -248,7 +265,7 @@ export default function ProductDetails() {
               </div>
               <div className=''>
                 <div className="py-4 flex">
-                  <button className="bg-black text-white sm:py-3 sm:px-10 py-2 px-3 text-[14px] sm:text-[16px] hover:bg-opacity-80 transition-opacity duration-300 mx-4 flex items-center font-medium">
+                  <button onClick={()=>addToCart(productData[0])} className="bg-black text-white sm:py-3 sm:px-10 py-2 px-3 text-[14px] sm:text-[16px] hover:bg-opacity-80 transition-opacity duration-300 mx-4 flex items-center font-medium">
                     <PiHandbagFill className='me-2'/>
                     <span>ADD TO BAG</span>
                   </button>
@@ -289,7 +306,7 @@ export default function ProductDetails() {
                   <p>{productData[0].full_description}</p>
                 </div>
               ) : (
-                <div>Content for Tab 2 (To be fetch)</div>
+                <div>Content for Tab 2 (Size chart, additional information etc.)</div>
               )}
             </div>
           </div>
