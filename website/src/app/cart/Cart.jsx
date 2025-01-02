@@ -4,20 +4,32 @@ import { React, useContext, useEffect, useState } from 'react';
 import { IoClose } from "react-icons/io5";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { myContext } from '../context/CartContext';
-// import { FaSortDown } from "react-icons/fa";
 import { FaChevronDown } from "react-icons/fa";
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import Link from 'next/link';
 import axios from 'axios';
-import {loadStripe} from '@stripe/stripe-js';
-
+import { loadStripe } from '@stripe/stripe-js';
+import { IoLocationSharp } from "react-icons/io5";
+import { IoMdCloseCircle } from "react-icons/io";
 
 export default function Cart() {
+    //address modal
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [deliveryAddress, setDeliveryAddress] = useState({
+        cust_name: "",
+        line1: "",
+        line2: "",
+        city: "",
+        state: "",
+        postal_code: "",
+        country: ""
+    });
+
     const { cart, removeFromCart } = useContext(myContext);
     const [update_cart, setupdate_cart] = useState([]);
 
-    console.log(cart)
- 
+    // console.log(cart)
+
     useEffect(() => {
         setupdate_cart(cart);
     }, [cart]);
@@ -36,41 +48,63 @@ export default function Cart() {
     // console.log(update_cart);
 
     const handleBuyProduct = async (e) => {
-    const productId = e.target.value; // Get the product ID from the button value
-    const selectedProduct = update_cart.find(item => item._id === productId); // Find the product in the cart
+        setIsModalOpen(false);
 
-    if (!selectedProduct) {
-        alert('Product not found in the cart!');
-        return;
-    }
+        const productId = e.target.value; // Get the product ID from the button value
+        const selectedProduct = update_cart.find(item => item._id === productId); // Find the product in the cart
 
-    try {
-        const stripe = await loadStripe('pk_test_51LiyTNSH4QsKt7gApjEgxNySurOKQbOlLuc0XxwsqJek8ItuUyPQLIwIThhZ7Q4Ut7dYzWkrlg15v5kgV2opUJF6002wEvois3');
+        if (!selectedProduct) {
+            alert('Product not found in the cart!');
+            return;
+        }
 
-        // const totalPrice = selectedProduct.price * selectedProduct.qnt;
+        try {
+            const stripe = await loadStripe('pk_test_51LiyTNSH4QsKt7gApjEgxNySurOKQbOlLuc0XxwsqJek8ItuUyPQLIwIThhZ7Q4Ut7dYzWkrlg15v5kgV2opUJF6002wEvois3');
 
-        const data = [{
-            name: selectedProduct.name,
-            description : selectedProduct.description,
-            thumbnail: selectedProduct.thumbnail,
-            price: selectedProduct.price,
-            size: selectedProduct.size || 'L', // Provide size if available, or fallback
-            qnt : selectedProduct.qnt,
-        }];
+            // const totalPrice = selectedProduct.price * selectedProduct.qnt;
 
-        const response = await axios.post('http://localhost:5200/payment/req-payment', {
-            data: data,
-        });
+            const data = [{
+                name: selectedProduct.name,
+                description: selectedProduct.description,
+                thumbnail: selectedProduct.thumbnail,
+                price: selectedProduct.price,
+                size: selectedProduct.size || 'L', // Provide size if available, or fallback
+                qnt: selectedProduct.qnt,
+                cust_name: deliveryAddress.cust_name,
+                line1: deliveryAddress.line1,
+                line2: deliveryAddress.line2,
+                city: deliveryAddress.city,
+                state: deliveryAddress.state,
+                postal_code: deliveryAddress.postal_code,
+                country: deliveryAddress.country
+            }];
 
-        await stripe.redirectToCheckout({
-            sessionId: response.data.session,
-        });
-    } catch (error) {
-        console.error('Payment error:', error);
-        alert('Something went wrong during payment.');
-    }
-};
+            const response = await axios.post('http://localhost:5200/payment/req-payment', {
+                data: data,
+            });
 
+            await stripe.redirectToCheckout({
+                sessionId: response.data.session,
+            });
+        } catch (error) {
+            console.error('Payment error:', error);
+            alert('Something went wrong during payment.');
+        }
+    };
+
+    //address model
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setDeliveryAddress((prev) => ({ ...prev, [name]: value }));
+    };
+
+    const handleBuyNow = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
 
     return (
         <>
@@ -178,9 +212,120 @@ export default function Cart() {
                                         {`Rs. ${cartItem.price * cartItem.qnt}`}
                                     </td>
                                     <td className="text-[15px] text-[#626262] px-4 py-2 border-b-[1px] border-r">
-                                        <button value={cartItem._id} onClick={handleBuyProduct} className="text-white bg-black px-2 py-1 hover:opacity-75 transition-opacity duration-300  text-[13px]">
+                                        {/* <button value={cartItem._id} onClick={handleBuyProduct} className="text-white bg-black px-2 py-1 hover:opacity-75 transition-opacity duration-300  text-[13px]">
                                                 BUY NOW
+                                        </button> */}
+                                        <button onClick={handleBuyNow} className="text-white bg-black px-2 py-1 hover:opacity-75 transition-opacity duration-300  text-[13px]">
+                                            BUY NOW
                                         </button>
+                                        {/* Modal */}
+                                        {isModalOpen && (
+                                            <div className="fixed inset-0 z-50 flex items-start justify-center bg-black bg-opacity-50">
+                                                <div
+                                                    className="w-[90%] max-w-lg bg-white rounded-md shadow-lg my-auto transform transition-transform duration-300 ease-in-out animate-slide-down"
+                                                >
+                                                    {/* Modal Header */}
+                                                    <div className="flex justify-between items-center p-4 border-b">
+                                                        <h2 className="flex items-center text-lg font-semibold">Delivery Address <IoLocationSharp className='pb-[2px] text-[20px]' /></h2>
+                                                        <button
+                                                            onClick={handleCloseModal}
+                                                            className="text-gray-600 hover:text-gray-800"
+                                                        >
+                                                            <IoMdCloseCircle className='text-[25px] pb-[2px]' />
+                                                        </button>
+                                                    </div>
+
+                                                    {/* Modal Body */}
+                                                    <div className="p-4 space-y-4">
+                                                        <input
+                                                            type="text"
+                                                            name="cust_name"
+                                                            value={deliveryAddress.cust_name}
+                                                            onChange={handleInputChange}
+                                                            placeholder="Full Name"
+                                                            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
+                                                        />
+                                                        <input
+                                                            type="text"
+                                                            name="line1"
+                                                            value={deliveryAddress.line1}
+                                                            onChange={handleInputChange}
+                                                            placeholder="Address Line 1"
+                                                            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
+                                                        />
+                                                        <input
+                                                            type="text"
+                                                            name="line2"
+                                                            value={deliveryAddress.line2}
+                                                            onChange={handleInputChange}
+                                                            placeholder="Address Line 2"
+                                                            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
+                                                        />
+                                                        <input
+                                                            type="text"
+                                                            name="city"
+                                                            value={deliveryAddress.city}
+                                                            onChange={handleInputChange}
+                                                            placeholder="City"
+                                                            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
+                                                        />
+                                                        <input
+                                                            type="text"
+                                                            name="state"
+                                                            value={deliveryAddress.state}
+                                                            onChange={handleInputChange}
+                                                            placeholder="State"
+                                                            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
+                                                        />
+                                                        <input
+                                                            type="text"
+                                                            name="postal_code"
+                                                            value={deliveryAddress.postal_code}
+                                                            onChange={handleInputChange}
+                                                            placeholder="Postal code"
+                                                            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
+                                                        />
+                                                        <input
+                                                            type="text"
+                                                            name="country"
+                                                            value={deliveryAddress.country}
+                                                            onChange={handleInputChange}
+                                                            placeholder="country"
+                                                            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
+                                                        />
+                                                    </div>
+
+                                                    {/* Modal Footer */}
+                                                    <div className="p-4 border-t flex justify-end space-x-2">
+                                                        <button
+                                                            onClick={handleCloseModal}
+                                                            className="bg-gray-500 text-white px-4 py-2 rounded-md shadow hover:bg-gray-600 transition"
+                                                        >
+                                                            Cancel
+                                                        </button>
+
+                                                        <button value={cartItem._id} onClick={handleBuyProduct} className=" bg-black text-white sm:py-3 sm:px-10 py-2 px-3 text-[14px] sm:text-[16px] hover:bg-opacity-80 transition-opacity duration-300 font-medium rounded-md">
+                                                            Checkout to Payment
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {/* Tailwind Animation */}
+                                        <style jsx>{`
+                                                @keyframes slide-down {
+                                                  from {
+                                                    transform: translateY(-100%);
+                                                  }
+                                                  to {
+                                                    transform: translateY(0);
+                                                  }
+                                                }
+                                                .animate-slide-down {
+                                                  animation: slide-down 0.3s ease-in-out;
+                                                }
+                                              `}</style>
                                     </td>
                                     <td className="text-[15px] px-4 py-2 border-b-[1px] text-center border-r">
                                         <button
@@ -199,7 +344,7 @@ export default function Cart() {
                     <div className='md:hidden w-[97%] mx-auto'>
                         {update_cart?.map((cartItem, cartIndex) => (
                             <div key={cartIndex} className='grid grid-cols-2 items-center p-3 gap-y-2 border mb-4'>
-                                
+
                                 <div className='py-4 text-[13px] text-[#626262]'>Product:</div>
                                 {/* <div className='py-4 text-right text-[14px] font-bold'>{cartItem.name} - {cartItem.description}</div> */}
 
@@ -285,10 +430,121 @@ export default function Cart() {
                                 <div className='flex justify-end'>
                                     <button
                                         onClick={() => removeFromCart(cartItem._id)}
-                                        className="text-white bg-black p-1 hover:opacity-75 transition-opacity duration-300 font-bold"
+                                        className="text-white bg-black p-1 hover:opacity-75 transition-opacity duration-300 font-bold me-1"
                                     >
                                         <IoClose />
                                     </button>
+                                    <button onClick={handleBuyNow} className="text-white bg-black px-2 py-1 hover:opacity-75 transition-opacity duration-300  text-[10px] ">
+                                        BUY NOW
+                                    </button>
+                                    {/* Modal */}
+                                    {isModalOpen && (
+                                        <div className="fixed inset-0 z-50 flex items-start justify-center bg-black bg-opacity-50">
+                                            <div
+                                                className="w-[90%] max-w-lg bg-white rounded-md shadow-lg my-auto transform transition-transform duration-300 ease-in-out animate-slide-down"
+                                            >
+                                                {/* Modal Header */}
+                                                <div className="flex justify-between items-center p-4 border-b">
+                                                    <h2 className="flex items-center text-lg font-semibold">Delivery Address <IoLocationSharp className='pb-[2px] text-[20px]' /></h2>
+                                                    <button
+                                                        onClick={handleCloseModal}
+                                                        className="text-gray-600 hover:text-gray-800"
+                                                    >
+                                                        <IoMdCloseCircle className='text-[25px] pb-[2px]' />
+                                                    </button>
+                                                </div>
+
+                                                {/* Modal Body */}
+                                                <div className="p-4 space-y-4">
+                                                    <input
+                                                        type="text"
+                                                        name="cust_name"
+                                                        value={deliveryAddress.cust_name}
+                                                        onChange={handleInputChange}
+                                                        placeholder="Full Name"
+                                                        className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
+                                                    />
+                                                    <input
+                                                        type="text"
+                                                        name="line1"
+                                                        value={deliveryAddress.line1}
+                                                        onChange={handleInputChange}
+                                                        placeholder="Address Line 1"
+                                                        className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
+                                                    />
+                                                    <input
+                                                        type="text"
+                                                        name="line2"
+                                                        value={deliveryAddress.line2}
+                                                        onChange={handleInputChange}
+                                                        placeholder="Address Line 2"
+                                                        className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
+                                                    />
+                                                    <input
+                                                        type="text"
+                                                        name="city"
+                                                        value={deliveryAddress.city}
+                                                        onChange={handleInputChange}
+                                                        placeholder="City"
+                                                        className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
+                                                    />
+                                                    <input
+                                                        type="text"
+                                                        name="state"
+                                                        value={deliveryAddress.state}
+                                                        onChange={handleInputChange}
+                                                        placeholder="State"
+                                                        className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
+                                                    />
+                                                    <input
+                                                        type="text"
+                                                        name="postal_code"
+                                                        value={deliveryAddress.postal_code}
+                                                        onChange={handleInputChange}
+                                                        placeholder="Postal code"
+                                                        className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
+                                                    />
+                                                    <input
+                                                        type="text"
+                                                        name="country"
+                                                        value={deliveryAddress.country}
+                                                        onChange={handleInputChange}
+                                                        placeholder="country"
+                                                        className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
+                                                    />
+                                                </div>
+
+                                                {/* Modal Footer */}
+                                                <div className="p-4 border-t flex justify-end space-x-2">
+                                                    <button
+                                                        onClick={handleCloseModal}
+                                                        className="bg-gray-500 text-white px-4 py-2 rounded-md shadow hover:bg-gray-600 transition"
+                                                    >
+                                                        Cancel
+                                                    </button>
+
+                                                    <button value={cartItem._id} onClick={handleBuyProduct} className=" bg-black text-white sm:py-3 sm:px-10 py-2 px-3 text-[14px] sm:text-[16px] hover:bg-opacity-80 transition-opacity duration-300 font-medium rounded-md">
+                                                        Checkout to Payment
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Tailwind Animation */}
+                                    <style jsx>{`
+                                                @keyframes slide-down {
+                                                  from {
+                                                    transform: translateY(-100%);
+                                                  }
+                                                  to {
+                                                    transform: translateY(0);
+                                                  }
+                                                }
+                                                .animate-slide-down {
+                                                  animation: slide-down 0.3s ease-in-out;
+                                                }
+                                              `}</style>
                                 </div>
                             </div>
                         ))}

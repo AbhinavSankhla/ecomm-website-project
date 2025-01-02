@@ -39,7 +39,7 @@ const updateSlider = async(req,res) =>{
         }
 
         if (req.files.img4 !== undefined) {
-            data.img4 = req.files.img1[0].filename
+            data.img4 = req.files.img4[0].filename
 
             if (fs.existsSync(path.join('src', 'uploads', ifExist.img4))) {
                 fs.unlinkSync(path.join('src', 'uploads', ifExist.img4))

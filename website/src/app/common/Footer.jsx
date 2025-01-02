@@ -127,7 +127,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 items-center xl:grid-cols-[60%_auto] w-[85%] mx-auto py-8 max-w-screen-xl">
           <div className="text-center xl:text-left text-[13px] lg:text-[15px] text-[#555555]">
             <p>
-              © 2024 Website by <a href="http://www.abhinavdev.com" target="_blank"
+              © 2025 Website by <a href="http://www.abhinavdev.com" target="_blank"
                 rel="noopener noreferrer" className='hover:text-black duration-0'>Abhinav Sankhla</a> | All Rights Reserved | Powered by <Link href="#" className='hover:text-black duration-0'>tailwindcss</Link>
             </p>
           </div>

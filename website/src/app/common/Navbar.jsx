@@ -17,8 +17,12 @@ import { AiOutlineUser } from "react-icons/ai";
 import { FiHeart } from "react-icons/fi";
 import { FaRegUser } from "react-icons/fa6";
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
+
 
 const Navbar = () => {
+  const router = useRouter();
 
   // const router = useRouter();
   const {count} = useContext(myContext);
@@ -28,6 +32,24 @@ const Navbar = () => {
   const [isHoveringUser, setIsHoveringUser] = useState(false);
   const [MobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [apiData, setApiData] = useState({});
+
+
+  // const ifuserLoggedIn = () =>{
+  //     const ifuser = Cookies.get('user-data');
+  //     // console.log(ifadmin);
+
+  //     if(!ifuser){
+  //         router.push('/');
+  //     }
+  // }
+
+  // useEffect(()=>{ifuserLoggedIn()},[])
+
+  
+  const logOutuser = () =>{
+      Cookies.remove('user-data');
+      router.push('/login');
+  };
 
   const fetchdata = async () => {
     try {
@@ -86,7 +108,7 @@ const Navbar = () => {
           </ul>
           <div>
             <div className='flex items-center justify-between gap-[2vw] gap-x-3 sm:gap-x-6'>
-              <div className='text-[#626262]'><BsSearch className='text-[18px]' /></div>
+              {/* <div className='text-[#626262]'><BsSearch className='text-[18px]' /></div> */}
               <div className='py-5 relative text-[#626262]'>
                 <Link href={'/cart'}><FiHeart className='text-[19px]'/></Link>
                 {/* bg-[#232323] */}
@@ -125,7 +147,10 @@ const Navbar = () => {
                           <div className='border-t border-gray-300'></div>
                         </div>
                       </li>
-                      <li>My orders</li>
+                      {/* <li>My orders</li> */}
+                      <li className='flex justify-center items-center'>
+                        <button onClick={logOutuser} className='px-4 py-1 border border-red-500 hover:border-red-400 hover:text-red-400  duration-200 ease-in-out rounded'>Logout</button>
+                      </li>
                     </ul>
                   </div>
                 )}

@@ -2,7 +2,6 @@ const nodemailer = require('nodemailer');
 const otpSaver = require('../../support/otpdata/otpMap');
 require('dotenv').config();
 
-
 //create transporter 
 const transporter = nodemailer.createTransport({
     service : 'gmail',
@@ -28,7 +27,7 @@ const otpGenerator = async (req, res) => {
         const options = {
             from: process.env.ADMIN_MAIL,
             to: email,
-            subject: 'OTP for password reset',
+            subject: 'OTP - BeClothing',
             // text: `your otp is ${otp}`
             html: `<!DOCTYPE html>
 <html lang="en">

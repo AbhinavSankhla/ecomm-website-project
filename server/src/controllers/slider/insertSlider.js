@@ -12,13 +12,13 @@ const insertSlider = async(req,res) => {
         
         console.log(img1,img2,img3,img4,img5);
 
-        // Check if a profile already exists in the database
+        // Check if a slider already exists in the database
         const existingSlider = await Slider.findOne();
 
         if (existingSlider) {
-            // If a profile exists, return an error or update the existing one
+            // If a slider exists, return an error or update the existing one
             return res.status(400).json({
-                message: "Profile already exists. Only one profile data is allowed.",
+                message: "sldier already exists. Only one profile data is allowed.",
             });
         }
         

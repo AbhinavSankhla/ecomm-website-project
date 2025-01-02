@@ -56,7 +56,7 @@ export default function AddCategory() {
           categoryName,
           status
         });
-        console.log(response)
+        // console.log(response)
 
         nav('/parent-category/view-category');
         }

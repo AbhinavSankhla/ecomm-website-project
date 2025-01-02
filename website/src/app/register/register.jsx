@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 
 export default function Register() {
   const router = useRouter();
-  console.log(router);
+  // console.log(router);
 
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [data, setData] = useState({});

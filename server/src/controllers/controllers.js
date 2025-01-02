@@ -60,6 +60,12 @@ const readAboutData = require('./aboutUs/readAboutData')
 const updateAboutData = require('./aboutUs/updateAboutData')
 const deleteAboutData = require('./aboutUs/deleteAboutData')
 
+//slider controllers
+const insertSlider = require('./slider/insertSlider')
+const readSlider = require('./slider/readSlider')
+const updateSlider = require('./slider/updateSlider')
+const deleteSlider = require('./slider/deleteSlider')
+
 
 module.exports = {
     registerAdmin,
@@ -104,5 +110,9 @@ module.exports = {
     insertAboutData,
     readAboutData,
     updateAboutData,
-    deleteAboutData
+    deleteAboutData,
+    insertSlider,
+    readSlider,
+    updateSlider,
+    deleteSlider
 }

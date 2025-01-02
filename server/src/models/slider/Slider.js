@@ -2,29 +2,29 @@ const mongoose = require('mongoose');
 
 const sliderSchema = new mongoose.Schema({
     img1: {
-        type: Array,
+        type: String,
         required: true
     },
     img2: {
-        type: Array,
+        type: String,
         required: true
     },
     img3: {
-        type: Array,
+        type: String,
         required: true
     },
     img4: {
-        type: Array,
+        type: String,
         required: true
     },
     img5: {
-        type: Array,
+        type: String,
         required: true
     },
-    status: {
-        type: Boolean,
-        required: true
-    },
+    // status: {
+    //     type: Boolean,
+    //     required: true
+    // },
     created_at: {
         type: Date,
         default: Date.now

@@ -3,7 +3,8 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
 const reqPayment = async(req,res) => {
     try {
-        console.log(req.body)
+        console.log(req.body.data)
+        const data = req.body.data
         const lineItems = req.body.data.map((cart_item) => ({
             price_data : {
                 currency : 'inr',
@@ -21,14 +22,14 @@ const reqPayment = async(req,res) => {
         }))
 
         const customer = await stripe.customers.create({
-            name : 'Peter Parker',
+            cust_name : data.cust_name,
             address : {
-                line1 : '5100 Broadway',
-                line2 : 'colombia st.',
-                city : 'Jodhpur',
-                state : 'Rajasthan',
-                postal_code : '11224',
-                country : 'IN'
+                line1 : data.line1,
+                line2 : data.line2,
+                city : data.city,
+                state : data.state,
+                postal_code : data.postal_code,
+                country : data.country
             }
         });
         // console.log(customer)

@@ -10,10 +10,10 @@ const readSlider = async (req, res) => {
             return {
                 ...item._doc, // Extract the document data from Mongoose object
                 img1: `${req.protocol}://${req.get("host")}/uploads/${item.img1}`,
-                img2: `${req.protocol}://${req.get("host")}/uploads/${item.img1}`,
-                img3: `${req.protocol}://${req.get("host")}/uploads/${item.img1}`,
-                img4: `${req.protocol}://${req.get("host")}/uploads/${item.img1}`,
-                img5: `${req.protocol}://${req.get("host")}/uploads/${item.img1}`
+                img2: `${req.protocol}://${req.get("host")}/uploads/${item.img2}`,
+                img3: `${req.protocol}://${req.get("host")}/uploads/${item.img3}`,
+                img4: `${req.protocol}://${req.get("host")}/uploads/${item.img4}`,
+                img5: `${req.protocol}://${req.get("host")}/uploads/${item.img5}`
             };
         });
 

@@ -4,7 +4,7 @@ import Header from "../common/Header";
 import Breadcrumb from "../common/Breadcrumb";
 import Footer from "../common/Footer";
 import axios from "axios";
-import imgprev from "../assets//imgprev.png"
+import imgprev from "../assets/imgprev.png"
 
 export default function Profile() {
 
