@@ -17,9 +17,9 @@ export default function ProductDetails() {
   //fetch single product data to read for update 
   const fetchData = async (id) => {
     const res = await axios.get(`http://localhost:5200/product/fetch_product_with_id/${id}`)
-    
+
     const oldData = res.data.data
-    oldData.status = oldData.status.toString(); 
+    oldData.status = oldData.status.toString();
 
     setData(oldData);
     // console.log(res.data.data);
@@ -83,13 +83,13 @@ export default function ProductDetails() {
     olddata[e.target.name] = e.target.value; // Update the specific property
     setData(olddata); // Update the state
   };
-  
+
   const [categoryData, setcategoryData] = useState([]);
   const [subCatData, setsubCatData] = useState([]);
   // const [selectedCategory, setSelectedCategory] = useState('');
   const [previewThumbnail, setpreviewThumbnail] = useState('');
   const [previewImg, setpreviewImg] = useState([]); // Array to store multiple preview URLs
-   
+
 
   //FETCH CATEGORY FOR SELECTION BOX
   const handleFetchCategory = async () => {
@@ -130,7 +130,7 @@ export default function ProductDetails() {
   useEffect(() => {
     handleFetchSubCat();
   }, []);
-  
+
   //UPDATE and INSERT PRODUCT
   const handleAddProduct = async (e) => {
     e.preventDefault()
@@ -139,18 +139,17 @@ export default function ProductDetails() {
     const formData = new FormData(form);
 
     if (params._id) {
-      try{
-      const response = await axios.put(`http://localhost:5200/product/update_product/${params._id}`, formData);
-      // console.log(response)
-      nav('/product/product-items');
+      try {
+        const response = await axios.put(`http://localhost:5200/product/update_product/${params._id}`, formData);
+        // console.log(response)
+        nav('/product/product-items');
       }
       catch (error) {
         console.log(error);
         alert('something went wrong')
       }
-    } 
-    else 
-    {
+    }
+    else {
       try {
         //axios set content type automaticaly like - formdata, raw>json etc.
         //formData - work as body   //{} - header etc. define here.
@@ -166,56 +165,56 @@ export default function ProductDetails() {
   };
 
   //Thumbail preview
-  const handleThumbnailPrev = (e) =>{
+  const handleThumbnailPrev = (e) => {
     //FileRader- Js constructor to read files.
     const reader = new FileReader();
     const file = e.target.files[0];
-    
-    if(file){
+
+    if (file) {
       reader.readAsDataURL(file);
     }
-    reader.onload = () =>{
+    reader.onload = () => {
       setpreviewThumbnail(reader.result)
     }
   }
 
-// Initialize previewImg with existing images when loading the update page
-useEffect(() => {
-  console.log("Existing images:", data.images);
-  if (data.images && data.images.length > 0) {
-    const baseURL = "http://localhost:5200/uploads/";
-    const existingImages = data.images[0]?.split(',').map(img => 
-      img.startsWith("http") ? img : `${baseURL}${img}`
-    ); // Split the string by commas to create an array //It then maps over each item, checking if it starts with http. If it doesn’t, it prepends the base URL (http://localhost:5200/uploads/) to make it a complete URL.
-    setpreviewImg(existingImages); // Set preview images to the existing images
-  }
-}, [data.images]);
+  // Initialize previewImg with existing images when loading the update page
+  useEffect(() => {
+    console.log("Existing images:", data.images);
+    if (data.images && data.images.length > 0) {
+      const baseURL = "http://localhost:5200/uploads/";
+      const existingImages = data.images[0]?.split(',').map(img =>
+        img.startsWith("http") ? img : `${baseURL}${img}`
+      ); // Split the string by commas to create an array //It then maps over each item, checking if it starts with http. If it doesn’t, it prepends the base URL (http://localhost:5200/uploads/) to make it a complete URL.
+      setpreviewImg(existingImages); // Set preview images to the existing images
+    }
+  }, [data.images]);
 
-// Handle preview of newly selected images
-const handleImgPreview = (e) => {
-  const files = Array.from(e.target.files);
-  // Check if more than 4 files are selected
-  if (files.length > 4) {
-    alert("You can only select up to 4 images.");
-    e.target.value = ""; // Clear the file input if the limit is exceeded
-    return;
-  }
+  // Handle preview of newly selected images
+  const handleImgPreview = (e) => {
+    const files = Array.from(e.target.files);
+    // Check if more than 4 files are selected
+    if (files.length > 4) {
+      alert("You can only select up to 4 images.");
+      e.target.value = ""; // Clear the file input if the limit is exceeded
+      return;
+    }
 
-  const newPreviews = [];
+    const newPreviews = [];
 
-  files.forEach((file) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
+    files.forEach((file) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
 
-    reader.onload = () => {
-      newPreviews.push(reader.result); // Add preview URL to the array
-      // Check if all images have been processed
-      if (newPreviews.length === files.length) {
-        // Replace old images with new images
-        setpreviewImg(newPreviews);
-      }
-    };
-  });
+      reader.onload = () => {
+        newPreviews.push(reader.result); // Add preview URL to the array
+        // Check if all images have been processed
+        if (newPreviews.length === files.length) {
+          // Replace old images with new images
+          setpreviewImg(newPreviews);
+        }
+      };
+    });
   };
 
   //update product size
@@ -287,12 +286,12 @@ const handleImgPreview = (e) => {
                 className=" border-2 border-gray-300 text-gray-900 mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
               >
                 <option selected>--Select Sub Category--</option>
-                  {subCatData.filter((sub) => sub.category === selectedCategory)
-                    .map((subcategory) => (
-                      <option key={subcategory._id} value={subcategory._id}>
-                        {subcategory.subCatName}
-                      </option>
-                    ))}              
+                {subCatData.filter((sub) => sub.category === selectedCategory)
+                  .map((subcategory) => (
+                    <option key={subcategory._id} value={subcategory._id}>
+                      {subcategory.subCatName}
+                    </option>
+                  ))}
               </select>
             </div>
             <div className="mb-5">
@@ -358,8 +357,8 @@ const handleImgPreview = (e) => {
                 </div>
               </div>
             </div>
-           
-            <div className="mb-5">            
+
+            <div className="mb-5">
               <label
                 htmlFor="imgInput"
                 className="block mb-5 text-md font-medium text-gray-900"
@@ -503,7 +502,7 @@ const handleImgPreview = (e) => {
             </div>
             <div className='mb-5'>
               <div className="grid sm:grid-cols-2 gap-8 items-center">
-              <div>
+                <div>
                   <label className="block mb-5 text-md font-medium text-gray-900" htmlFor="pdWeight">Weight</label>
                   <input
                     type="text"
@@ -534,7 +533,7 @@ const handleImgPreview = (e) => {
                   </div>
 
                 </div>
-              
+
               </div>
             </div>
             <div className="pe-5 ps-1">

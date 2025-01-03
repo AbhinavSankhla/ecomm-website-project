@@ -1,31 +1,5 @@
 export let navList = [
   {
-    id: 1,
-    navName: "Colors",
-    icon: (
-      <svg
-        fill="currentColor"
-        className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 384 512"
-      >
-        <path d="M192 512C86 512 0 426 0 320C0 228.8 130.2 57.7 166.6 11.7C172.6 4.2 181.5 0 191.1 0l1.8 0c9.6 0 18.5 4.2 24.5 11.7C253.8 57.7 384 228.8 384 320c0 106-86 192-192 192zM96 336c0-8.8-7.2-16-16-16s-16 7.2-16 16c0 61.9 50.1 112 112 112c8.8 0 16-7.2 16-16s-7.2-16-16-16c-44.2 0-80-35.8-80-80z" />
-      </svg>
-    ),
-
-    subMenu: [
-      {
-        navName: "Add Color",
-        link: "/colors/add-color",
-      },
-      {
-        navName: "View Color",
-        link: "/colors/view-color",
-      },
-    ],
-  },
-  
-  {
     id: 2,
     navName: "About",
     icon: (
@@ -43,10 +17,6 @@ export let navList = [
         navName: "About Details",
         link: "/about/about-details",
       },
-      // {
-      //   navName: "View Size",
-      //   link: "/size/view-size",
-      // },
     ],
   },
   {
@@ -122,9 +92,10 @@ export let navList = [
       },
     ],
   },
+  
   {
-    id: 6,
-    navName: "Story",
+    id: 8,
+    navName: "Slider",
     icon: (
       <svg
         fill="currentColor"
@@ -132,17 +103,17 @@ export let navList = [
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 512 512"
       >
-        <path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9L0 168c0 13.3 10.7 24 24 24l110.1 0c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24l0 104c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65 0-94.1c0-13.3-10.7-24-24-24z" />
+        <path d="M0 416c0 17.7 14.3 32 32 32l54.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48L480 448c17.7 0 32-14.3 32-32s-14.3-32-32-32l-246.7 0c-12.3-28.3-40.5-48-73.3-48s-61 19.7-73.3 48L32 384c-17.7 0-32 14.3-32 32zm128 0a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zM320 256a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm32-80c-32.8 0-61 19.7-73.3 48L32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l246.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48l54.7 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-54.7 0c-12.3-28.3-40.5-48-73.3-48zM192 128a32 32 0 1 1 0-64 32 32 0 1 1 0 64zm73.3-64C253 35.7 224.8 16 192 16s-61 19.7-73.3 48L32 64C14.3 64 0 78.3 0 96s14.3 32 32 32l86.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48L480 128c17.7 0 32-14.3 32-32s-14.3-32-32-32L265.3 64z" />
       </svg>
     ),
     subMenu: [
       {
-        navName: "Story Details",
-        link: "/story/story-details",
+        navName: "Slider Details",
+        link: "/slider/slider-details",
       },
       {
-        navName: "Story View",
-        link: "/story/story-view",
+        navName: "Slider View",
+        link: "/slider/slider-view",
       },
     ],
   },
@@ -166,30 +137,6 @@ export let navList = [
       {
         navName: "Orders",
         link: "/orders/orders",
-      },
-    ],
-  },
-  {
-    id: 8,
-    navName: "Slider",
-    icon: (
-      <svg
-        fill="currentColor"
-        className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 512 512"
-      >
-        <path d="M0 416c0 17.7 14.3 32 32 32l54.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48L480 448c17.7 0 32-14.3 32-32s-14.3-32-32-32l-246.7 0c-12.3-28.3-40.5-48-73.3-48s-61 19.7-73.3 48L32 384c-17.7 0-32 14.3-32 32zm128 0a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zM320 256a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm32-80c-32.8 0-61 19.7-73.3 48L32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l246.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48l54.7 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-54.7 0c-12.3-28.3-40.5-48-73.3-48zM192 128a32 32 0 1 1 0-64 32 32 0 1 1 0 64zm73.3-64C253 35.7 224.8 16 192 16s-61 19.7-73.3 48L32 64C14.3 64 0 78.3 0 96s14.3 32 32 32l86.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48L480 128c17.7 0 32-14.3 32-32s-14.3-32-32-32L265.3 64z" />
-      </svg>
-    ),
-    subMenu: [
-      {
-        navName: "Slider Details",
-        link: "/slider/slider-details",
-      },
-      {
-        navName: "Slider View",
-        link: "/slider/slider-view",
       },
     ],
   },

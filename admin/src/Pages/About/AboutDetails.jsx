@@ -473,7 +473,7 @@ export default function AboutDetails() {
               type="submit"
               className="focus:outline-none my-10 text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-6 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900"
             >
-               {isUpdateMode ? "Update Profile" : "Add Profile"}
+               {isUpdateMode ? "Update Data" : "Add Data"}
             </button>
           </form>
         </div>

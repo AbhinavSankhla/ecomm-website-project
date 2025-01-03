@@ -6,7 +6,7 @@ import imgprev from "../../assets/imgprev.png"
 
 
 export default function SliderDetails() {
-  
+
   const params = useParams();
   const nav = useNavigate();
 
@@ -20,7 +20,7 @@ export default function SliderDetails() {
   const [previewImg4, setpreviewImg4] = useState('');
   const [previewImg5, setpreviewImg5] = useState('');
 
-  const FetchSlider = async() =>{
+  const FetchSlider = async () => {
     try {
 
       const response = await axios.get('http://localhost:5200/slider/readSlider');
@@ -32,16 +32,16 @@ export default function SliderDetails() {
       else {
         setIsUpdateMode(false); // Set Insert Mode
       }
-    } 
+    }
     catch (error) {
       alert('something went wrong')
       console.log(error)
     }
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     FetchSlider();
-  },[])
+  }, [])
 
   // Handle form submission (Insert or Update)
   const handleSubmit = async (e) => {
@@ -66,71 +66,71 @@ export default function SliderDetails() {
   };
 
   //img1 preview
-  const handleImg1Prev = (e) =>{
+  const handleImg1Prev = (e) => {
     //FileRader- Js constructor to read files.
     const reader = new FileReader();
     const file = e.target.files[0];
-    
-    if(file){
+
+    if (file) {
       reader.readAsDataURL(file);
     }
-    reader.onload = () =>{
+    reader.onload = () => {
       setpreviewImg1(reader.result)
     }
   }
 
   //img2 preview
-  const handleImg2Prev = (e) =>{
+  const handleImg2Prev = (e) => {
     //FileRader- Js constructor to read files.
     const reader = new FileReader();
     const file = e.target.files[0];
-    
-    if(file){
+
+    if (file) {
       reader.readAsDataURL(file);
     }
-    reader.onload = () =>{
+    reader.onload = () => {
       setpreviewImg2(reader.result)
     }
   }
 
   //img3 preview
-  const handleImg3Prev = (e) =>{
+  const handleImg3Prev = (e) => {
     //FileRader- Js constructor to read files.
     const reader = new FileReader();
     const file = e.target.files[0];
-    
-    if(file){
+
+    if (file) {
       reader.readAsDataURL(file);
     }
-    reader.onload = () =>{
+    reader.onload = () => {
       setpreviewImg3(reader.result)
     }
   }
 
   //img4 preview
-  const handleImg4Prev = (e) =>{
+  const handleImg4Prev = (e) => {
     //FileRader- Js constructor to read files.
     const reader = new FileReader();
     const file = e.target.files[0];
-    
-    if(file){
+
+    if (file) {
       reader.readAsDataURL(file);
     }
-    reader.onload = () =>{
+    reader.onload = () => {
       setpreviewImg4(reader.result)
     }
   }
 
   //img5 preview
-  const handleImg5Prev = (e) =>{
+  const handleImg5Prev = (e) => {
     //FileRader- Js constructor to read files.
     const reader = new FileReader();
     const file = e.target.files[0];
-    
-    if(file){
+
+    if (file) {
       reader.readAsDataURL(file);
     }
-    reader.onload = () =>{
+    reader.onload = () => {
       setpreviewImg5(reader.result)
     }
   }
@@ -288,7 +288,7 @@ export default function SliderDetails() {
                 </div>
               </div>
             </div>
-{/* 
+            {/* 
             <div className="pe-5 ps-1">
               <span className="flex items-center gap-3">
                 Status :
@@ -310,11 +310,11 @@ export default function SliderDetails() {
                 Deactive
               </span>
             </div> */}
-           <button
+            <button
               type="submit"
               className="focus:outline-none my-10 text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-6 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900"
             >
-               {isUpdateMode ? "Update Profile" : "Add Profile"}
+              {isUpdateMode ? "Update Slider" : "Add Slider"}
             </button>
           </form>
         </div>

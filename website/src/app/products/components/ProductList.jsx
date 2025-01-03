@@ -8,11 +8,10 @@ import { myContext } from '../../context/CartContext';
 import { WishlistContext } from '../../context/WishlistContext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-// import { CartContext } from '@/app/context/CartContext';
 
 export default function ProductList({limit, productData, filePath, loading}) {
   // console.log(filePath)
-  //var name can be any name.
+  //var name can be differ.
   const { addToCart } = useContext(myContext);
   const { addToWishlist } = useContext(WishlistContext);
 

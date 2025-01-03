@@ -8,7 +8,7 @@ import ProductList from '../products/components/ProductList';
 
 export default function Sorting() {
   
-  const result = 12;
+  const result = 20;
   const [productData, setproductData] = useState([]);
   const [filePath, setfilePath] = useState('');
   const [loading, setLoading] = useState(true);

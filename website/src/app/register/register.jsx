@@ -25,7 +25,7 @@ export default function Register() {
 
   // formValidation to accept a parameter that specifies which fields to validate.
 
-  const formValidation = (fieldsToValidate = ["email", "password", "cpassword"]) =>{
+  const formValidation = (fieldsToValidate = ["email", "password", "cpassword"]) => {
 
     const newArr = {};
 
@@ -59,7 +59,7 @@ export default function Register() {
       if (!ifOtp) {
         newArr.otp = 'Please enter a valid 6-digit OTP';
       }
-    } 
+    }
 
     // console.log(ifEmail, ifPassword, ifCpassword, ifOtp);
     seterrors(newArr)
@@ -78,23 +78,23 @@ export default function Register() {
     // }
   }
 
-  const handleFormSubmit = async(e) =>{
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-  
+
     const ifFormValid = formValidation(["email", "password", "cpassword", "otp"]);
 
-    if(!ifFormValid){
-      setTimeout(() => {seterrors({})}, 5000);
-      return;      
+    if (!ifFormValid) {
+      setTimeout(() => { seterrors({}) }, 5000);
+      return;
     }
     // console.log(data)
 
     try {
-      const response = await axios.post('http://localhost:5200/users/register_user',data);
-      if(response.status !== 200 ) return alert('something went wrong')
-      if(response.status === 409 ) return alert(response.data.data.message)
+      const response = await axios.post('http://localhost:5200/users/register_user', data);
+      if (response.status !== 200) return alert('something went wrong')
+      if (response.status === 409) return alert(response.data.data.message)
       // console.log(response.data.data)
-                  //cookie name //value   
+      //cookie name //value   
       Cookies.set('user-data', JSON.stringify(response.data.data), { expires: 7 });
 
       const userData = JSON.parse(Cookies.get('user-data'));
@@ -109,22 +109,22 @@ export default function Register() {
     }
   }
 
-  const handelOtpGen = async() => {
+  const handelOtpGen = async () => {
     // console.log("clicked")
     const ifFormValid = formValidation(["email"]);
     // console.log("Form is valid:", ifFormValid);
-  
+
     if (!ifFormValid) {
       setTimeout(() => seterrors({}), 5000);
       return; // Stop execution if form is not valid
-    }  
+    }
     setifOtp(true);
     setotpBtn(true);
-  
+
     let counter = 30;
     setbtnText(`Resend OTP in ${counter}s`);
     counter--;
-  
+
     const otpInterval = setInterval(() => {
       setbtnText(`Resend OTP in ${counter}s`);
 
@@ -137,12 +137,12 @@ export default function Register() {
     }, 1000);
 
     try {
-      const response = await axios.post('http://localhost:5200/otp/generate_otp',{
-          email : data.email
+      const response = await axios.post('http://localhost:5200/otp/generate_otp', {
+        email: data.email
       });
-      if(response.status !== 200 ) return alert('something went wrong')
+      if (response.status !== 200) return alert('something went wrong')
       // console.log(response.data)      
-    } 
+    }
     catch (error) {
       console.log(error)
       alert('something went wrong')
@@ -162,7 +162,7 @@ export default function Register() {
               type="email"
               name="email"
               id="email"
-              onChange={(e) => { setData({ ...data, email: e.target.value })}}
+              onChange={(e) => { setData({ ...data, email: e.target.value }) }}
               placeholder="name@company.com"
               className="w-full px-4 py-2 mt-1 text-black bg-gray-200 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
             />
@@ -190,7 +190,7 @@ export default function Register() {
                 type="password"
                 name="password"
                 id="password"
-                onChange={(e)=>{setData({...data,password:e.target.value})}}
+                onChange={(e) => { setData({ ...data, password: e.target.value }) }}
                 placeholder="Enter password"
                 className="w-full px-4 py-2 mt-1 text-black bg-gray-200 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
               />
@@ -204,7 +204,7 @@ export default function Register() {
                 type="password"
                 name='confirmPassword'
                 id="confirmPassword"
-                onChange={(e)=>{setData({...data,cpassword:e.target.value})}}
+                onChange={(e) => { setData({ ...data, cpassword: e.target.value }) }}
                 placeholder="Confirm password"
                 className="w-full px-4 py-2 mt-1 text-black bg-gray-200 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
               />
@@ -218,7 +218,7 @@ export default function Register() {
                 type="text"
                 name='otp'
                 id="otp"
-                onChange={(e)=>{setData({...data,otp:e.target.value})}}
+                onChange={(e) => { setData({ ...data, otp: e.target.value }) }}
                 placeholder="Enter 6 digit OTP"
                 className="w-full px-4 py-2 mt-1 text-black bg-gray-200 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
               />
@@ -227,7 +227,7 @@ export default function Register() {
 
             {/* Terms and Conditions Checkbox */}
             <div className="flex items-center">
-              <input 
+              <input
                 type="checkbox"
                 id="terms"
                 className="mr-2 rounded focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"

@@ -9,7 +9,7 @@ import { PiHandbagFill } from "react-icons/pi";
 import { useContext } from 'react';
 import { useParams } from 'next/navigation';
 import axios from 'axios';
-import {loadStripe} from '@stripe/stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 import { myContext } from '../../../context/CartContext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -29,8 +29,8 @@ export default function ProductDetails() {
     line2: "",
     city: "",
     state: "",
-    postal_code : "",
-    country : ""
+    postal_code: "",
+    country: ""
   });
 
   // State for the current image and selected size
@@ -45,12 +45,12 @@ export default function ProductDetails() {
   const [productData, setproductData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchProduct = async(id) =>{
-    try{
+  const fetchProduct = async (id) => {
+    try {
       const url = `http://localhost:5200/product/fetch_product_with_id/${id}`;
       const response = await axios.get(url)
 
-    // Safely access the product data
+      // Safely access the product data
       const product = response.data?.data;
       if (!product) {
         console.error("Product data is missing in the response");
@@ -66,14 +66,14 @@ export default function ProductDetails() {
       setCurrentImage(imagesArray[0]); // Set the first image as default
       setLoading(false);
     }
-    
-    catch(error){
+
+    catch (error) {
       // console.error("Error fetching product details:", error);
       alert('something went wrong')
       setLoading(false);
     }
   }
-  
+
   useEffect(() => {
     if (params.product_id) {
       fetchProduct(params.product_id);
@@ -155,39 +155,39 @@ export default function ProductDetails() {
     </section>
   </div>;
 
-  const handleBuyProduct = async(e) =>{
+  const handleBuyProduct = async (e) => {
     setIsModalOpen(false);
     // console.log(productData[0]);
-    const stripe =  await loadStripe('pk_test_51LiyTNSH4QsKt7gApjEgxNySurOKQbOlLuc0XxwsqJek8ItuUyPQLIwIThhZ7Q4Ut7dYzWkrlg15v5kgV2opUJF6002wEvois3')
+    const stripe = await loadStripe('pk_test_51LiyTNSH4QsKt7gApjEgxNySurOKQbOlLuc0XxwsqJek8ItuUyPQLIwIThhZ7Q4Ut7dYzWkrlg15v5kgV2opUJF6002wEvois3')
 
-    if(productData[0]._id === e.target.value) {
+    if (productData[0]._id === e.target.value) {
 
-      const data = [{ 
-        name : productData[0].name,  
-        description : productData[0].description,
-        thumbnail : productData[0].thumbnail,
-        price : productData[0].price,
+      const data = [{
+        name: productData[0].name,
+        description: productData[0].description,
+        thumbnail: productData[0].thumbnail,
+        price: productData[0].price,
         size: selectedSize.size || 'L',
-        quantity : 1,
-        cust_name : deliveryAddress.cust_name,
-        line1 : deliveryAddress.line1,
-        line2 : deliveryAddress.line2,
-        city : deliveryAddress.city,
-        state : deliveryAddress.state,
-        postal_code : deliveryAddress.postal_code,
-        country : deliveryAddress.country        
+        quantity: 1,
+        cust_name: deliveryAddress.cust_name,
+        line1: deliveryAddress.line1,
+        line2: deliveryAddress.line2,
+        city: deliveryAddress.city,
+        state: deliveryAddress.state,
+        postal_code: deliveryAddress.postal_code,
+        country: deliveryAddress.country
       }]
 
       try {
         const response = await axios.post('http://localhost:5200/payment/req-payment', {
-          data : data
+          data: data
         });
 
         stripe.redirectToCheckout({
           sessionId: response.data.session
         })
 
-      } 
+      }
       catch (error) {
         console.log(error)
         alert('something went wrogn')
@@ -196,26 +196,20 @@ export default function ProductDetails() {
   }
 
   //address model
-  
-    const handleInputChange = (e) => {
-      const { name, value } = e.target;
-      setDeliveryAddress((prev) => ({ ...prev, [name]: value }));
-    };
-  
-    const handleBuyNow = () => {
-      setIsModalOpen(true);
-    };
-  
-    const handleCloseModal = () => {
-      setIsModalOpen(false);
-    };
-  
-    // const handleCheckout = () => {
-    //   console.log("Delivery Address:", deliveryAddress);
-    //   alert("Proceeding to payment...");
-    //   // Implement payment logic here
-    //   setIsModalOpen(false);
-    // };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setDeliveryAddress((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleBuyNow = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
 
   return (
     <>
@@ -234,7 +228,7 @@ export default function ProductDetails() {
                     <div
                       key={index}
                       className={`thumbnail w-14 h-14 sm:w-24 sm:h-24 bg-cover bg-center border border-gray-300 rounded cursor-pointer ${currentImage === image ? 'ring-2 ring-gray-300' : ''}`}
-                      style={{ backgroundImage: `url(${image})`}}
+                      style={{ backgroundImage: `url(${image})` }}
                       onClick={() => setCurrentImage(image)}
                     ></div>
                   ))}
@@ -268,7 +262,7 @@ export default function ProductDetails() {
                 <div className="text-[13px] lg:text-[15px] text-[#626262] font-bold border-b border-gray-300 pb-4">Color:</div>
                 <div className='text-[13px] lg:text-[15px] text-[#626262] border-b border-gray-300 pb-4'>{productData[0].color}</div>
 
-                <div className="text-[13px] lg:text-[15px] text-[#626262] font-bold border-b border-gray-300 pb-4">Fabric:</div>
+                <div className="text-[13px] lg:text-[15px] text-[#626262] font-bold border-b border-gray-300 pb-4">Material:</div>
                 <div className='text-[13px] lg:text-[15px] text-[#626262] border-b border-gray-300 pb-4'>{productData[0].fabric}</div>
               </div>
 
@@ -279,8 +273,8 @@ export default function ProductDetails() {
                     <button
                       key={size}
                       className={`px-3 py-[6px] sm:px-4 sm:py-2 border cursor-pointer ${selectedSize === size
-                          ? 'bg-[#2d2d2d] text-white'
-                          : 'bg-gray-100 text-gray-800'
+                        ? 'bg-[#2d2d2d] text-white'
+                        : 'bg-gray-100 text-gray-800'
                         }`}
                       onClick={() => setSelectedSize(size)}
                     >
@@ -294,114 +288,114 @@ export default function ProductDetails() {
               </div>
               <div className=''>
                 <div className="py-4 flex">
-                  <button onClick={()=>addToCart(productData[0])} className="bg-black text-white sm:py-3 sm:px-10 py-2 px-3 text-[14px] sm:text-[16px] hover:bg-opacity-80 transition-opacity duration-300 mx-4 flex items-center font-medium">
-                    <PiHandbagFill className='me-2'/>
+                  <button onClick={() => addToCart(productData[0])} className="bg-black text-white sm:py-3 sm:px-10 py-2 px-3 text-[14px] sm:text-[16px] hover:bg-opacity-80 transition-opacity duration-300 mx-4 flex items-center font-medium">
+                    <PiHandbagFill className='me-2' />
                     <span>ADD TO BAG</span>
                   </button>
-                  <button  onClick={handleBuyNow} className=" bg-black text-white sm:py-3 sm:px-10 py-2 px-3 text-[14px] sm:text-[16px] hover:bg-opacity-80 transition-opacity duration-300 font-medium">
+                  <button onClick={handleBuyNow} className=" bg-black text-white sm:py-3 sm:px-10 py-2 px-3 text-[14px] sm:text-[16px] hover:bg-opacity-80 transition-opacity duration-300 font-medium">
                     BUY NOW
                   </button>
-                   {/* Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center bg-black bg-opacity-50">
-          <div
-            className="w-[90%] max-w-lg bg-white rounded-md shadow-lg my-auto transform transition-transform duration-300 ease-in-out animate-slide-down"
-          >
-            {/* Modal Header */}
-            <div className="flex justify-between items-center p-4 border-b">
-              <h2 className="flex items-center text-lg font-semibold">Delivery Address <IoLocationSharp className='pb-[2px] text-[20px]'/></h2>
-              <button
-                onClick={handleCloseModal}
-                className="text-gray-600 hover:text-gray-800"
-              >
-                <IoMdCloseCircle className='text-[25px] pb-[2px]'/>
-              </button>
-            </div>
+                  {/* Modal */}
+                  {isModalOpen && (
+                    <div className="fixed inset-0 z-50 flex items-start justify-center bg-black bg-opacity-50">
+                      <div
+                        className="w-[90%] max-w-lg bg-white rounded-md shadow-lg my-auto transform transition-transform duration-300 ease-in-out animate-slide-down"
+                      >
+                        {/* Modal Header */}
+                        <div className="flex justify-between items-center p-4 border-b">
+                          <h2 className="flex items-center text-lg font-semibold">Delivery Address <IoLocationSharp className='pb-[2px] text-[20px]' /></h2>
+                          <button
+                            onClick={handleCloseModal}
+                            className="text-gray-600 hover:text-gray-800"
+                          >
+                            <IoMdCloseCircle className='text-[25px] pb-[2px]' />
+                          </button>
+                        </div>
 
-            {/* Modal Body */}
-            <div className="p-4 space-y-4">
-              <input
-                type="text"
-                name="cust_name"
-                value={deliveryAddress.cust_name}
-                onChange={handleInputChange}
-                placeholder="Full Name"
-                className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-              <input
-                type="text"
-                name="line1"
-                value={deliveryAddress.line1}
-                onChange={handleInputChange}
-                placeholder="Address Line 1"
-                className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-              <input
-                type="text"
-                name="line2"
-                value={deliveryAddress.line2}
-                onChange={handleInputChange}
-                placeholder="Address Line 2"
-                className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-              <input
-                type="text"
-                name="city"
-                value={deliveryAddress.city}
-                onChange={handleInputChange}
-                placeholder="City"
-                className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-              <input
-                type="text"
-                name="state"
-                value={deliveryAddress.state}
-                onChange={handleInputChange}
-                placeholder="State"
-                className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-               <input
-                type="text"
-                name="postal_code"
-                value={deliveryAddress.postal_code}
-                onChange={handleInputChange}
-                placeholder="Postal code"
-                className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-               <input
-                type="text"
-                name="country"
-                value={deliveryAddress.country}
-                onChange={handleInputChange}
-                placeholder="country"
-                className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
-            </div>
+                        {/* Modal Body */}
+                        <div className="p-4 space-y-4">
+                          <input
+                            type="text"
+                            name="cust_name"
+                            value={deliveryAddress.cust_name}
+                            onChange={handleInputChange}
+                            placeholder="Full Name"
+                            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
+                          />
+                          <input
+                            type="text"
+                            name="line1"
+                            value={deliveryAddress.line1}
+                            onChange={handleInputChange}
+                            placeholder="Address Line 1"
+                            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
+                          />
+                          <input
+                            type="text"
+                            name="line2"
+                            value={deliveryAddress.line2}
+                            onChange={handleInputChange}
+                            placeholder="Address Line 2"
+                            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
+                          />
+                          <input
+                            type="text"
+                            name="city"
+                            value={deliveryAddress.city}
+                            onChange={handleInputChange}
+                            placeholder="City"
+                            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
+                          />
+                          <input
+                            type="text"
+                            name="state"
+                            value={deliveryAddress.state}
+                            onChange={handleInputChange}
+                            placeholder="State"
+                            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
+                          />
+                          <input
+                            type="text"
+                            name="postal_code"
+                            value={deliveryAddress.postal_code}
+                            onChange={handleInputChange}
+                            placeholder="Postal code"
+                            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
+                          />
+                          <input
+                            type="text"
+                            name="country"
+                            value={deliveryAddress.country}
+                            onChange={handleInputChange}
+                            placeholder="Country"
+                            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
+                          />
+                        </div>
 
-            {/* Modal Footer */}
-            <div className="p-4 border-t flex justify-end space-x-2">
-              <button
-                onClick={handleCloseModal}
-                className="bg-gray-500 text-white px-4 py-2 rounded-md shadow hover:bg-gray-600 transition"
-              >
-                Cancel
-              </button>
-              {/* <button
+                        {/* Modal Footer */}
+                        <div className="p-4 border-t flex justify-end space-x-2">
+                          <button
+                            onClick={handleCloseModal}
+                            className="bg-gray-500 text-white px-4 py-2 rounded-md shadow hover:bg-gray-600 transition"
+                          >
+                            Cancel
+                          </button>
+                          {/* <button
                 onClick={handleCheckout}
                 className="bg-green-600 text-white px-4 py-2 rounded-md shadow hover:bg-green-700 transition"
               >
                 Checkout to Payment
               </button> */}
-              <button value={productData[0]._id} onClick={handleBuyProduct} className=" bg-black text-white sm:py-3 sm:px-10 py-2 px-3 text-[14px] sm:text-[16px] hover:bg-opacity-80 transition-opacity duration-300 font-medium rounded-md">
-                Checkout to Payment
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+                          <button value={productData[0]._id} onClick={handleBuyProduct} className=" bg-black text-white sm:py-3 sm:px-10 py-2 px-3 text-[14px] sm:text-[16px] hover:bg-opacity-80 transition-opacity duration-300 font-medium rounded-md">
+                            Checkout to Payment
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
 
-      {/* Tailwind Animation */}
-      <style jsx>{`
+                  {/* Tailwind Animation */}
+                  <style jsx>{`
         @keyframes slide-down {
           from {
             transform: translateY(-100%);
@@ -427,8 +421,8 @@ export default function ProductDetails() {
               <button
                 onClick={() => setActiveTab('tab1')}
                 className={`py-2 px-4 text-sm font-medium ${activeTab === 'tab1'
-                    ? 'border-b-2 border-black text-black'
-                    : 'text-gray-500'
+                  ? 'border-b-2 border-black text-black'
+                  : 'text-gray-500'
                   }`}
               >
                 Description
@@ -436,8 +430,8 @@ export default function ProductDetails() {
               <button
                 onClick={() => setActiveTab('tab2')}
                 className={`py-2 px-4 text-sm font-medium ${activeTab === 'tab2'
-                    ? 'border-b-2 border-black text-black'
-                    : 'text-gray-500'
+                  ? 'border-b-2 border-black text-black'
+                  : 'text-gray-500'
                   }`}
               >
                 Additional Information

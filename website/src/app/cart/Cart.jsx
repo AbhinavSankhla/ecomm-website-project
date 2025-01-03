@@ -305,7 +305,7 @@ export default function Cart() {
                                                         </button>
 
                                                         <button value={cartItem._id} onClick={handleBuyProduct} className=" bg-black text-white sm:py-3 sm:px-10 py-2 px-3 text-[14px] sm:text-[16px] hover:bg-opacity-80 transition-opacity duration-300 font-medium rounded-md">
-                                                            Checkout to Payment
+                                                        Proceed to checkout
                                                         </button>
                                                     </div>
                                                 </div>
@@ -524,7 +524,7 @@ export default function Cart() {
                                                     </button>
 
                                                     <button value={cartItem._id} onClick={handleBuyProduct} className=" bg-black text-white sm:py-3 sm:px-10 py-2 px-3 text-[14px] sm:text-[16px] hover:bg-opacity-80 transition-opacity duration-300 font-medium rounded-md">
-                                                        Checkout to Payment
+                                                    Proceed to checkout
                                                     </button>
                                                 </div>
                                             </div>
@@ -563,9 +563,9 @@ export default function Cart() {
                             </button>
                         </div>
                         <div className='flex md:justify-end mx-2'>
-                            <button className="w-full md:w-[45%] hover:bg-opacity-75 transition-opacity duration-300 bg-gray-500 text-white px-4 py-2 font-semibold">
+                            <Link href={'/shop'} className="text-center w-full md:w-[45%] hover:bg-opacity-75 transition-opacity duration-300 bg-gray-500 text-white px-4 py-2 font-semibold">
                                 Update cart
-                            </button>
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -583,9 +583,9 @@ export default function Cart() {
                             <span className="text-lg">Rs. {cart.length > 0 ? update_cart.map(item => item.price * item.qnt).reduce((total, value) => total + value, 0) : 0}</span>
                         </div>
                     </div>
-                    <button className="bg-black text-white hover:bg-opacity-75 transition-opacity duration-300 font-semibold px-4 py-2 w-full">
+                    {/* <button className="bg-black text-white hover:bg-opacity-75 transition-opacity duration-300 font-semibold px-4 py-2 w-full">
                         Proceed to checkout
-                    </button>
+                    </button> */}
                 </div>
             </div>
         </>

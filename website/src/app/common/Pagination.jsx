@@ -20,7 +20,7 @@ export default function Pagination() {
       <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
         <div>
           <p className="text-sm text-gray-700">
-            Showing <span className="font-medium">1</span> to <span className="font-medium">12</span> of{' '}
+            Showing <span className="font-medium">1</span> to <span className="font-medium">20</span> of{' '}
             <span className="font-medium">97</span> results
           </p>
         </div>
@@ -33,7 +33,6 @@ export default function Pagination() {
               <span className="sr-only">Previous</span>
               <MdKeyboardArrowLeft aria-hidden="true" className="h-5 w-5" />
             </a>
-            {/* Current: "z-10 bg-indigo-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0" */}
             <a
               href="#"
               aria-current="page"

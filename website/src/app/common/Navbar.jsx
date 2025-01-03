@@ -110,7 +110,7 @@ const Navbar = () => {
             <div className='flex items-center justify-between gap-[2vw] gap-x-3 sm:gap-x-6'>
               {/* <div className='text-[#626262]'><BsSearch className='text-[18px]' /></div> */}
               <div className='py-5 relative text-[#626262]'>
-                <Link href={'/cart'}><FiHeart className='text-[19px]'/></Link>
+                <Link href={'/wishlist'}><FiHeart className='text-[19px]'/></Link>
                 {/* bg-[#232323] */}
                 <div className='bg-red-500 text-[white] font-semibold text-[11px] py-[1px] px-2 top-[10%] left-[85%] absolute rounded-full'>{WishCount}</div>
               </div>
@@ -131,7 +131,7 @@ const Navbar = () => {
 
                 {/* Hover Menu */}
                 {isHoveringUser && (
-                  <div className="absolute top-full right-2 p-4 bg-[#232323] shadow-lg border border-black text-gray-300 cursor-pointer w-[20%] h-[200px] text-[14px]">
+                  <div className="absolute top-full right-2 p-4 bg-[#232323] shadow-lg border border-black text-gray-300 cursor-pointer w-[20%] h-[200px] text-[14px] rounded-md">
                     {/* Content of the hover menu */}
                     <ul className='space-y-2'>
                       <li className='space-y-2'>
@@ -142,7 +142,7 @@ const Navbar = () => {
                           <Link href={'/register'}><button className='px-4 py-1 border border-gray-300 hover:border-gray-100 hover:text-gray-100 duration-200 ease-in-out rounded'>Sign Up</button></Link>
                           
                         </div>
-                        {/* <div className='border-t border-gray-300  my-5'></div> */}
+                        
                         <div className='py-3'>
                           <div className='border-t border-gray-300'></div>
                         </div>
@@ -156,10 +156,7 @@ const Navbar = () => {
                 )}
               </div>
 
-                
-              {/* <div className='lg:hidden'>
-                <AiOutlineUser className='text-[18px] font-thin'/>
-              </div> */}
+              
               <div className='lg:hidden' onClick={()=>setMenuOpen(!MenuOpen)}>
                   { 
                     MenuOpen ? (
@@ -172,6 +169,7 @@ const Navbar = () => {
             </div>
           </div>
           {/* mobile nav */}
+
           {/* 'overflow-y-scroll' (add in below div for scrolling) */}
           <div className={`lg:hidden absolute z-10 bg-[#191919] text-gray-300 text-13px top-full w-[50%] h-[100vh] duration-700  ease-in-out transform ${MenuOpen ? 'right-0' : 'right-[-100%]'}`}>
             <ul className='px-3'>

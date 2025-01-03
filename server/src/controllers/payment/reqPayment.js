@@ -22,16 +22,17 @@ const reqPayment = async(req,res) => {
         }))
 
         const customer = await stripe.customers.create({
-            cust_name : data.cust_name,
-            address : {
-                line1 : data.line1,
-                line2 : data.line2,
-                city : data.city,
-                state : data.state,
-                postal_code : data.postal_code,
-                country : data.country
+            name: data[0].cust_name, // Correct key for customer name
+            address: {
+                line1: data[0].line1, // Required
+                line2: data[0].line2, // Optional
+                city: data[0].city, // Required
+                state: data[0].state, // Required
+                postal_code: data[0].postal_code, // Required
+                country: data[0].country // Required
             }
         });
+        
         // console.log(customer)
 
         const session = await stripe.checkout.sessions.create({

@@ -21,8 +21,8 @@ import AddSubCategory from "./Pages/Sub Category/AddSubCategory.jsx";
 import ViewSubCategory from "./Pages/Sub Category/ViewSubCategory.jsx";
 import ProductDetails from "./Pages/Product/ProductDetails.jsx";
 import ProductItems from "./Pages/Product/ProductItems.jsx";
-import StoryDetails from "./Pages/Story/StoryDetails.jsx";
-import StoryView from "./Pages/Story/StoryView.jsx";
+// import StoryDetails from "./Pages/Story/StoryDetails.jsx";
+// import StoryView from "./Pages/Story/StoryView.jsx";
 import Orders from "./Pages/Orders/Orders.jsx";
 import SliderDetails from "./Pages/Slider/SliderDetails.jsx";
 import SliderView from "./Pages/Slider/SliderView.jsx";
@@ -117,13 +117,8 @@ const route = createBrowserRouter(
       <Route element={<RootLayout />}>
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="profile" element={<Profile />} />
-        <Route path="colors">
-          <Route path="add-color" element={<AddColor />}></Route>
-          <Route path="view-color" element={<ViewColor />}></Route>
-        </Route>
         <Route path="about">
           <Route path="about-details" element={<AboutDetails />}></Route>
-          {/* <Route path="view-size" element={<ViewSize />}></Route> */}
         </Route>
         <Route path="parent-category">
           {/* ? - optional param ?(with ? - compulsary param) */}
@@ -137,10 +132,6 @@ const route = createBrowserRouter(
         <Route path="product">
           <Route path="product-details/:_id?" element={<ProductDetails />}></Route>
           <Route path="product-items" element={<ProductItems />}></Route>
-        </Route>
-        <Route path="story">
-          <Route path="story-details" element={<StoryDetails />}></Route>
-          <Route path="story-view" element={<StoryView />}></Route>
         </Route>
         <Route path="orders">
           <Route path="orders" element={<Orders />}></Route>
