@@ -16,4 +16,3 @@ const page = () => {
 }
 
 export default page
-// sultan.khan@wscubetech.com
